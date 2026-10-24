@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title data-i18n="notfound.title">Page not found</title>
+  <meta name="color-scheme" content="light dark">
+  <!-- 404 pages are served at any path, so assets use absolute project-site URLs. -->
+  <base href="/start-from-here/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script>
+    try { var t = localStorage.getItem('sfh-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <main id="main" class="nf">
+    <div>
+      <p class="big" aria-hidden="true">404</p>
+      <h1 data-i18n="notfound.title">Page not found</h1>
+      <p class="lead" data-i18n="notfound.body">The page you are looking for doesn't exist or has moved.</p>
+      <p><a class="btn primary" href="./" data-i18n="notfound.home">Go to the homepage</a></p>
+    </div>
+  </main>
+</body>
+</html>
