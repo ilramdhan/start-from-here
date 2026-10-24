@@ -25,7 +25,7 @@ Please read and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Report securit
 
 ## Warnings and static analysis
 
-- `npm run validate` fails on any spec or repo-rule error. `node scripts/validate-skill.mjs --strict` also fails on warnings. Fix warnings reported by `validate`, `build`, and `check-i18n` before you submit a PR.
+- `npm run validate` fails on any spec or repo-rule error. CI runs it with `--strict`, so warnings fail the build too. Fix warnings reported by `validate`, `build`, and `check-i18n` before you submit a PR.
 - [CodeQL](.github/workflows/codeql.yml) scans the JavaScript code and the GitHub Actions workflows on every PR and on a schedule. Treat its findings as blocking: fix confirmed issues before merging, and dismiss false positives only with a written reason.
 
 ## Secure coding expectations
