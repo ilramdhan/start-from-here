@@ -11,6 +11,27 @@ Thanks for helping. This project is one Agent Skill (`skills/start-from-here/`) 
 
 Please read and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately, as described in [SECURITY.md](SECURITY.md), and not in public issues.
 
+## Reporting bugs and requesting enhancements
+
+- Open a [GitHub issue](https://github.com/ilramdhan/start-from-here/issues/new/choose) using the **Bug report**, **Template improvement**, or **Platform support** form. Issues are public and archived, and you can search them before filing.
+- Include the version (`start-from-here --version`), your OS and Node version, the agent or platform, and reproduction steps.
+- The maintainer aims to acknowledge new bug reports and enhancement requests within 14 days. Not every enhancement will be accepted, but each gets a response.
+- Report security vulnerabilities privately, as described in [SECURITY.md](SECURITY.md).
+
+## Testing policy
+
+- Any new functionality or bug fix in the CLI, bundle builder, or doc checker MUST come with automated tests in `test/` (`node:test`, run with `npm test`). Documentation-only and skill-content changes are covered by `npm run validate`.
+- CI runs the test suite on Ubuntu, macOS, and Windows with Node 18, 20, 22, and 24 for every pull request (see [`ci.yml`](.github/workflows/ci.yml)). Reviewers check that tests were added.
+
+## Warnings and static analysis
+
+- `npm run validate` fails on any spec or repo-rule error. `node scripts/validate-skill.mjs --strict` also fails on warnings. Fix warnings reported by `validate`, `build`, and `check-i18n` before you submit a PR.
+- [CodeQL](.github/workflows/codeql.yml) scans the JavaScript code and the GitHub Actions workflows on every PR and on a schedule. Treat its findings as blocking: fix confirmed issues before merging, and dismiss false positives only with a written reason.
+
+## Secure coding expectations
+
+The installer writes to users' machines, so contributors MUST NOT introduce path traversal, writes outside the target skill or rules directories, overwrites without `--force`, use of `eval` or shell interpolation of user input, or committed secrets. The project has no runtime dependencies and implements no cryptography; use Node's built-in `node:crypto` (for example for SHA-256 checksums) rather than custom code.
+
 ## Local development
 
 Requirements: Node.js ≥ 18. There are no runtime dependencies, so `npm install` isn't needed.
