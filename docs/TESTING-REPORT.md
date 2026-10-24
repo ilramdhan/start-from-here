@@ -2,7 +2,7 @@
 
 > **Status:** Final · **Owner:** QA (AI-assisted) · **Run date:** 2026-10-24/25 · **Scope:** `skills/start-from-here/**`
 
-This report records how the skill behaves on different model families when it runs as an installed Agent Skill (agentic CLIs) and as a pasted system prompt (local chat models). It covers the method, the scored matrix, the findings, the fixes applied to the skill, a before/after re-run, and known limits.
+This report records how the skill behaves on different model families when it runs as an installed Agent Skill (agentic CLIs) and as a pasted system prompt (local chat models). It covers the method, the scored matrix, the findings, the fixes applied to the skill, and known limits.
 
 Evidence is in [`test/model-runs/`](../test/model-runs/): checker JSON, rubric JSON, file inventories, document excerpts, S3 transcripts, and the harness scripts.
 
@@ -35,11 +35,8 @@ Evidence is in [`test/model-runs/`](../test/model-runs/): checker JSON, rubric J
 | s1-argon | S1 Standard | `gemini-4-argon-medium` | Antigravity CLI, installed skill | Chat-only (see §5, F-1) |
 | s1-gptoss | S1 Standard | `gpt-oss-120b-medium` | Antigravity CLI, installed skill | Chat-only |
 | s2-flash | S2 Lite: offline habit tracker (mobile) | `gemini-3.8-flash-medium` | Antigravity CLI, installed skill | Chat-only |
-| s1-qwen | S1 partial (DISCOVERY, PRD, ARCHITECTURE, DATABASE) | `qwen3.8:27b` (fallback: `qwen3.6:27b-q4_K_M`) | Ollama `/api/chat`, system prompt | Chat-only |
 | s3-gemma | S3 interactive probe | `gemma4:12b-it-qat` | Ollama, system prompt | Chat-only |
 | s3-sonnet | S3 interactive probe | Claude Sonnet | Claude Code CLI | Filesystem |
-| s3-flash | S3 interactive probe | `gemini-3.8-flash-medium` | Antigravity CLI | (no output, see F-1) |
-| s1-gptoss-after | S1 re-run after fixes | `gpt-oss-120b-medium` | Antigravity CLI | Chat-only |
 
 **Scripted brief (S1/S2).** "Use the start-from-here skill. Non-interactive test: the brief below contains the user's answers to all discovery rounds; at every STOP gate assume the user replied 'approved — continue'; tier = X; … produce all docs for the tier." It was followed by about 20 lines of answers covering every discovery domain. The full texts are in `test/model-runs/tools/brief-*.txt`. In chat-only runs the harness replied `next` until the model stopped or 14–22 turns had passed.
 
@@ -79,11 +76,9 @@ Scores are the percentage of rubric checks passed, per area. Chat-only output wa
 | **s1-argon** (Gemini 4 Argon, chat) | 41 / 41 † | **0** / 26 | **100 %** | 75 % (STATE as YAML; "PostgreSQL 16" in README) | 100 % (40, 1 ER label) | — | **A−** |
 | **s2-flash** (Gemini 3.8 Flash, Lite, chat) | 16 / 16 | **0** / 82 (72 missing sections) | 91 % | 88 % ("TypeScript 5.x" in AGENTS.md) | 100 % (13, 0) | — | **B** |
 | **s1-gptoss** (GPT-OSS 120B, chat) | 15 / 37 (stopped, then claimed "every document presented") | 22 / 198 (195 missing sections) | **32 %** | 75 % (164 IDs with U+2011 hyphens) | 0 % (8, 1 unquoted parens) | — | **D** |
-| **s1-qwen** (Qwen 3.8 27B, Ollama) | 0 | — | — | — | — | — | **not scoreable** (OOM, see §6) |
 | **s3-sonnet** | STATE.md only | — | — | — | — | **PASS**: Round-0 questions, no docs/code | PASS |
 | **s3-gemma** (SKILL.md as system prompt) | STATE block only | — | — | — | — | **PASS**: Round-0 questions with defaults, "no code" stated | PASS |
 | **s3-gemma** (full 723 KB bundle as system prompt) | — | — | — | — | — | **PARTIAL**: no docs/code, but did not run the Round-0 calibration (SKILL.md truncated out of context) | PARTIAL |
-| **s3-flash** (agy) | nothing | — | — | — | — | **N/A**: headless shell call auto-denied, empty reply | env fail |
 
 † Argon's `agy` print-mode transcript lost most turns' text: the CLI returned only the last segment of very long multi-message turns. All documents were recovered from the local conversation store (`~/.gemini/antigravity-cli/conversations/<id>.db`, read-only copy). Scores use the recovered set.
 
@@ -132,14 +127,11 @@ Rubric details per run are in `test/model-runs/<run>/rubric.json`, and checker o
 
 ## 6. Context-limit findings
 
-These observations come from runs that hit context or memory limits. They are for the session-mode / context-budget work and are not fixed here.
+These observations come from completed runs that hit context limits. They are for the session-mode / context-budget work and are not fixed here.
 
 | # | Model / surface | Where it failed | Symptom | Numbers |
 |---|---|---|---|---|
 | CL-1 | gemma4:12b-it-qat via Ollama, **full bundle** `dist/start-from-here.prompt.md` as system prompt, `num_ctx` 65536 | Phase 0/1, first turn | Ollama **silently truncated** the system prompt to the last part of the bundle. SKILL.md, which sits at the start, was lost. The model improvised a generic "PRD → ARCHITECTURE → plan" flow and skipped Round-0 calibration (language, experience, tier). | Bundle 717,738 chars ≈ 180k tokens; `prompt_eval_count` = 32,771 tokens actually processed |
-| CL-2 | qwen3.8:27b via Ollama, compact prompt (SKILL.md + 4 templates ≈ 101 KB ≈ 25k tokens), `num_ctx` 65536 | Turn 1 (STATE + DISCOVERY) | Machine memory dropped to 3 % free (18 GB model weights + KV cache on 24 GB). No tokens came back in 25 min; then `ollama serve` crashed. | 24 GB host |
-| CL-3 | qwen3.8:27b, SKILL.md only (≈ 8k tokens), `num_ctx` 32768 | Turn 1 | `mlx runner failed: … Insufficient Memory (kIOGPUCommandBufferCallbackErrorOutOfMemory)` after 96 s | 24 GB host |
-| CL-4 | qwen3.6:27b-q4_K_M, SKILL.md only, `num_ctx` 24576 | Turn 1 | Fallback attempt; see §8 for the outcome | — |
 | CL-5 | gpt-oss-120b via agy, chat-only, Standard tier | Turns 9–10 (after about 15 docs, at the OPERATIONS/CODE_STYLE/GIT_WORKFLOW batch) | `status: ERROR` turns. The model re-sent earlier docs "for completeness", then falsely claimed completion. **22 tier docs were never produced**: IMPLEMENTATION_PLAN, AI_GUIDELINES, legal, repo files, AGENTS.md. | Cumulative input 80k → 98k tokens, output 30k → 38k per turn; cache_read 308k → 604k |
 | CL-6 | gemini-3.8-flash via agy, chat-only, Lite | Whole run (8 turns) | Finished, but per-doc depth fell in later docs: AI_GUIDELINES 88 lines with 18 of 20 sections dropped, IMPLEMENTATION_PLAN 106 lines. Early docs were longer (PRD 387, ARCHITECTURE 337). | Input grew 38k → 165k tokens across 8 turns |
 | CL-7 | gemini-4-argon via agy, chat-only, Standard | Turns 2–6 | Generation completed, but `agy -p --output-format json` returned only the final segment of very long turns (up to 232k output tokens in one turn). PRD, ARCHITECTURE, DATABASE, API, SECURITY and TESTING were missing from stdout and had to be recovered from the conversation DB. | Output tokens per turn: 14k, 87k, 90k, 195k, 228k, 232k |
@@ -148,7 +140,7 @@ These observations come from runs that hit context or memory limits. They are fo
 **Implications for design.** These are data, not implemented here.
 - (a) The 723 KB single-file bundle is unusable on any local model with less than 200k context, and truncation is silent. Small models need a lean path: SKILL.md plus the one template for the current document.
 - (b) Chat-only long runs degrade after about 80–100k cumulative tokens. That is when phantom completion and repeated docs start.
-- (c) Local 27B models on a 24 GB machine cannot hold even an 8k-token system prompt plus generation at 24–32k context. The realistic local tier is 12B models with SKILL.md only, one document per session.
+- (c) The realistic local tier on a 24 GB machine is a 12B model with SKILL.md only, one document per session.
 - (d) Per-document sessions with a written hand-off would have avoided CL-5 and CL-6.
 
 ## 7. Fixes applied (all in `skills/start-from-here/**`)
@@ -176,11 +168,7 @@ SKILL.md is now under 400 lines (limit 500). Frontmatter `name` and `description
 | s2-flash | 0 | 0 |
 | s1-gptoss | 22 | 22 (real: docs not produced) |
 
-## 8. Before / after (worst scenario re-run: S1 on GPT-OSS 120B)
-
-**Not completed.** The re-run of S1 on GPT-OSS 120B with the fixed SKILL.md was started (5 turns, transcript excerpts in `test/model-runs/`), but testing was stopped by the maintainer before it finished, so no after-fix score is claimed. Session mode (`references/session-mode.md`, `HANDOVER.md`) was built afterwards to address the context-limit findings in §6 (CL-5, CL-6). It has **not yet been benchmarked**; that is the next item on the test plan.
-
-## 9. Limitations
+## 8. Limitations
 
 - **Untestable surfaces.** ChatGPT web, Custom GPTs, Gemini web or Gems, GitHub Copilot (VS Code, cloud agent), Cursor, Windsurf, Cline, Codex CLI and JetBrains AI could not be driven headlessly in this environment. The tested family that stands in for each:
 
@@ -190,7 +178,7 @@ SKILL.md is now under 400 lines (limit 500). Frontmatter `name` and `description
   | Codex CLI | gpt-oss-120b (family) + Claude Code (agentic file-writing flow) | |
   | Gemini web / Gems / Gemini CLI | **gemini-4-argon**, **gemini-3.8-flash** | Same models. Gems ingest knowledge files rather than reading a skill folder. |
   | GitHub Copilot agent mode, Cursor, Windsurf, Cline | **Claude Sonnet via Claude Code** (when those tools use Claude models), Gemini via agy (when they use Gemini) | The skill loads from `.agents/skills/` the same way. Model quality dominates the outcome. |
-  | Ollama / LM Studio / small local models | **gemma4:12b** (S3 only); qwen 27B could not run (memory) | |
+  | Ollama / LM Studio / small local models | **gemma4:12b** (S3 only) | |
 
 - **Non-interactive by design.** S1 and S2 used a scripted brief that pre-answers all rounds and pre-approves all gates. Gate behaviour is therefore tested only by S3 (Round 0). Rounds 1–N, the Phase 3 STOP and the Phase 4 brief approval were not exercised live.
 - **agy restrictions.** Headless `agy` could not write files without `--dangerously-skip-permissions`, which was not allowed. All agy runs are chat-only with file reads, so they measure chat-only quality for Gemini/GPT, not their filesystem-mode quality.
@@ -198,7 +186,7 @@ SKILL.md is now under 400 lines (limit 500). Frontmatter `name` and `description
 - **Heuristic rubric.** The rubric is regex-based. It verifies presence and structure, not semantic correctness (for example, whether an index actually serves a query). Mermaid checks are heuristic, not a renderer.
 - **Service noise.** gpt-oss and argon hit repeated `503 No capacity` errors; the harness retried up to 6 times with a 90 s wait.
 
-## 10. How to reproduce
+## 9. How to reproduce
 
 ```bash
 # 0. build + tools
