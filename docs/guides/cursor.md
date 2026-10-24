@@ -46,7 +46,7 @@ mkdir -p .agents/skills && cp -R /tmp/sfh/skills/start-from-here .agents/skills/
 # global: mkdir -p ~/.cursor/skills && cp -R /tmp/sfh/skills/start-from-here ~/.cursor/skills/
 ```
 
-> Installing "From GitHub Repository" inside Cursor requires a `.cursor-plugin/marketplace.json`. ⚠️ Unverified: this repo does not ship one in v1.0.0, so use the commands above.
+> Corrected 2026-10-25: Cursor's docs describe `.cursor-plugin/marketplace.json` only as the file for multi-plugin repositories, not as a requirement for installing a single plugin from GitHub (https://cursor.com/docs/plugins). This repo does not ship one; use the commands above.
 
 ## Verify it loaded
 

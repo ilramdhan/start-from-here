@@ -7,8 +7,8 @@
 | | |
 |---|---|
 | Support level | **Native skill — partial** (merged in PR #9353, Jan 2026; no official docs page yet) · **Rules-file fallback** is reliable |
-| Project path | `.continue/skills/start-from-here/` ⚠️ Unverified (third-party table only) |
-| Global path | `~/.continue/skills/start-from-here/` ⚠️ Unverified |
+| Project path | `.continue/skills/start-from-here/` ⚠️ Unverified (third-party table only; no official docs as of 2026-10-25) |
+| Global path | `~/.continue/skills/start-from-here/` ⚠️ Unverified (same) |
 | Rules path | `.continue/rules/*.md` (`globs`, `alwaysApply`, `description`) |
 | Invocation | natural language: "Use the start-from-here skill to plan my new app" |
 

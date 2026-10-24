@@ -14,7 +14,7 @@
 ## Prerequisites
 
 - A Claude account. Help center: "Skills are available for users on Free, Pro, Max, Team, and Enterprise plans. This feature requires code execution to be enabled."
-  > ⚠️ Unverified: the platform overview page still lists custom uploads as Pro, Max, Team and Enterprise only. The help center is newer.
+  > Verified 2026-10-25 against the help center (https://support.claude.com/en/articles/12512180-using-skills-in-claude): "Skills are available for users on Free, Pro, Max, Team, and Enterprise plans."
 - Code execution enabled:
   - Free / Pro / Max: **Settings › Capabilities › "Code execution and file creation"**.
   - Team / Enterprise: an admin enables "Cloud code execution and file creation" and "Skills" in **Organization settings › Plugins & skills › Policy**.
@@ -33,7 +33,7 @@ Scope: custom skills are **per user** (equivalent to "global"). There is no proj
 
 Claude Desktop uses the same account skills (Customize in the sidebar). Mobile uses the same account.
 
-> ⚠️ Unverified: whether mobile apps can run uploaded skills. They share the account, but no mobile-specific documentation was found.
+> ⚠️ Unverified: whether mobile apps can run uploaded skills. They share the account, but no mobile-specific documentation was found in the help center as of 2026-10-25.
 
 ### Fallback: Project + pasted prompt
 
@@ -89,7 +89,7 @@ Then paste or attach `STATE.md` and `docs/DISCOVERY.md`. Using a Project and add
 
 Download the new `start-from-here.zip`, then in **Customize › Skills** remove the old skill and upload the new one.
 
-> ⚠️ Unverified: whether re-uploading a skill with the same name replaces it in place.
+> ⚠️ Unverified: whether re-uploading a skill with the same name replaces it in place (not addressed in the official help center as of 2026-10-25).
 
 ## Uninstall
 
@@ -99,7 +99,7 @@ Download the new `start-from-here.zip`, then in **Customize › Skills** remove 
 
 - **"Unexpected key(s) in SKILL.md frontmatter"** → the upload accepts only `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`. Use the official release zip.
 - **Description too long** → the help center limits `description` to 200 characters. The official zip complies.
-- **"ZIP file exceeds size limits"** → use the release zip. ⚠️ Unverified: exact claude.ai zip size limit.
+- **"ZIP file exceeds size limits"** → use the release zip. ⚠️ Unverified: exact claude.ai zip size limit (the help center names the error but states no number as of 2026-10-25).
 - **Upload rejected** → the zip root must be the `start-from-here/` folder, not loose files.
 - No filesystem: `scripts/check-docs.mjs` will not run against your project. The skill does the audit by reading.
 - claude.ai skills do **not** sync to the API. They do sync one way into Claude Code (`~/.claude/skills/synced/`, v2.1.273+).

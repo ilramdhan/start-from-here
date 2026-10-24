@@ -130,7 +130,7 @@ Temporarily disable: `/skills disable start-from-here`.
 
 - **Skill never activates** → you declined the consent prompt, or the skill is disabled (`/skills enable start-from-here`).
 - **Two copies** → `.agents/skills/` overrides `.gemini/skills/`, and workspace overrides user/extension.
-- Gemini Code Assist agent mode is built on Gemini CLI. ⚠️ Unverified: whether it inherits Gemini CLI skills.
+- Gemini Code Assist agent mode in VS Code uses Gemini CLI (verified 2026-10-25: https://docs.cloud.google.com/gemini/docs/codeassist/agent-mode). ⚠️ Unverified: whether it inherits Gemini CLI skills (that page mentions tools and MCP, not skills).
 
 ## Sources
 

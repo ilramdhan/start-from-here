@@ -30,7 +30,7 @@ Output mode is **chat-only**: each document arrives as a fenced markdown block w
 3. Upload `start-from-here.zip`. ChatGPT scans the skill before it becomes available.
 4. Optionally share it with the workspace (RBAC).
 
-> ⚠️ Unverified: the upload menu path, plan list, and accepted format (zip vs folder) come from search snippets. help.openai.com could not be fetched.
+> ⚠️ Unverified: the upload menu path, plan list, and accepted format (zip vs folder) come from search snippets. help.openai.com returned HTTP 403 when fetched on 2026-10-25, so no official confirmation was possible.
 
 Scope: per user, or shared to the workspace. No project scope.
 
@@ -42,14 +42,14 @@ Scope: per user, or shared to the workspace. No project scope.
 4. Optional: enable Code Interpreter (not required).
 5. Save (private, link, or workspace).
 
-> ⚠️ Unverified: Custom GPT limits (8,000-char instructions, 20 knowledge files, 512 MB per file) come from third-party sources.
+> ⚠️ Unverified: Custom GPT limits (8,000-char instructions, 20 knowledge files, 512 MB per file) come from third-party sources (help.openai.com returned HTTP 403 on 2026-10-25; no official confirmation).
 
 ### Route 3 — Project
 
 1. Create a Project. Open **••• › Project settings** and paste `dist/gpt-instructions.md` (or the top of `start-from-here.prompt.md`) into the instructions.
 2. Upload `dist/knowledge/` files (or `start-from-here.prompt.md`) as project files.
 
-> ⚠️ Unverified: project file limits — Free 5, Go/Plus 25, Edu/Pro/Business/Enterprise 40 (search snippet).
+> ⚠️ Unverified: project file limits — Free 5, Go/Plus 25, Edu/Pro/Business/Enterprise 40 (search snippet; help.openai.com returned HTTP 403 on 2026-10-25).
 
 ### Route 4 — Paste once
 

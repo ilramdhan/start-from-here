@@ -52,7 +52,7 @@ mkdir -p .agents/skills && cp -R /tmp/sfh/skills/start-from-here .agents/skills/
 
 Ask the agent: `Which skills are available in this workspace?` Also run `npx start-from-here@latest doctor`.
 
-> ⚠️ Unverified: a dedicated skills-list command or UI panel in Antigravity.
+> In the IDE, inspect active skills from the **Customizations** menu in the agent side panel; in the CLI, `agy plugin list --json` shows bundled skills (verified 2026-10-25: https://antigravity.google/docs/skills).
 
 ## How to use
 
@@ -62,7 +62,7 @@ Use the start-from-here skill to plan my new app.
 
 To force use in every session, a Rule can enforce a skill, and a Workflow can orchestrate skills.
 
-> ⚠️ Unverified: the exact Rule and Workflow paths (`.agent/rules`, `.agent/workflows`).
+> Corrected 2026-10-25: workspace Rules live in `.agents/rules/*.md` (plus `AGENTS.md` / `GEMINI.md`), not `.agent/rules` (https://antigravity.google/docs/rules). ⚠️ Unverified: the Workflow path (no official page found as of 2026-10-25).
 
 ## Example first session
 
@@ -80,7 +80,7 @@ Agent: Proposed tier: Standard. Payments → PCI DSS scope note (hosted checkout
 Use the start-from-here skill. resume
 ```
 
-> ⚠️ Unverified: whether Antigravity reads `AGENTS.md` for later implementation sessions. If not, paste the first implementation prompt from the handoff.
+> Antigravity reads `AGENTS.md` / `GEMINI.md` from the project and any subdirectory (verified 2026-10-25: https://antigravity.google/docs/rules).
 
 ## Update
 

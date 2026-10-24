@@ -11,7 +11,7 @@
 
 Jules "automatically searches for an AGENTS.md file in your repository's root directory". There is no documented skills support.
 
-> ⚠️ Unverified: Jules skills support (none documented).
+> ⚠️ Unverified: Jules skills support. The official docs (https://jules.google/docs/) describe `AGENTS.md` only and no `SKILL.md` support, so absence is documented only by omission (checked 2026-10-25).
 
 Jules is an asynchronous, task-based agent, so it is a poor fit for a multi-round interview. **Recommended:** run the discovery interview in an interactive tool (Claude Code, Codex, Gemini CLI, Copilot…), commit the generated docs, then use Jules for implementation. The generated `AGENTS.md` is exactly what Jules reads.
 

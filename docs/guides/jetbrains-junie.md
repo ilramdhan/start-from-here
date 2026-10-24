@@ -86,7 +86,7 @@ When I ask to plan a project or say "start-from-here", read and follow
 
 Set the rule type to **Manually** (or By model decision) in the IDE's rules settings, then in chat say: `start-from-here: start`.
 
-> ⚠️ Unverified: whether AI Assistant reads `AGENTS.md`, and whether the chat agent can open files referenced by a rule. If it can't, attach `SKILL.md` to the chat.
+> The `.aiassistant/rules/` path is verified (2026-10-25: https://www.jetbrains.com/help/ai-assistant/configure-project-rules.html). ⚠️ Unverified: whether AI Assistant reads `AGENTS.md`, and whether the chat agent can open files referenced by a rule (the official rules page mentions neither). If it can't, attach `SKILL.md` to the chat.
 
 Uninstall: `npx start-from-here@latest uninstall --agent jetbrains-ai-assistant` or delete the rule file.
 

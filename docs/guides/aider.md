@@ -51,7 +51,7 @@ Aider cannot open the `references/` files on its own. Add the ones you need with
 
 Check Aider's start-up output: `SKILL.md` should be listed as a read-only file. Or ask: "What workflow will you follow when I say start?"
 
-> ⚠️ Unverified: the exact Aider command that lists read-only files (not covered by our sources).
+> `/ls` lists all known files and marks which are in the chat; `/read-only` adds files as reference-only (verified 2026-10-25: https://aider.chat/docs/usage/commands.html).
 
 ## How to use
 

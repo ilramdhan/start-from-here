@@ -49,7 +49,7 @@ codex plugin marketplace add ilramdhan/start-from-here            # add --ref ma
 
 Codex also reads `.claude-plugin/marketplace.json` (legacy) and `.agents/plugins/marketplace.json`.
 
-> ⚠️ Unverified: the exact command to install a plugin after adding the marketplace. Follow the Codex plugin UI, or use Option A/B.
+> After adding the marketplace, run `/plugins` in Codex CLI, pick the plugin and install it, then start a new session (verified 2026-10-25: https://learn.chatgpt.com/docs/plugins).
 
 ### Option E — Manual copy
 
@@ -122,8 +122,8 @@ enabled = false
 ## Limitations & troubleshooting
 
 - **Not listed** → you copied to `.codex/skills` or `~/.codex/skills`. Current docs only list `.agents/skills`. Move it.
-- ⚠️ Unverified: Codex cloud support for standalone skills. Cloud clones the repo, so a committed `.agents/skills/` *may* work.
-- ⚠️ Unverified: where `$skill-installer` puts skills.
+- ⚠️ Unverified: Codex cloud support for standalone skills (the official skills guide, https://learn.chatgpt.com/docs/build-skills, does not address it as of 2026-10-25). Cloud clones the repo, so a committed `.agents/skills/` *may* work.
+- ⚠️ Unverified: where `$skill-installer` puts skills (the official skills guide does not state the target directory as of 2026-10-25).
 - Large generated `AGENTS.md`: Codex stops adding instruction files at 32 KiB combined. The skill keeps `AGENTS.md` concise and links the docs.
 
 ## Sources

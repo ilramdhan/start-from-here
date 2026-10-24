@@ -37,7 +37,7 @@ Custom Kiro CLI agents must list the skill as a resource: `"resources": ["skill:
 
 Ask: "Which skills can you use?"
 
-> ⚠️ Unverified: a dedicated Kiro skills-list command.
+> Kiro has no dedicated skills-list command: use the "Agent Steering & Skills" section of the Kiro panel in the IDE, or type `/` in chat to see skills as slash commands (verified 2026-10-25: https://kiro.dev/docs/skills/).
 
 ### How to use
 
@@ -104,7 +104,7 @@ start-from-here: start — plan a serverless image-resize service
 - Update: `npx start-from-here@latest install --agent universal --force`.
 - Uninstall: `npx start-from-here@latest uninstall --agent amazon-q` or delete the rule file.
 
-> ⚠️ Unverified: whether Amazon Q reads `AGENTS.md`. Keep the rule file for later sessions, or paste the first implementation prompt.
+> ⚠️ Unverified: whether Amazon Q reads `AGENTS.md` (the official project-rules page documents only `.amazonq/rules`, checked 2026-10-25). Keep the rule file for later sessions, or paste the first implementation prompt.
 
 ## Sources
 

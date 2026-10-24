@@ -78,7 +78,7 @@ npx start-from-here@latest install --agent claude-code,universal
 gh skill install ilramdhan/start-from-here start-from-here --agent claude-code --scope project   # or --scope user
 ```
 
-> ⚠️ Unverified: that `claude-code` is an accepted `gh skill --agent` value. If it fails, use Option B, C or E.
+> `claude-code` is a documented `gh skill --agent` value (verified 2026-10-25: https://cli.github.com/manual/gh_skill_install).
 
 ### Option E — Manual copy
 
