@@ -27,7 +27,7 @@ curl -X POST https://api.openai.com/v1/skills \
   -F "files[]=@dist/start-from-here.zip"
 ```
 
-> ⚠️ Unverified: the exact multipart field name for a zip upload. The docs describe multipart `files[]` (with paths) or a zip with one top-level folder.
+> Multipart uploads use `files[]` parts, each carrying its path inside a single top-level folder (verified 2026-10-25: https://developers.openai.com/api/docs/guides/tools-skills). The docs do not explicitly document the field name for a single zip upload; the example above follows the same `files[]` name.
 
 Limits: zip ≤ 50 MB, ≤ 500 files per version, each uncompressed file ≤ 25 MB. Exactly **one** `SKILL.md` per bundle (the release zip complies).
 
@@ -99,14 +99,14 @@ With a local shell or SDK workspace, files persist: say "resume". With hosted co
 
 ## Uninstall
 
-- API: delete the skill (⚠️ Unverified: DELETE endpoint not listed in our research; check the API reference).
+- API: delete the skill (⚠️ Unverified: the guide describes delete semantics but no DELETE endpoint; check the API reference. Checked 2026-10-25.).
 - Local: `npx start-from-here@latest uninstall --agent universal`.
 
 ## Limitations & troubleshooting
 
 - **"Exactly one skill.md/SKILL.md file is allowed"** → don't zip the whole repo. Use the release zip.
 - Agents API self-hosted `capability_directories`: absolute paths only, max 32, no `.`/`..`.
-- ⚠️ Unverified: frontmatter length limits on OpenAI (the spec says name ≤ 64, description ≤ 1024; ours is ≤ 200).
+- Frontmatter validation on OpenAI follows the agent skills specification (name ≤ 64, description ≤ 1024; ours is ≤ 200) (verified 2026-10-25: https://developers.openai.com/api/docs/guides/tools-skills).
 
 ## Sources
 

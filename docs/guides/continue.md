@@ -12,7 +12,7 @@
 | Rules path | `.continue/rules/*.md` (`globs`, `alwaysApply`, `description`) |
 | Invocation | natural language: "Use the start-from-here skill to plan my new app" |
 
-> ⚠️ Unverified: Continue's skill paths, invocation, and `AGENTS.md` support. Prefer the rules fallback if the skill is not picked up.
+> ⚠️ Unverified: Continue's skill paths, invocation, and `AGENTS.md` support (no official documentation found as of 2026-10-25; docs.continue.dev/customize/deep-dives/rules documents only `.continue/rules/`). Prefer the rules fallback if the skill is not picked up.
 
 ## Prerequisites
 

@@ -34,7 +34,7 @@ Extensions install to `~/.gemini/extensions/start-from-here/` (global only).
 gemini skills install https://github.com/ilramdhan/start-from-here --consent
 ```
 
-> ⚠️ Unverified: the default scope of `gemini skills install` and whether it takes a `--scope` flag (only `uninstall` and `link` document `--scope`).
+> `gemini skills install` accepts `--scope user|workspace`; `user` (global) is the default (verified 2026-10-25: https://geminicli.com/docs/cli/skills/).
 
 ### Option C — `npx skills add`
 
@@ -66,7 +66,7 @@ gemini skills link /tmp/sfh/skills/start-from-here
 gemini skills list --all
 ```
 
-In a session: `/skills list`. If you just added it, run `/skills reload`. Extensions: `gemini extensions list` ⚠️ Unverified (`list` is not among the documented extension subcommands we checked).
+In a session: `/skills list`. If you just added it, run `/skills reload`. Extensions: `gemini extensions list` (verified 2026-10-25: https://geminicli.com/docs/extensions/).
 
 ## How to use
 
@@ -137,6 +137,7 @@ Temporarily disable: `/skills disable start-from-here`.
 - https://geminicli.com/docs/cli/skills/
 - https://geminicli.com/docs/cli/creating-skills/
 - https://geminicli.com/docs/extensions/reference/
+- https://geminicli.com/docs/extensions/
 - https://geminicli.com/docs/cli/gemini-md/
 - https://geminicli.com/docs/cli/custom-commands/
 - https://github.com/vercel-labs/skills/blob/main/docs/agents.md

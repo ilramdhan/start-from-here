@@ -42,7 +42,7 @@ npx start-from-here@latest install --agent copilot --global   # global
 
 ### Option D — Copilot CLI or manual copy
 
-In Copilot CLI: `/skills add` (⚠️ Unverified: argument format). Or copy by hand:
+In Copilot CLI: `/skills add` (verified 2026-10-25: the terminal form is `copilot skill add <FILE | URL | DIRECTORY>`; https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills). Or copy by hand:
 
 ```bash
 git clone https://github.com/ilramdhan/start-from-here /tmp/sfh
@@ -100,7 +100,7 @@ npx skills remove start-from-here
 rm -rf .agents/skills/start-from-here
 ```
 
-Copilot CLI: `/skills remove start-from-here` (⚠️ Unverified: argument format).
+Copilot CLI: `/skills remove start-from-here` (verified 2026-10-25: the terminal form is `copilot skill remove SKILL-DIRECTORY`, the skill directory name; same source).
 
 ## Limitations & troubleshooting
 
@@ -111,6 +111,7 @@ Copilot CLI: `/skills remove start-from-here` (⚠️ Unverified: argument forma
 
 - https://docs.github.com/en/copilot/concepts/agents/about-agent-skills
 - https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-skills
+- https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills
 - https://code.visualstudio.com/docs/copilot/customization/agent-skills
 - https://code.visualstudio.com/docs/copilot/customization/custom-instructions
 - https://cli.github.com/manual/gh_skill_install
