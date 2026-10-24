@@ -1,0 +1,61 @@
+name: Template or question improvement
+description: Improve a document template, add a discovery question, or propose a new output document.
+title: "template: "
+labels: ["templates", "triage"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What do you want to change?
+      options:
+        - Existing document template
+        - Discovery question (add / change / remove)
+        - New output document
+        - Stack recommendation guidance
+        - Legal / compliance guidance
+        - Consistency audit check
+        - Workflow / gates / tiers
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: File(s) affected
+      placeholder: "e.g. skills/start-from-here/assets/templates/docs/product/PRD.md"
+  - type: dropdown
+    id: tiers
+    attributes:
+      label: Tier(s) affected
+      multiple: true
+      options:
+        - Lite
+        - Standard
+        - Enterprise
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What goes wrong today? For example, a missing section, a confusing question, or docs that come out inconsistent.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: For a question, include the tier tag, a "why we ask" line, and a labeled beginner default.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Standards, regulations, or sources that back the change (required for legal or compliance content).
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Content rules
+      options:
+        - label: The change stays tech-agnostic (no assumed language, framework, or cloud).
+          required: true
+        - label: It doesn't make the AI invent facts, metrics, versions, or compliance claims.
+          required: true
