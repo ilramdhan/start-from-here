@@ -103,6 +103,7 @@ jobs:
 
       - name: Check tag matches package.json and manifests
         run: |
+          # shellcheck disable=SC2016 # single quotes intentionally wrap JS template literals
           node -e '
             const fs = require("fs");
             const v = require("./package.json").version;

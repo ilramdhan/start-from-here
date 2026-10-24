@@ -76,6 +76,7 @@ jobs:
             console.log(files.length + " files OK");' "$RUNNER_TEMP/pack.json"
       - name: Plugin / extension manifests and release-please config
         run: |
+          # shellcheck disable=SC2016 # single quotes intentionally wrap JS template literals
           node -e '
             const fs = require("fs");
             const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
