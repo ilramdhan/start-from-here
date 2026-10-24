@@ -1,0 +1,8 @@
+description = "Plan a project before coding: interview, then write approved PRD/TRD/architecture/legal docs (start-from-here skill)."
+prompt = """
+Activate the `start-from-here` skill and follow its SKILL.md procedure exactly, starting at the first phase (Orient).
+Do not write application code. Ask questions in small rounds with recommended defaults, and stop at every approval gate.
+
+The user's request (may be empty):
+{{args}}
+"""
