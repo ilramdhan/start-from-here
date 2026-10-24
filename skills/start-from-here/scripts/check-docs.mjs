@@ -173,10 +173,12 @@ function codeMask(lines) {
 const stripInlineCode = (line) => line.replace(/`+[^`]*`+/g, (s) => ' '.repeat(s.length));
 
 function slugify(heading) {
-  return heading
-    .trim()
-    .toLowerCase()
-    .replace(/<[^>]+>/g, '')
+  let s = heading.trim().toLowerCase();
+  for (let prev; prev !== s; ) {
+    prev = s;
+    s = s.replace(/<[^>]+>/g, '');
+  }
+  return s
     .replace(/[`*_~[\]()]/g, (c) => (c === '_' ? '_' : ''))
     .replace(/[^\p{L}\p{N}\s_-]/gu, '')
     .replace(/\s/g, '-');
