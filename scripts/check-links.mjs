@@ -38,10 +38,12 @@ function stripCode(md) {
 
 /** GitHub-style heading slug. */
 export function slugify(text) {
-  return text
-    .trim()
-    .toLowerCase()
-    .replace(/<[^>]+>/g, '')
+  let s = text.trim().toLowerCase();
+  for (let prev; prev !== s; ) {
+    prev = s;
+    s = s.replace(/<[^>]+>/g, '');
+  }
+  return s
     .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/[`*_~]/g, '')
     .replace(/[^\p{L}\p{N}\s-]/gu, '')
