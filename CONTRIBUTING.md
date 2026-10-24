@@ -8,6 +8,7 @@ Thanks for helping. This project is one Agent Skill (`skills/start-from-here/`) 
 | Improve or add a document template | An issue using **Template improvement**, then a PR to `skills/start-from-here/assets/templates/…` (and `references/document-catalog.md` if it's a new doc) |
 | Support a new AI tool / agent | An issue using **Platform support**, with official source URLs |
 | Fix a bug in the CLI, bundle, or checker | An issue using **Bug report**, then a PR with a test |
+| Review or fix site translations | An issue using **Translation review**, or a PR editing only the language file (see *Translations* below) |
 
 Please read and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately, as described in [SECURITY.md](SECURITY.md), and not in public issues.
 
@@ -81,6 +82,32 @@ Notes for maintainers:
 - PRs created with the default `GITHUB_TOKEN` don't trigger other workflows, so CI won't start on the release PR by itself. Either add a fine-grained PAT as the `RELEASE_PLEASE_TOKEN` secret (contents + pull requests: read/write; the workflow uses it automatically), or close and reopen the release PR to trigger CI.
 - To retry a failed publish or re-upload assets for an existing tag, run the **Release** workflow manually (*Run workflow*, tag `vX.Y.Z`). It skips `npm publish` if that version is already on npm.
 - Need a specific version? Add an empty commit with a `Release-As: X.Y.Z` footer.
+
+## Translations
+
+Site content is in `site/i18n/` with one JSON file per language:
+
+- `en.json` — English (source language)
+- `id.json` — Indonesian
+- `zh-CN.json` — Simplified Chinese
+- `es.json` — Spanish
+- `ja.json` — Japanese
+- `pt-BR.json` — Portuguese (Brazil)
+
+**Key requirements:**
+
+- **All files must have identical keys.** Run `node scripts/check-i18n.mjs` to verify.
+- When reviewing translations, compare the live site locally or via GitHub Pages with `en.json` as the reference.
+- To suggest fixes, open a **Translation review** issue or submit a PR editing only the language file you changed.
+- **PR titles** for translation fixes must be `docs(site): review <lang> translation` (e.g. `docs(site): review id translation`).
+- **Do not add new i18n keys** unless you add them to all 6 files and verify `check-i18n.mjs` passes. Each file must have exactly the same keys for tools and site consistency.
+
+**Reviewer workflow:**
+
+1. Open an issue using **Translation review** to claim a language and report your fluency.
+2. Review the live site (locally or on GitHub Pages) comparing against `en.json`.
+3. List any issues you find (key, current text, suggested text).
+4. A maintainer will merge your issue findings into a PR, or you can submit one yourself.
 
 ## Pull request checklist
 

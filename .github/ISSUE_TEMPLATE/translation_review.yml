@@ -1,0 +1,64 @@
+name: Translation review
+description: Review site translations for accuracy and cultural fit.
+title: "i18n: review "
+labels: ["translation", "i18n", "help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping with translations. Reviewers should be native or fluent speakers of the language they review.
+
+        All language files must have identical keys. Use `node scripts/check-i18n.mjs` to verify.
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      description: Which language are you reviewing?
+      options:
+        - Indonesian (id)
+        - Simplified Chinese (zh-CN)
+        - Spanish (es)
+        - Japanese (ja)
+        - Portuguese (Brazil) (pt-BR)
+    validations:
+      required: true
+  - type: dropdown
+    id: fluency
+    attributes:
+      label: Fluency level
+      description: Confirm your fluency in this language.
+      options:
+        - Native speaker
+        - Fluent (equivalent to native proficiency)
+    validations:
+      required: true
+  - type: textarea
+    id: sections-reviewed
+    attributes:
+      label: Keys or sections reviewed
+      description: List the JSON keys or sections you reviewed, or describe what parts of the site you checked (e.g., "all headers and buttons", "hero section and navigation").
+      placeholder: |
+        - site.header.*
+        - site.footer.*
+        - Or: I reviewed the entire visible site
+    validations:
+      required: true
+  - type: textarea
+    id: problems
+    attributes:
+      label: Problems found (if any)
+      description: List each issue with the key, current text, and what you suggest instead.
+      placeholder: |
+        - Key: site.header.title
+          Current: "My Title"
+          Suggested: "Correct Title"
+        - Key: site.footer.copyright
+          Current: "Copyright 2024"
+          Suggested: "Copyright 2026"
+  - type: checkboxes
+    id: fluency-confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I am a native or fluent speaker of the language I selected above.
+          required: true
