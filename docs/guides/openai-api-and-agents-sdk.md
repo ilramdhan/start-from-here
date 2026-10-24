@@ -99,7 +99,7 @@ With a local shell or SDK workspace, files persist: say "resume". With hosted co
 
 ## Uninstall
 
-- API: delete the skill (⚠️ Unverified: the guide describes delete semantics but no DELETE endpoint; check the API reference. Checked 2026-10-25.).
+- API: `DELETE /v1/skills/<id>` (verified 2026-10-25, official API reference: https://developers.openai.com/api/reference/resources/skills/methods/delete).
 - Local: `npx start-from-here@latest uninstall --agent universal`.
 
 ## Limitations & troubleshooting

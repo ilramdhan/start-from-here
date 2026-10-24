@@ -25,31 +25,31 @@ Output mode is **chat-only**: each document arrives as a fenced markdown block w
 
 ### Route 1 — ChatGPT Skills (beta)
 
-1. A workspace owner enables Skills in workspace settings (off by default during beta).
+1. Skills are available to eligible Business, Enterprise, Healthcare, and Edu users. Workspace admins control them under Permissions & roles (Enable skills, Enable skill uploading, Share skills, and others).
 2. Go to **Plugins › Skills tab › Create › Upload from your computer**.
-3. Upload `start-from-here.zip`. ChatGPT scans the skill before it becomes available.
+3. Upload the skill (the release `start-from-here.zip`). ChatGPT scans the skill before it becomes available.
 4. Optionally share it with the workspace (RBAC).
 
-> ⚠️ Unverified: the upload menu path, plan list, and accepted format (zip vs folder) come from search snippets. help.openai.com returned HTTP 403 when fetched on 2026-10-25, so no official confirmation was possible.
+> Verified 2026-10-25 (official help article, https://help.openai.com/en/articles/20001066-skills-in-chatgpt): menu path (Plugins > Skills tab > Create > Upload from your computer), eligible plans (Business, Enterprise, Healthcare, Edu), the pre-availability scan (results can be Needs Review or Blocked), and the workspace permissions. ⚠️ Unverified: the accepted upload format (zip vs folder); the article does not state it.
 
 Scope: per user, or shared to the workspace. No project scope.
 
 ### Route 2 — Custom GPT
 
 1. **Explore GPTs › Create › Configure**.
-2. Paste `dist/gpt-instructions.md` into **Instructions** (max 8,000 characters).
+2. Paste `dist/gpt-instructions.md` into **Instructions** (max 8,000 characters, ⚠️ Unverified, see below).
 3. Upload every file from `dist/knowledge/` under **Knowledge**.
 4. Optional: enable Code Interpreter (not required).
 5. Save (private, link, or workspace).
 
-> ⚠️ Unverified: Custom GPT limits (8,000-char instructions, 20 knowledge files, 512 MB per file) come from third-party sources (help.openai.com returned HTTP 403 on 2026-10-25; no official confirmation).
+> Verified 2026-10-25 (official help article, https://help.openai.com/en/articles/8554397-creating-and-editing-gpts): up to 20 knowledge files, 512 MB each. ⚠️ Unverified: the 8,000-character instructions limit (the article states no instruction limit). Availability: new GPT creation and publishing are not available on personal accounts (Free, Go, Plus, Pro); only Business, Enterprise, and Edu workspaces with permission can create them. OpenAI plans to retire custom GPTs in favor of Plugins (Enterprise retirement planned for Dec 11, 2026), so prefer Route 1 or 3 where possible.
 
 ### Route 3 — Project
 
 1. Create a Project. Open **••• › Project settings** and paste `dist/gpt-instructions.md` (or the top of `start-from-here.prompt.md`) into the instructions.
 2. Upload `dist/knowledge/` files (or `start-from-here.prompt.md`) as project files.
 
-> ⚠️ Unverified: project file limits — Free 5, Go/Plus 25, Edu/Pro/Business/Enterprise 40 (search snippet; help.openai.com returned HTTP 403 on 2026-10-25).
+> Verified 2026-10-25 (official help article, https://help.openai.com/en/articles/10169521-projects-in-chatgpt): project file limits are Free 5, Go/Plus 25, Edu/Pro/Business/Enterprise 40, with at most 10 files uploaded at a time. Project instructions live under ••• > Project settings.
 
 ### Route 4 — Paste once
 
