@@ -1,0 +1,24 @@
+# start-from-here
+
+> start-from-here is a free, MIT-licensed, open Agent Skill (agentskills.io open standard) for AI coding agents. It interviews you with recommended defaults, recommends a stack, gets your brief approval, then generates a complete pre-development document set (PRD, architecture, database, API, security, testing, legal, AGENTS.md) before any code is written. It never writes application code.
+
+Works with Claude Code, Codex, Gemini CLI, GitHub Copilot, Cursor and more, plus chat apps. Install: `npx skills add ilramdhan/start-from-here` or `npx start-from-here@latest install` (Node.js >= 18).
+
+## Docs
+
+- [README](https://github.com/ilramdhan/start-from-here/blob/main/README.md): overview, install, tiers, supported platforms
+- [User manual](https://github.com/ilramdhan/start-from-here/blob/main/docs/USAGE.md): how to run the interview, modes, tiers, resume and session mode
+- [Platform guides](https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md): per-platform install and usage guides with official source links
+- [SKILL.md](https://github.com/ilramdhan/start-from-here/blob/main/skills/start-from-here/SKILL.md): the skill itself (orchestrator)
+
+## Project
+
+- [Website](https://ilramdhan.github.io/start-from-here/): landing page in 6 languages
+- [GitHub repository](https://github.com/ilramdhan/start-from-here): source, issues, releases
+- [npm package](https://www.npmjs.com/package/start-from-here): zero-dependency installer CLI
+
+## Optional
+
+- [Full overview for LLMs](https://ilramdhan.github.io/start-from-here/llms-full.txt)
+- [Security policy](https://github.com/ilramdhan/start-from-here/blob/main/SECURITY.md)
+- [Contributing](https://github.com/ilramdhan/start-from-here/blob/main/CONTRIBUTING.md)

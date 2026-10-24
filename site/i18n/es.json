@@ -296,7 +296,11 @@
     "q10": "¿Es gratis?",
     "a10": "Sí. Es de código abierto bajo la licencia MIT. Solo pagas por la herramienta de IA que ya usas.",
     "q11": "Mi IA tiene una ventana de contexto pequeña (LLM local, modelo pequeño). ¿Funcionará?",
-    "a11": "Sí: usa el modo por sesiones. Escribe “session mode” y el trabajo se divide en paquetes cortos, uno por sesión nueva, conectados por un archivo de traspaso (docs/.start-from-here/HANDOVER.md) que mantiene coherentes las decisiones y los IDs. La skill lo propone automáticamente con modelos locales o pequeños y en proyectos largos."
+    "a11": "Sí: usa el modo por sesiones. Escribe “session mode” y el trabajo se divide en paquetes cortos, uno por sesión nueva, conectados por un archivo de traspaso (docs/.start-from-here/HANDOVER.md) que mantiene coherentes las decisiones y los IDs. La skill lo propone automáticamente con modelos locales o pequeños y en proyectos largos.",
+    "q12": "¿Qué es start-from-here?",
+    "a12": "Un Agent Skill abierto con licencia MIT que te entrevista con valores recomendados, recomienda un stack, obtiene tu aprobación breve y luego genera un conjunto completo de documentos previos al desarrollo antes de escribir cualquier código.",
+    "q13": "¿Qué documentos genera?",
+    "a13": "PRD, flujo de la app, sistema de diseño, TRD, arquitectura con ADR, base de datos y ERD, API, modelo de amenazas de seguridad, pruebas, operaciones, plan de implementación, estilo de código, flujo de git, AGENTS.md, borradores legales (términos de servicio, privacidad, cookies, cumplimiento y, según el caso, MSA, DPA y BAA) y archivos de código abierto."
   },
   "links": {
     "title": "Recursos",

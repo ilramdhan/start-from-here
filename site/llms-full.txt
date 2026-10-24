@@ -1,0 +1,55 @@
+# start-from-here
+
+> A free, MIT-licensed, open Agent Skill (agentskills.io open standard) that makes AI coding agents plan before they build.
+
+## What it is
+
+start-from-here is an Agent Skill for AI coding agents such as Claude Code, Codex, Gemini CLI, GitHub Copilot and Cursor, and for chat apps. It interviews the user, recommends a stack, gets brief approval, and then generates a complete set of pre-development documents before any code is written. It never writes application code, never invents facts or compliance claims, never writes secrets, and never overwrites existing files.
+
+## Why
+
+Starting to code with an AI agent and no plan ("vibe coding") tends to produce inconsistent architecture, missing security and legal groundwork, and rework. Approved documents give the agent a shared, checkable source of truth first. Tagline: Stop vibe coding. Start from here.
+
+## How it works
+
+1. Interview: questions come with recommended defaults. The user can say "use your recommendations" for a whole round, or "skip to generation" to fill gaps with labeled assumptions.
+2. Stack recommendation: the skill recommends a technology stack and asks for brief approval.
+3. Generation: after approval it writes the document set below.
+4. Resume: progress is saved to docs/.start-from-here/STATE.md after every step; say "resume" in any tool to continue.
+
+Unknowns are written as [TBD: question - owner], ideas as PROPOSAL, guesses as ASSUMPTION. Legal documents are drafts marked "not legal advice".
+
+## Generated documents
+
+PRD, app flow, design system, TRD, architecture with ADRs, database and ERD, API, security threat model, testing, operations, implementation plan, code style, git workflow, AGENTS.md, legal (terms of service, privacy, cookies, compliance, and conditional MSA, DPA and BAA drafts), and open-source files.
+
+## Tiers and modes
+
+- Tiers: Lite, Standard, Enterprise (how much documentation is generated).
+- Modes: beginner, intermediate, expert (how much explanation is given).
+- Existing-project (brownfield) mode: inspects manifests, CI and existing docs first, records current facts as "as-is" and plans as "to-be", and proposes section-level merges instead of overwriting.
+- Session mode: for small context windows or local models; splits work into short packages connected by a handover file.
+
+## Install
+
+- Terminal agents: `npx skills add ilramdhan/start-from-here`
+- Zero-dependency installer (Node.js >= 18): `npx start-from-here@latest install`
+- Claude Code, Codex, Gemini CLI: plugin or extension for auto-updates
+- Chat apps: upload the zip or paste the prompt file from the GitHub release
+
+Then tell your agent: "Use the start-from-here skill to plan my new app."
+
+## Cost and license
+
+Free and open source under the MIT license. You only pay for the AI tool you already use. The skill is local files with no network calls of its own.
+
+## Links
+
+- Website: https://ilramdhan.github.io/start-from-here/
+- Repository: https://github.com/ilramdhan/start-from-here
+- npm: https://www.npmjs.com/package/start-from-here
+- README: https://github.com/ilramdhan/start-from-here/blob/main/README.md
+- User manual: https://github.com/ilramdhan/start-from-here/blob/main/docs/USAGE.md
+- Platform guides: https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md
+- SKILL.md: https://github.com/ilramdhan/start-from-here/blob/main/skills/start-from-here/SKILL.md
+- Author: ilramdhan (https://github.com/ilramdhan)

@@ -21,11 +21,139 @@
   <meta property="og:title" content="start-from-here — plan first, then build">
   <meta property="og:description" data-i18n-attr="content:meta.description" content="An open Agent Skill that interviews you and writes approved project docs before your AI agent writes any code.">
   <meta property="og:url" content="https://ilramdhan.github.io/start-from-here/">
-  <meta property="og:image" content="https://ilramdhan.github.io/start-from-here/assets/og.svg">
+  <meta property="og:image" content="https://ilramdhan.github.io/start-from-here/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="start-from-here: Stop vibe coding. Start from here.">
   <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="pt_BR">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="start-from-here — plan first, then build">
+  <meta name="twitter:description" data-i18n-attr="content:meta.description" content="An open Agent Skill that interviews you and writes approved project docs before your AI agent writes any code.">
+  <meta name="twitter:image" content="https://ilramdhan.github.io/start-from-here/assets/og.png">
+  <meta name="twitter:image:alt" content="start-from-here: Stop vibe coding. Start from here.">
+  <meta name="author" content="ilramdhan">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="stylesheet" href="assets/style.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://ilramdhan.github.io/start-from-here/#website",
+      "url": "https://ilramdhan.github.io/start-from-here/",
+      "name": "start-from-here",
+      "description": "An open Agent Skill that interviews you and writes approved project docs (PRD, architecture, database, security, tests, legal, AGENTS.md) before your AI agent writes any code. Works with Claude Code, Codex, Gemini CLI, Copilot, Cursor and 30+ tools.",
+      "inLanguage": [
+        "en",
+        "id",
+        "zh-CN",
+        "es",
+        "ja",
+        "pt-BR"
+      ],
+      "publisher": {
+        "@id": "https://ilramdhan.github.io/start-from-here/#author"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://ilramdhan.github.io/start-from-here/#software",
+      "name": "start-from-here",
+      "url": "https://ilramdhan.github.io/start-from-here/",
+      "description": "An open Agent Skill that interviews you and writes approved pre-development docs (PRD, architecture, database, API, security, tests, legal, AGENTS.md) before your AI coding agent writes any code.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "softwareRequirements": "Node.js >= 18 (for the CLI installer)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "license": "https://opensource.org/licenses/MIT",
+      "codeRepository": "https://github.com/ilramdhan/start-from-here",
+      "sameAs": [
+        "https://github.com/ilramdhan/start-from-here",
+        "https://www.npmjs.com/package/start-from-here"
+      ],
+      "image": "https://ilramdhan.github.io/start-from-here/assets/og.png",
+      "author": {
+        "@id": "https://ilramdhan.github.io/start-from-here/#author"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://ilramdhan.github.io/start-from-here/#author",
+      "name": "ilramdhan",
+      "url": "https://github.com/ilramdhan"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://ilramdhan.github.io/start-from-here/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is start-from-here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An open, MIT-licensed Agent Skill that interviews you with recommended defaults, recommends a stack, gets your brief approval, and then generates a complete set of pre-development documents before any code is written."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What documents does it generate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PRD, app flow, design system, TRD, architecture with ADRs, database and ERD, API, security threat model, testing, operations, implementation plan, code style, git workflow, AGENTS.md, legal drafts (terms of service, privacy, cookies, compliance, and conditional MSA, DPA and BAA) and open-source files."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it write any code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It writes planning documents only. Small illustrative snippets inside docs (a config key name, a command already verified in your repo) are allowed, but no application code, packages, migrations or deployments."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. It is open source under the MIT license. You only pay for the AI tool you already use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which install method should I pick?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Terminal agent with Node 22.20+: npx skills add. Older Node: npx start-from-here install. Claude Code, Codex or Gemini CLI with auto-updates: the plugin or extension. Chat apps: upload the zip, or paste the prompt file."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which AI model do I need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Any capable model. The skill is model-agnostic plain Markdown that follows the open Agent Skills standard, and it also ships as a single pasteable prompt for chat-only tools and local models."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
   <script>
     // Apply the saved theme before first paint to avoid a flash.
     try { var t = localStorage.getItem('sfh-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
@@ -637,17 +765,19 @@ criterion will be verified. Do not write code until I approve the plan.</code></
     <section id="faq" class="section" aria-labelledby="faq-title">
       <div class="wrap narrow">
         <h2 id="faq-title" data-i18n="faq.title">Frequently asked questions</h2>
-        <details><summary data-i18n="faq.q1">Does it write any code?</summary><p data-i18n="faq.a1">No.</p></details>
-        <details><summary data-i18n="faq.q2">Which AI model do I need?</summary><p data-i18n="faq.a2">Any capable model.</p></details>
+        <details><summary data-i18n="faq.q1">Does it write any code?</summary><p data-i18n="faq.a1">No. It writes planning documents only. Small illustrative snippets inside docs (a config key name, a command already verified in your repo) are allowed, but no application code, packages, migrations or deployments.</p></details>
+        <details><summary data-i18n="faq.q2">Which AI model do I need?</summary><p data-i18n="faq.a2">Any capable model. The skill is model-agnostic plain Markdown that follows the open Agent Skills standard, and it also ships as a single pasteable prompt for chat-only tools and local models.</p></details>
         <details><summary data-i18n="faq.q3">Can I use it on an existing project?</summary><p data-i18n="faq.a3">Yes.</p></details>
         <details><summary data-i18n="faq.q4">Will it invent facts or claim compliance?</summary><p data-i18n="faq.a4">No.</p></details>
         <details><summary data-i18n="faq.q5">Do I have to answer every question?</summary><p data-i18n="faq.a5">No.</p></details>
         <details><summary data-i18n="faq.q6">What if my session ends halfway?</summary><p data-i18n="faq.a6">Say “resume”.</p></details>
         <details><summary data-i18n="faq.q7">Is my data sent anywhere?</summary><p data-i18n="faq.a7">The skill makes no network calls of its own.</p></details>
-        <details><summary data-i18n="faq.q8">Which install method should I pick?</summary><p data-i18n="faq.a8">See the install section.</p></details>
+        <details><summary data-i18n="faq.q8">Which install method should I pick?</summary><p data-i18n="faq.a8">Terminal agent with Node 22.20+: npx skills add. Older Node: npx start-from-here install. Claude Code, Codex or Gemini CLI with auto-updates: the plugin or extension. Chat apps: upload the zip, or paste the prompt file.</p></details>
         <details><summary data-i18n="faq.q9">How do I update it?</summary><p data-i18n="faq.a9">Re-run your install command.</p></details>
-        <details><summary data-i18n="faq.q10">Is it free?</summary><p data-i18n="faq.a10">Yes, MIT licensed.</p></details>
+        <details><summary data-i18n="faq.q10">Is it free?</summary><p data-i18n="faq.a10">Yes. It is open source under the MIT license. You only pay for the AI tool you already use.</p></details>
         <details><summary data-i18n="faq.q11">My AI has a small context window. Will it work?</summary><p data-i18n="faq.a11">Yes — use session mode.</p></details>
+        <details><summary data-i18n="faq.q12">What is start-from-here?</summary><p data-i18n="faq.a12">An open, MIT-licensed Agent Skill that interviews you with recommended defaults, recommends a stack, gets your brief approval, and then generates a complete set of pre-development documents before any code is written.</p></details>
+        <details><summary data-i18n="faq.q13">What documents does it generate?</summary><p data-i18n="faq.a13">PRD, app flow, design system, TRD, architecture with ADRs, database and ERD, API, security threat model, testing, operations, implementation plan, code style, git workflow, AGENTS.md, legal drafts (terms of service, privacy, cookies, compliance, and conditional MSA, DPA and BAA) and open-source files.</p></details>
       </div>
     </section>
 

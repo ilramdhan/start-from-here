@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ilramdhan.github.io/start-from-here/sitemap.xml

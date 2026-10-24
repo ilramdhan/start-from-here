@@ -296,7 +296,11 @@
     "q10": "Apakah gratis?",
     "a10": "Ya. Ini open source dengan lisensi MIT. Anda hanya membayar AI tool yang sudah Anda gunakan.",
     "q11": "AI saya punya context window kecil (LLM lokal, model kecil). Apakah tetap bisa?",
-    "a11": "Bisa — gunakan session mode. Ketik “session mode” dan pekerjaan dibagi menjadi paket kerja pendek, satu per sesi baru, yang disambungkan oleh file handover (docs/.start-from-here/HANDOVER.md) agar keputusan dan ID tetap konsisten. Skill ini menawarkannya otomatis untuk model lokal atau kecil dan proyek besar."
+    "a11": "Bisa — gunakan session mode. Ketik “session mode” dan pekerjaan dibagi menjadi paket kerja pendek, satu per sesi baru, yang disambungkan oleh file handover (docs/.start-from-here/HANDOVER.md) agar keputusan dan ID tetap konsisten. Skill ini menawarkannya otomatis untuk model lokal atau kecil dan proyek besar.",
+    "q12": "Apa itu start-from-here?",
+    "a12": "Agent Skill open source berlisensi MIT yang mewawancarai Anda dengan default yang direkomendasikan, merekomendasikan stack, meminta persetujuan singkat, lalu menghasilkan set lengkap dokumen pra-pengembangan sebelum kode apa pun ditulis.",
+    "q13": "Dokumen apa saja yang dihasilkan?",
+    "a13": "PRD, alur aplikasi, design system, TRD, arsitektur dengan ADR, database dan ERD, API, model ancaman keamanan, pengujian, operasi, rencana implementasi, gaya kode, alur kerja git, AGENTS.md, draf legal (ketentuan layanan, privasi, cookie, kepatuhan, serta MSA, DPA, dan BAA bersyarat) dan berkas open source."
   },
   "links": {
     "title": "Sumber daya",
