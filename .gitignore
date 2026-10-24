@@ -1,0 +1,19 @@
+# build output (published to npm via "files", built in prepublishOnly)
+dist/
+
+node_modules/
+*.tgz
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+coverage/
+.env
+.env.*
+
+# local working material (not published)
+.research/
+reff-docs/
+/CLAUDE.md
+/HANDOVER.md
