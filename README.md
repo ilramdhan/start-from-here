@@ -17,6 +17,7 @@
 [![npm provenance](https://img.shields.io/badge/npm-provenance-blue.svg)](https://www.npmjs.com/package/start-from-here#provenance)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/ilramdhan/start-from-here/badge)](https://scorecard.dev/viewer/?uri=github.com/ilramdhan/start-from-here)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15868/badge)](https://www.bestpractices.dev/projects/15868)
 [![Website](https://img.shields.io/badge/website-guide-8d9bff.svg)](https://ilramdhan.github.io/start-from-here/)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-open%20standard-black.svg)](https://agentskills.io/specification)
 
