@@ -1,0 +1,14 @@
+Use the start-from-here skill. Non-interactive test: the brief below contains the user's answers to all discovery rounds; at every STOP gate assume the user replied 'approved — continue'; tier = Lite; filesystem mode; produce all docs for the tier. Write every document to its canonical path in the current directory. Do not write application code.
+
+USER ANSWERS (all rounds):
+- Language: English for conversation and docs. Experience: (a) new to this.
+- Idea: "Streak" — an offline habit tracker mobile app for people who want to build daily habits without signing up for anything.
+- Size signals: solo developer, MVP to publish on the App Store and Google Play. No accounts, no server. Data stays on the device (local storage). No payments in MVP (free). Not open source (proprietary).
+- Vision: simple daily habit check-ins with streaks and reminders; success = 1,000 installs and 30-day retention ≥ 20%.
+- Users: one persona — individual adult who wants to build habits; non-technical.
+- Must: create/edit/archive habits (name, icon, color, schedule days), daily check-in, streak count, local reminder notifications, history calendar view, local backup export/import (JSON file). Should: dark mode, widgets. Won't: accounts, cloud sync, social features, ads, analytics SDKs.
+- Data: habits and check-ins stored locally only; user can delete all data; no personal data leaves the device; no tracking.
+- NFR: app opens < 1 s on mid-range phones; works fully offline; WCAG 2.2 AA-equivalent mobile accessibility; English only.
+- Stack: undecided — recommend one (beginner, wants one codebase for both stores, minimal cost).
+- Ops/legal: App Store + Play Store distribution needs a privacy policy URL and data-safety declarations; support via email; proprietary license.
+- Accept your Recommended options for everything else.

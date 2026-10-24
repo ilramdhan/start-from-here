@@ -1,0 +1,111 @@
+{
+  "projectDir": "/private/tmp/sfh-models/s1-sonnet",
+  "tier": "Standard",
+  "filesScanned": 45,
+  "summary": {
+    "errors": 0,
+    "warnings": 9,
+    "tbd": 327
+  },
+  "tbdByFile": {
+    "docs/DISCOVERY.md": 4,
+    "docs/README.md": 1,
+    "docs/decisions/0001-record-architecture-decisions.md": 1,
+    "docs/decisions/0002-modular-monolith-typescript-nextjs.md": 1,
+    "docs/decisions/0003-postgresql-shared-schema-rls-tenancy.md": 1,
+    "docs/decisions/0004-managed-aws-hosting-single-region.md": 3,
+    "docs/decisions/0005-in-app-authentication.md": 1,
+    "docs/decisions/0006-stripe-hosted-billing-webhook-inbox.md": 1,
+    "docs/decisions/0007-object-storage-presigned-uploads.md": 1,
+    "docs/decisions/0008-postgres-backed-job-queue.md": 1,
+    "docs/decisions/README.md": 1,
+    "docs/engineering/AI_GUIDELINES.md": 9,
+    "docs/engineering/CODE_STYLE.md": 5,
+    "docs/engineering/GIT_WORKFLOW.md": 3,
+    "docs/legal/COMPLIANCE.md": 40,
+    "docs/legal/PRIVACY_POLICY.md": 49,
+    "docs/legal/TERMS_OF_SERVICE.md": 29,
+    "docs/product/DESIGN_SYSTEM.md": 7,
+    "docs/product/PRD.md": 14,
+    "docs/technical/API.md": 8,
+    "docs/technical/ARCHITECTURE.md": 10,
+    "docs/technical/DATABASE.md": 19,
+    "docs/technical/IMPLEMENTATION_PLAN.md": 2,
+    "docs/technical/OPERATIONS.md": 42,
+    "docs/technical/SECURITY_ARCHITECTURE.md": 28,
+    "docs/technical/TESTING.md": 6,
+    "docs/technical/TRD.md": 13,
+    "ACCESSIBILITY.md": 7,
+    "AGENTS.md": 2,
+    "CONTRIBUTING.md": 3,
+    "LICENSE": 4,
+    "README.md": 1,
+    "SECURITY.md": 4,
+    "SUPPORT.md": 6
+  },
+  "findings": [
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/AI_GUIDELINES.md",
+      "line": null,
+      "message": "Template section \"## agent audit and metrics (enterprise optional)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## git (lite)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## ai feature evaluations (if ai)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "CHANGELOG.md",
+      "line": null,
+      "message": "Template section \"## [1.1.0] - 2026-11-02\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "CONTRIBUTING.md",
+      "line": null,
+      "message": "Template section \"## definition of done (this document)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "README.md",
+      "line": null,
+      "message": "Template section \"## screenshots / demo\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "README.md",
+      "line": null,
+      "message": "Template section \"## acknowledgments\" missing — keep it, filled or \"N/A — reason\""
+    }
+  ]
+}

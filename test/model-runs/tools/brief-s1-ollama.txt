@@ -1,0 +1,19 @@
+Use the start-from-here skill. Non-interactive test: the brief below contains the user's answers to all discovery rounds; at every STOP gate assume the user replied 'approved — continue'; tier = Standard; CHAT-ONLY mode (you cannot write files). Deliver each document as a heading `### path/to/FILE` followed by one fenced markdown block (use a 4-backtick fence ```` so inner ```mermaid blocks survive) with the full content. Because of context limits, produce ONLY these docs, one or two per message, in this order: docs/.start-from-here/STATE.md + docs/DISCOVERY.md (this message), then docs/product/PRD.md, then docs/technical/ARCHITECTURE.md, then docs/technical/DATABASE.md. After each message say "Reply `next`". Do not write application code.
+
+USER ANSWERS (all rounds):
+- Language: English for conversation and docs. Experience: (b) intermediate, built a few things.
+- Idea: TaskFlow — a team task-management SaaS (web app) for small and mid-size teams that are tired of juggling spreadsheets and chat threads to track work.
+- Size signals: small team of 4 (2 full-stack devs, 1 designer, 1 PM/founder). MVP/product, startup. Personal data yes (names, emails, uploaded files); card payments via Stripe (hosted Checkout/Billing — we never touch card numbers). No health or children's data. Proprietary, not open source.
+- Vision: replace spreadsheets + chat for team work tracking. Success metric: 100 paying orgs within 6 months of launch; weekly active users/seat ≥ 60%. Why now: founders' previous team pain. Name: TaskFlow.
+- Users/personas: org owner (buyer, sets up billing), org admin (manages members, workspaces), member (does the work). Guests are out of scope for MVP. Expected: up to 2,000 orgs, ~20,000 users in year one.
+- Model: organization (tenant) → workspaces → projects → tasks. Tasks have title, description, status (todo/in progress/done), assignee, due date, priority, labels. Comments on tasks with @mentions. File attachments on tasks (max 25 MB each). In-app + email notifications (assigned, mentioned, due soon). Roles: owner/admin/member per organization; workspace membership controls access to its projects.
+- Billing: Stripe subscriptions per seat, monthly/annual, 14-day free trial, owner manages billing via Stripe Customer Portal; webhooks update subscription state.
+- MVP Must: sign-up/sign-in (email+password and Google OAuth), org + invite members, workspaces, projects, tasks CRUD, comments + mentions, attachments, notifications, billing. Should: activity log per task, search. Could: task templates. Won't (MVP): mobile native apps, Gantt charts, time tracking, public API, SSO/SAML, guests.
+- Data: data belongs to the organization; export org data as JSON/CSV; deleting an org purges data after 30 days; deleted users anonymized in comments. Retain audit log 1 year.
+- NFR: p95 API latency < 300 ms at 100 req/s; 99.9% monthly availability; desktop browsers + responsive; WCAG 2.2 AA; English only at launch, i18n-ready.
+- Platform & stack: undecided — please recommend (team knows TypeScript well, some Python). Prefer managed hosting, budget ~USD 500/month infra at launch.
+- Security: email+password + Google OAuth; MFA optional (TOTP) for owners/admins; EU and US users (GDPR, CCPA); data residency: single region acceptable for MVP but EU customers asked about it.
+- Ops: environments dev/staging/prod; CI on GitHub Actions; deploy on merge to main to staging, manual promote to prod; daily backups, 30-day retention; support via email; founders on call business hours.
+- Team/legal: proprietary license; GitHub org "taskflow-hq", repo "taskflow", default branch main; code owners @taskflow-hq/core.
+- Constraints: launch MVP in 4 months; risks: Stripe webhooks reliability, file storage costs, tenant data leakage.
+- Stack decision: accept your Recommended option. AI tools used by the team: Claude Code and GitHub Copilot.

@@ -1,0 +1,1553 @@
+{
+  "projectDir": "/private/tmp/sfh-models/s1-gptoss/out",
+  "tier": "Standard",
+  "filesScanned": 15,
+  "summary": {
+    "errors": 22,
+    "warnings": 198,
+    "tbd": 0
+  },
+  "tbdByFile": {},
+  "findings": [
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "AGENTS.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "README.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "LICENSE",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "docs/technical/IMPLEMENTATION_PLAN.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "docs/engineering/AI_GUIDELINES.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "docs/decisions/0001-record-architecture-decisions.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "CHANGELOG.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "CONTRIBUTING.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "SECURITY.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": ".github/CODEOWNERS",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": ".github/PULL_REQUEST_TEMPLATE.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": ".github/ISSUE_TEMPLATE/feature_request.yml",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": ".github/ISSUE_TEMPLATE/config.yml",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "docs/legal/TERMS_OF_SERVICE.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "docs/legal/PRIVACY_POLICY.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "docs/legal/COMPLIANCE.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "docs/legal/COOKIE_POLICY.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "CODE_OF_CONDUCT.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "SUPPORT.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": "ACCESSIBILITY.md",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "error",
+      "check": "presence",
+      "file": ".github/dependabot.yml",
+      "line": null,
+      "message": "Expected for Standard tier but missing"
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## calibration\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## brief (one screen)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## answers by domain\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## existing assets (brownfield only)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## assumptions\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## decisions log\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## signals for compliance & risk\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## tier rationale\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## approval of the brief\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## seed register for downstream docs\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## change log\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/DISCOVERY.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## purpose\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## how to read these docs\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## document status\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## conventions used in these docs\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## open questions (roll-up)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## change process\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## traceability at a glance\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## delivery phases\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/README.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/decisions/README.md",
+      "line": null,
+      "message": "Template section \"## index\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/decisions/README.md",
+      "line": null,
+      "message": "Template section \"## when to write an adr\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/decisions/README.md",
+      "line": null,
+      "message": "Template section \"## how to write an adr\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/decisions/README.md",
+      "line": null,
+      "message": "Template section \"## statuses\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/decisions/README.md",
+      "line": null,
+      "message": "Template section \"## definition of done (this document)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## languages and versions\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## formatting and linting\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## types and data contracts\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## project structure and boundaries\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## coding rules\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## error handling\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## logging and observability\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## comments and documentation\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## dependencies\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## performance, accessibility, and internationalization\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## review checklist\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## verified commands\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## git (lite)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## testing conventions\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": null,
+      "message": "Template section \"## definition of done (this document)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "header",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Status header lacks \"Tier\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## branching model\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## commit messages — conventional commits 1.0.0\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## pull requests\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## codeowners\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## required checks\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## merge strategy\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## protected branches\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## signed commits\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## versioning — semantic versioning 2.0.0\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## releases and tagging\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## changelog\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## hotfixes\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## things never to do\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/engineering/GIT_WORKFLOW.md",
+      "line": null,
+      "message": "Template section \"## definition of done (this document)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## interface type and entry points\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## inventory\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## flows\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## action specifications\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## navigation and invocation rules\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## system states\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## first-use and onboarding\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## notifications and async outcomes\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## open questions\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## traceability (flow slice)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## per-screen state matrix\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## entity lifecycle in the ui\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## flow dos and don'ts\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/APP_FLOW.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## design direction\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## design tokens\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## components\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## iconography & imagery\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## motion\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## content and voice\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## accessibility (target: wcag 2.2 level aa)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## internationalization & localization\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## screen notes\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## implementation mapping\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## message and pattern library\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## design dos and don'ts\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/DESIGN_SYSTEM.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## overview\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## goals and non-goals\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## stakeholders\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## personas\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## jobs to be done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## user journeys and stories\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## features\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## non-functional requirements (summary)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## scope\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## release plan\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## risks\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## assumptions and dependencies\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## constraints\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## open questions\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## glossary\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## approval\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## traceability\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## product dos and don'ts\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## change log\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "diagrams",
+      "file": "docs/product/PRD.md",
+      "line": null,
+      "message": "No Mermaid diagram found — key docs need at least one (plus ASCII fallback for main workflows)"
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## purpose and drivers\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## architectural style\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## system views (c4)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## stack decisions\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## boundaries and responsibilities\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## request and data flow\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## interfaces\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## cross-cutting concerns\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## project structure\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## scalability and resilience\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## deployment view\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## decisions, risks, and technical debt\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## unknowns\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## lite merged sections\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## quality attribute tactics\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## completeness self-check\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## storage model\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## data classification\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## entities\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## entity relationship diagram\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## schema\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## relationships and delete behavior\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## multi-tenancy and isolation\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## access rules\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## indexes and key queries\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## migrations\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## seed and fixture data\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## retention, archival, deletion, and personal data\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## backups and restore\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## data validation\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## feature-to-entity coverage\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## scalability and growth\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## denormalizations and derived data\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## completeness self-check\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/DATABASE.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## configuration and secrets\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## ci/cd pipeline\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## deployment strategy and rollback\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## infrastructure as code\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## observability\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## slis, slos, and error budget\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## alerting and on-call\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## backup and disaster recovery\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## capacity and scaling\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## cost management (finops)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## dependencies and vendor status\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## maintenance\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## runbooks index\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## release checklist\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## assets\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## trust boundaries\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## authentication\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## authorization\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## tenant and data isolation\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## input and output handling\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## standards mapping\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## supply chain security\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## privacy engineering\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## logging, audit, and redaction\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## incident response\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## residual risk register\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## security testing plan\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "diagrams",
+      "file": "docs/technical/SECURITY_ARCHITECTURE.md",
+      "line": null,
+      "message": "No Mermaid diagram found — key docs need at least one (plus ASCII fallback for main workflows)"
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## goals and scope\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## strategy and layers\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## acceptance test matrix\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## non-functional tests\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## test data and fixtures\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## environments\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## coverage policy\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## ci quality gates\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## verified commands\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## release criteria\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## results log\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## traceability summary\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## contract and migration tests\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## resilience, chaos, and dr tests\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## flaky test policy\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## ai feature evaluations (if ai)\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TESTING.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## technical context\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## functional → technical mapping\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## non-functional requirements\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## constraints\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## external integrations\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## data requirements\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## technical risks and decisions needed\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## traceability\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## capacity estimate\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## completeness self-check\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "docs/technical/TRD.md",
+      "line": null,
+      "message": "Template section \"## definition of done\" missing — keep it, filled or \"N/A — reason\""
+    }
+  ]
+}

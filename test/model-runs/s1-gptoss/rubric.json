@@ -1,0 +1,203 @@
+{
+  "root": "/private/tmp/sfh-models/s1-gptoss/out",
+  "tier": "Standard",
+  "partial": false,
+  "files": 15,
+  "mermaidBlocks": 8,
+  "mermaidSuspicious": [
+    "docs/technical/ARCHITECTURE.md: unquoted parens in node label"
+  ],
+  "scores": {
+    "completeness": 32,
+    "compliance": 75,
+    "mermaid": 0
+  },
+  "checks": [
+    {
+      "area": "prd",
+      "id": "features",
+      "pass": true,
+      "detail": "10 Must F-ids (10 total)"
+    },
+    {
+      "area": "prd",
+      "id": "ac_per_feature",
+      "pass": false,
+      "detail": "0/10 features have AC; 0 AC"
+    },
+    {
+      "area": "prd",
+      "id": "negative_ac",
+      "pass": false,
+      "detail": "0/0 features with negative AC"
+    },
+    {
+      "area": "prd",
+      "id": "gwt_format",
+      "pass": false,
+      "detail": ""
+    },
+    {
+      "area": "db",
+      "id": "erDiagram_with_attrs",
+      "pass": false,
+      "detail": "0 entities with attribute blocks"
+    },
+    {
+      "area": "db",
+      "id": "expected_entities",
+      "pass": true,
+      "detail": "missing: invit"
+    },
+    {
+      "area": "db",
+      "id": "fk_indexed",
+      "pass": false,
+      "detail": "0 FK in ERD, 1 index rows"
+    },
+    {
+      "area": "db",
+      "id": "column_tables",
+      "pass": false,
+      "detail": "0 column tables"
+    },
+    {
+      "area": "db",
+      "id": "tenant_retention_pii",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "arch",
+      "id": "c4_context_container",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "arch",
+      "id": "sequence_diagrams",
+      "pass": false,
+      "detail": "0 sequence diagrams"
+    },
+    {
+      "area": "arch",
+      "id": "deployment_view",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "sec",
+      "id": "stride_all6",
+      "pass": true,
+      "detail": "all 6"
+    },
+    {
+      "area": "sec",
+      "id": "trust_boundaries",
+      "pass": false,
+      "detail": "0 TB ids"
+    },
+    {
+      "area": "sec",
+      "id": "authz_matrix",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "plan",
+      "id": "phases_M0_M7",
+      "pass": false,
+      "detail": "milestones: "
+    },
+    {
+      "area": "plan",
+      "id": "entry_exit_gates",
+      "pass": false,
+      "detail": ""
+    },
+    {
+      "area": "trace",
+      "id": "F_in_plan",
+      "pass": false,
+      "detail": "missing F-01,F-07,F-02,F-03,F-04,F-05,F-06,F-08,F-09,F-10"
+    },
+    {
+      "area": "trace",
+      "id": "AC_in_tests",
+      "pass": false,
+      "detail": "0/0 AC mapped"
+    },
+    {
+      "area": "plan",
+      "id": "gantt_or_flow_plus_ascii",
+      "pass": false,
+      "detail": ""
+    },
+    {
+      "area": "ai",
+      "id": "dos_donts",
+      "pass": false,
+      "detail": ""
+    },
+    {
+      "area": "ai",
+      "id": "agents_md_links",
+      "pass": false,
+      "detail": "0 doc links"
+    },
+    {
+      "area": "compliance",
+      "id": "no_app_code_files",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "no_unverified_versions",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "legal_disclaimer",
+      "pass": false,
+      "detail": "0 legal docs, disclaimer all"
+    },
+    {
+      "area": "compliance",
+      "id": "no_compliance_claim",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "state_md",
+      "pass": true,
+      "detail": "present"
+    },
+    {
+      "area": "compliance",
+      "id": "status_headers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "assumption_labels",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "mermaid",
+      "id": "blocks_sane",
+      "pass": false,
+      "detail": "8 blocks, 1 suspicious"
+    },
+    {
+      "area": "compliance",
+      "id": "ascii_hyphen_ids",
+      "pass": false,
+      "detail": "164 IDs written with non-ASCII hyphens (breaks grep/traceability)"
+    }
+  ]
+}
