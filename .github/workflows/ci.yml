@@ -33,7 +33,7 @@ jobs:
           node-version: ${{ matrix.node }}
           package-manager-cache: false # zero dependencies, nothing to cache
       - name: Validate skill
-        run: npm run validate
+        run: npm run validate -- --strict
       - name: Test
         run: npm test
       - name: Build bundle

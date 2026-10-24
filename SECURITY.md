@@ -21,6 +21,8 @@ What to expect:
 
 - An acknowledgement within **5 business days**.
 - An initial assessment and planned fix timeline within **14 days**.
+- Publicly known vulnerabilities of medium or higher severity that are in scope are fixed as quickly as practical, with a target of 60 days or less. Critical ones are prioritised.
+- Release notes (GitHub Releases and `CHANGELOG.md`) list fixed publicly known vulnerabilities with their advisory identifier when one exists.
 - Coordinated disclosure. We publish a GitHub Security Advisory and a fixed release, and credit you unless you prefer to stay anonymous.
 
 Please give us a reasonable amount of time to fix the issue before you disclose it publicly. Don't access other people's data, degrade services, or run social engineering against maintainers or users.
