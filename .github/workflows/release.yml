@@ -94,12 +94,17 @@ jobs:
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
 
-      # Trusted publishing needs npm >= 11.5.1 (and Node >= 22.14.0).
-      - name: Ensure npm >= 11.5.1
+      # Trusted publishing needs npm >= 11.5.1 (and Node >= 22.14.0). Node 24 bundles a
+      # newer npm, so verify instead of installing an unpinned version.
+      - name: Check npm >= 11.5.1
         run: |
-          npm install -g npm@^11.5.1
           node --version
           npm --version
+          node -e '
+            const [a, b, c] = process.argv[1].split(".").map(Number);
+            const ok = a > 11 || (a === 11 && (b > 5 || (b === 5 && c >= 1)));
+            if (!ok) { console.error("npm " + process.argv[1] + " is too old for trusted publishing (need >= 11.5.1)"); process.exit(1); }
+          ' "$(npm --version)"
 
       - name: Check tag matches package.json and manifests
         run: |
