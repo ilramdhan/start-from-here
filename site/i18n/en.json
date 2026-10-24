@@ -130,6 +130,9 @@
     "privacy": "Privacy policy, if you process any personal data.",
     "cookie": "Cookie policy, if a website uses tracking.",
     "compliance": "Regulatory register: regimes, controls and owners.",
+    "msa": "Master services agreement skeleton, if you sell to businesses.",
+    "dpa": "Data processing agreement skeleton (GDPR Art. 28), if you process customers' personal data.",
+    "baa": "HIPAA business associate agreement skeleton, if you handle health data for covered entities.",
     "oss_files": "README, CHANGELOG, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT, ACCESSIBILITY, CODEOWNERS, PR and issue templates.",
     "threat_note": "The threat model lives in docs/technical/SECURITY_ARCHITECTURE.md. Root SECURITY.md is reserved for GitHub's vulnerability-disclosure policy."
   },

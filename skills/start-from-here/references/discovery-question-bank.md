@@ -12,7 +12,7 @@ The heart of the interview. Use it in Phase 2. Do NOT ask every question. Select
 - **Tiers:** `L` Lite, `S` Standard, `E` Enterprise. Ask a question only if the current tier is listed.
 - **Default:** offer it as "Recommended: …" (beginner/intermediate) or "Default: …" (expert). If the user accepts a default without thinking about it, record it as `> **ASSUMPTION:**` in DISCOVERY.md.
 - `[ASK]` in a default means there is no safe default — the user MUST answer or it becomes `[TBD]`.
-- **Feeds** uses short names: DISC (DISCOVERY), PRD, FLOW (APP_FLOW), DS (DESIGN_SYSTEM), TRD, ARCH (ARCHITECTURE), ADR, DB (DATABASE), API, SEC (SECURITY_ARCHITECTURE), TEST (TESTING), OPS (OPERATIONS), STYLE (CODE_STYLE), GIT (GIT_WORKFLOW), AIG (AI_GUIDELINES), PLAN (IMPLEMENTATION_PLAN), TOS, PRIV, COOKIE, COMP (COMPLIANCE), README, LIC (LICENSE), CONTRIB, COC, VULN (root SECURITY.md), SUPPORT, A11Y (ACCESSIBILITY.md), GH (.github/*), AGENTS.
+- **Feeds** uses short names: DISC (DISCOVERY), PRD, FLOW (APP_FLOW), DS (DESIGN_SYSTEM), TRD, ARCH (ARCHITECTURE), ADR, DB (DATABASE), API, SEC (SECURITY_ARCHITECTURE), TEST (TESTING), OPS (OPERATIONS), STYLE (CODE_STYLE), GIT (GIT_WORKFLOW), AIG (AI_GUIDELINES), PLAN (IMPLEMENTATION_PLAN), TOS, PRIV, COOKIE, COMP (COMPLIANCE), MSA, DPA, BAA, README, LIC (LICENSE), CONTRIB, COC, VULN (root SECURITY.md), SUPPORT, A11Y (ACCESSIBILITY.md), GH (.github/*), AGENTS.
 
 ## Phrasing rules
 
@@ -81,6 +81,7 @@ Evaluate these flags after Round 0 and after each round. Record flags in STATE.m
 | Solo developer | Skip TEA-02..06; GIT_WORKFLOW minimal; CODEOWNERS single owner |
 | Internal tool only | Skip BIZ-*, reduce LEG-*, TOS skipped |
 | Regulated data (health, payment, children, finance, education) | Force PRV-*, CMP-*, IDN-* fully; propose Enterprise |
+| Consumer-only product (B2C, no business customers) | Skip CMP-06/07 after confirming; MSA and DPA skipped (CMP-08 still asked if health data) |
 | Library / SDK | Replace journeys with "developer usage scenarios"; ask PLT-08 (distribution), OSS-* |
 | Game | Ask DES-* as art direction; JRN-* as gameplay loop; skip BIZ-04 unless monetized |
 | Embedded / IoT | Ask PLT-09 (hardware), OPS-08 (OTA updates), IDN-09 (device identity) |
@@ -418,6 +419,15 @@ Evaluate these flags after Round 0 and after each round. Record flags in STATE.m
 
 **CMP-05** [S E] Does it use encryption beyond standard HTTPS or ship to sanctioned regions?
 - Why: export control · Default: "standard TLS only" · Feeds: COMP
+
+**CMP-06** [S E] Do you sell to businesses (B2B) under order forms or negotiated contracts, rather than only click-through terms?
+- Why: triggers MASTER_SERVICES_AGREEMENT (`B2B` condition) · Default: inferred from BIZ-01/BIZ-02 — confirm · Feeds: MSA, TOS, COMP
+
+**CMP-07** [S E] Will you store or process personal data on behalf of business customers (their employees, users, or clients), acting as their processor / service provider?
+- Why: GDPR Art. 28 requires a controller–processor contract; triggers DATA_PROCESSING_AGREEMENT (`processor` condition) · Default: "yes" if CMP-06 is yes and customers upload or sync personal data — confirm · Feeds: DPA, PRIV, COMP
+
+**CMP-08** [S E] (ask if CMP-01 mentions health data) Will you create, receive, store, or transmit protected health information (PHI) for HIPAA covered entities (providers, health plans, clearinghouses) or their business associates?
+- Why: 45 CFR 164.504(e) requires a business associate contract; triggers BUSINESS_ASSOCIATE_AGREEMENT (`PHI` condition) and the regulated-data override · Default: [ASK] · Feeds: BAA, COMP, SEC, OPS
 
 ---
 

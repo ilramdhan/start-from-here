@@ -130,6 +130,9 @@
     "privacy": "プライバシーポリシー。個人データを扱う場合。",
     "cookie": "Cookie ポリシー。Web サイトでトラッキングを使う場合。",
     "compliance": "規制レジスター：規制体系、管理策、責任者。",
+    "msa": "マスターサービス契約（MSA）の骨子。企業向けに販売する場合。",
+    "dpa": "データ処理契約（DPA、GDPR 第 28 条）の骨子。顧客の個人データを処理する場合。",
+    "baa": "HIPAA ビジネスアソシエイト契約（BAA）の骨子。対象事業者のために医療データを扱う場合。",
     "oss_files": "README、CHANGELOG、CONTRIBUTING、CODE_OF_CONDUCT、SECURITY、SUPPORT、ACCESSIBILITY、CODEOWNERS、PR と issue のテンプレート。",
     "threat_note": "脅威モデルは docs/technical/SECURITY_ARCHITECTURE.md にあります。ルートの SECURITY.md は GitHub の脆弱性開示ポリシー用に予約されています。"
   },

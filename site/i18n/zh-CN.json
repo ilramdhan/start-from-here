@@ -130,6 +130,9 @@
     "privacy": "隐私政策，适用于处理任何个人数据的项目。",
     "cookie": "Cookie 政策，适用于使用跟踪技术的网站。",
     "compliance": "合规登记册：监管制度、控制措施和负责人。",
+    "msa": "主服务协议（MSA）框架，适用于面向企业销售。",
+    "dpa": "数据处理协议（DPA，GDPR 第 28 条）框架，适用于代客户处理个人数据。",
+    "baa": "HIPAA 业务伙伴协议（BAA）框架，适用于为受保实体处理健康数据。",
     "oss_files": "README、CHANGELOG、CONTRIBUTING、CODE_OF_CONDUCT、SECURITY、SUPPORT、ACCESSIBILITY、CODEOWNERS、PR 和 issue 模板。",
     "threat_note": "威胁模型位于 docs/technical/SECURITY_ARCHITECTURE.md。根目录的 SECURITY.md 保留给 GitHub 的漏洞披露政策。"
   },
