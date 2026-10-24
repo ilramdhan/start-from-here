@@ -1,0 +1,17 @@
+      98 ./AGENTS.md
+      65 ./docs/.start-from-here/STATE.md
+     190 ./docs/DISCOVERY.md
+      88 ./docs/engineering/AI_GUIDELINES.md
+     134 ./docs/engineering/CODE_STYLE.md
+      80 ./docs/legal/PRIVACY_POLICY.md
+     177 ./docs/product/APP_FLOW.md
+     387 ./docs/product/PRD.md
+     100 ./docs/README.md
+     337 ./docs/technical/ARCHITECTURE.md
+     289 ./docs/technical/DATABASE.md
+     106 ./docs/technical/IMPLEMENTATION_PLAN.md
+     140 ./docs/technical/SECURITY_ARCHITECTURE.md
+     190 ./docs/technical/TESTING.md
+      15 ./LICENSE
+      74 ./README.md
+    2470 total

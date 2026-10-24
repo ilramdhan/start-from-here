@@ -1,0 +1,69 @@
+name: Platform support
+description: Request or correct support for an AI tool / agent (install paths, invocation, limits).
+title: "platform: "
+labels: ["platform", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Platform facts in this repo must be **research-backed**. Please link the vendor's **official** documentation.
+        Anything known only from third-party sources is marked `UNVERIFIED`.
+  - type: input
+    id: platform
+    attributes:
+      label: Platform / agent name
+      placeholder: "e.g. Foo CLI"
+    validations:
+      required: true
+  - type: dropdown
+    id: request-type
+    attributes:
+      label: Request type
+      options:
+        - Add a new platform
+        - Correct an existing path or invocation
+        - Verify a platform currently marked UNVERIFIED
+        - Guide improvement
+    validations:
+      required: true
+  - type: dropdown
+    id: support-level
+    attributes:
+      label: Support level the platform offers
+      options:
+        - Native Agent Skills (reads SKILL.md folders)
+        - Plugin / extension system
+        - Rules or instructions file only
+        - Chat only (prompt / knowledge upload)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: facts
+    attributes:
+      label: Facts
+      description: Project skill folder, global skill folder, invocation syntax, and limits (file count, size, description length).
+      placeholder: |
+        Project dir: .foo/skills/
+        Global dir: ~/.foo/skills/
+        Invocation: /start-from-here
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Official source URLs
+      description: One URL per fact. Pull requests without official sources will be marked UNVERIFIED.
+    validations:
+      required: true
+  - type: textarea
+    id: tested
+    attributes:
+      label: Did you test it?
+      description: Version of the tool, what you ran, and whether the skill loaded and ran.
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I'm willing to open a PR (lib/agents.mjs entry + docs/guides page).

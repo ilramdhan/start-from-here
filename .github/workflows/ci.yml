@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    name: test · ${{ matrix.os }} · node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20, 22, 24]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+          package-manager-cache: false # zero dependencies, nothing to cache
+      - name: Validate skill
+        run: npm run validate
+      - name: Test
+        run: npm test
+      - name: Build bundle
+        run: npm run build
+      - name: CLI smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          node bin/cli.mjs --version
+          node bin/cli.mjs list-agents
+          mkdir -p "$RUNNER_TEMP/proj"
+          node bin/cli.mjs install --dir "$RUNNER_TEMP/proj" --yes
+          node bin/cli.mjs doctor --dir "$RUNNER_TEMP/proj"
+          node bin/cli.mjs uninstall --dir "$RUNNER_TEMP/proj" --yes
+
+  checks:
+    name: package, manifests, links, i18n
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Build bundle
+        run: npm run build
+      - name: Check npm tarball contents
+        run: |
+          npm pack --dry-run --json > "$RUNNER_TEMP/pack.json"
+          node -e '
+            const files = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"))[0].files.map(f => f.path);
+            const must = ["bin/cli.mjs","lib/agents.mjs","skills/start-from-here/SKILL.md","dist/start-from-here.zip","dist/start-from-here.prompt.md","dist/gpt-instructions.md",".claude-plugin/plugin.json",".claude-plugin/marketplace.json",".codex-plugin/plugin.json","gemini-extension.json"];
+            const missing = must.filter(m => !files.includes(m));
+            if (missing.length) { console.error("missing from package:", missing); process.exit(1); }
+            const bad = files.filter(f => /^(\.research|test|site|reff-docs|\.github|scripts)\//.test(f));
+            if (bad.length) { console.error("unexpected files:", bad); process.exit(1); }
+            console.log(files.length + " files OK");' "$RUNNER_TEMP/pack.json"
+      - name: Plugin / extension manifests and release-please config
+        run: |
+          # shellcheck disable=SC2016 # single quotes intentionally wrap JS template literals
+          node -e '
+            const fs = require("fs");
+            const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
+            const pkg = read("package.json");
+            const fail = (m) => { console.error(m); process.exitCode = 1; };
+            for (const f of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", "gemini-extension.json"]) {
+              const j = read(f);
+              if (j.name !== "start-from-here") fail(`${f}: name`);
+              if (j.version !== pkg.version) fail(`${f}: version ${j.version} != ${pkg.version}`);
+            }
+            const m = read(".claude-plugin/marketplace.json");
+            if (!m.name || !m.owner || !Array.isArray(m.plugins) || !m.plugins.length) fail("marketplace.json shape");
+            for (const p of m.plugins) {
+              if (!p.name || !p.source) fail("marketplace plugin entry needs name + source");
+              if (p.version && p.version !== pkg.version) fail(`marketplace plugin version ${p.version} != ${pkg.version}`);
+            }
+            const g = read("gemini-extension.json");
+            if (!fs.existsSync(g.contextFileName)) fail("gemini contextFileName missing");
+            const manifest = read(".release-please-manifest.json");
+            if (manifest["."] !== pkg.version) fail(`.release-please-manifest.json ${manifest["."]} != package.json ${pkg.version}`);
+            const cfg = read("release-please-config.json");
+            for (const x of cfg.packages["."]["extra-files"]) if (!fs.existsSync(x.path)) fail(`extra-file missing: ${x.path}`);
+            if (!process.exitCode) console.log("manifests OK at", pkg.version);'
+      - name: Markdown / site relative links
+        run: node scripts/check-links.mjs
+      - name: Site translations
+        run: node scripts/check-i18n.mjs
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+  actionlint:
+    name: actionlint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Lint workflows
+        run: |
+          docker run --rm -v "$PWD:/repo" --workdir /repo \
+            rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667 -color

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/ilramdhan/start-from-here/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public issue.
+  - name: User manual
+    url: https://github.com/ilramdhan/start-from-here/blob/main/docs/USAGE.md
+    about: Phases, tiers, quick commands, and FAQ.
+  - name: Platform install guides
+    url: https://github.com/ilramdhan/start-from-here/tree/main/docs/guides
+    about: How to install and run the skill on each AI tool.

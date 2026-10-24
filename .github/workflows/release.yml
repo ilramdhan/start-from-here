@@ -1,0 +1,153 @@
+name: Release
+
+# Release flow (release-please, https://github.com/googleapis/release-please-action):
+#   1. Conventional Commits land on main (squash-merge PRs; the PR title becomes the commit).
+#   2. This workflow opens/updates a "chore: release X.Y.Z" PR that bumps package.json,
+#      the plugin/extension manifests, SKILL.md metadata.version and CHANGELOG.md.
+#   3. Merging that PR makes release-please tag vX.Y.Z and create the GitHub Release;
+#      the `publish` job then builds, publishes to npm and uploads the bundles.
+#
+# npm: trusted publishing (OIDC). No NPM_TOKEN secret. Provenance is generated automatically.
+#   One-time setup on npmjs.com → package → Settings → Trusted publisher → GitHub Actions:
+#   owner ilramdhan, repository start-from-here, workflow filename release.yml, environment npm.
+#   https://docs.npmjs.com/trusted-publishers
+#
+# GITHUB_TOKEN limitation: PRs, tags and releases created with the default GITHUB_TOKEN do NOT
+# trigger other workflows, so CI will not run on the release PR by itself. Optionally add a
+# fine-grained PAT (contents + pull-requests: read/write on this repo) as the repository secret
+# RELEASE_PLEASE_TOKEN; it is used automatically when present. Without it, re-run CI on the
+# release PR by closing and reopening it, or rely on the checks the publish job runs itself.
+#
+# Manual run (workflow_dispatch with a tag): re-uploads the release assets for an existing
+# tag and publishes to npm only if that version is not on the registry yet. Use it to
+# bootstrap v1.0.0 or to retry a failed publish.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to (re)publish, e.g. v1.0.0
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    name: release-please
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # create tags and GitHub Releases
+      pull-requests: write # open/update the release PR
+      issues: write # create/apply the "autorelease: pending" labels
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        id: release
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish:
+    name: Publish ${{ needs.release-please.outputs.tag_name || inputs.tag }}
+    needs: release-please
+    if: >-
+      ${{ !failure() && !cancelled() &&
+      (needs.release-please.outputs.release_created == 'true' || github.event_name == 'workflow_dispatch') }}
+    runs-on: ubuntu-latest # trusted publishing requires a GitHub-hosted runner
+    timeout-minutes: 20
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/start-from-here
+    permissions:
+      contents: write # upload assets to the GitHub Release
+      id-token: write # npm trusted publishing (OIDC) + automatic provenance
+    env:
+      TAG: ${{ needs.release-please.outputs.tag_name || inputs.tag }}
+    steps:
+      - name: Check tag format
+        run: |
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Invalid tag '$TAG'"; exit 1
+          fi
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ env.TAG }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      # Trusted publishing needs npm >= 11.5.1 (and Node >= 22.14.0).
+      - name: Ensure npm >= 11.5.1
+        run: |
+          npm install -g npm@^11.5.1
+          node --version
+          npm --version
+
+      - name: Check tag matches package.json and manifests
+        run: |
+          # shellcheck disable=SC2016 # single quotes intentionally wrap JS template literals
+          node -e '
+            const fs = require("fs");
+            const v = require("./package.json").version;
+            const tag = process.env.TAG;
+            if (tag !== "v" + v) { console.error(`tag ${tag} != package.json v${v}`); process.exit(1); }
+            const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
+            const got = {
+              ".claude-plugin/plugin.json": read(".claude-plugin/plugin.json").version,
+              ".claude-plugin/marketplace.json metadata": read(".claude-plugin/marketplace.json").metadata.version,
+              ".claude-plugin/marketplace.json plugins[0]": read(".claude-plugin/marketplace.json").plugins[0].version,
+              ".codex-plugin/plugin.json": read(".codex-plugin/plugin.json").version,
+              "gemini-extension.json": read("gemini-extension.json").version,
+            };
+            const bad = Object.entries(got).filter(([, x]) => x !== v);
+            if (bad.length) { console.error("version mismatch:", bad); process.exit(1); }
+            console.log("all manifests at", v);'
+
+      - name: Validate skill
+        run: npm run validate
+      - name: Test
+        run: npm test
+      - name: Build bundle
+        run: npm run build
+
+      - name: Publish to npm (trusted publishing, provenance automatic)
+        run: |
+          VERSION="${TAG#v}"
+          if npm view "start-from-here@${VERSION}" version >/dev/null 2>&1; then
+            echo "start-from-here@${VERSION} is already on npm; skipping publish."
+          else
+            npm publish --access public
+          fi
+
+      - name: Upload bundles to the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/release-assets"
+          mkdir -p "$out"
+          cp dist/start-from-here.zip dist/start-from-here.prompt.md dist/gpt-instructions.md dist/gem-instructions.md "$out/"
+          (cd dist && zip -qrX "$out/start-from-here-knowledge.zip" knowledge knowledge-txt gpt-instructions.md gem-instructions.md)
+          (cd "$out" && sha256sum start-from-here.zip start-from-here.prompt.md gpt-instructions.md gem-instructions.md start-from-here-knowledge.zip > SHA256SUMS)
+          cat "$out/SHA256SUMS"
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+            || gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --title "$TAG" --generate-notes --verify-tag
+          gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber "$out"/*

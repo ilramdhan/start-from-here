@@ -1,0 +1,16 @@
+      83 ./docs/.start-from-here/STATE.md
+      25 ./docs/decisions/README.md
+     100 ./docs/DISCOVERY.md
+      67 ./docs/engineering/CODE_STYLE.md
+      42 ./docs/engineering/GIT_WORKFLOW.md
+      90 ./docs/product/APP_FLOW.md
+      55 ./docs/product/DESIGN_SYSTEM.md
+      77 ./docs/product/PRD.md
+      54 ./docs/README.md
+      98 ./docs/technical/ARCHITECTURE.md
+      71 ./docs/technical/DATABASE.md
+     140 ./docs/technical/OPERATIONS.md
+     102 ./docs/technical/SECURITY_ARCHITECTURE.md
+      78 ./docs/technical/TESTING.md
+      64 ./docs/technical/TRD.md
+    1146 total

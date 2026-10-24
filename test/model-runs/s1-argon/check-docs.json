@@ -1,0 +1,209 @@
+{
+  "projectDir": "/private/tmp/sfh-models/s1-argon/out2",
+  "tier": "Standard",
+  "filesScanned": 41,
+  "summary": {
+    "errors": 0,
+    "warnings": 26,
+    "tbd": 61
+  },
+  "tbdByFile": {
+    "docs/DISCOVERY.md": 2,
+    "docs/README.md": 2,
+    "docs/engineering/AI_GUIDELINES.md": 4,
+    "docs/legal/COMPLIANCE.md": 2,
+    "docs/legal/PRIVACY_POLICY.md": 14,
+    "docs/legal/TERMS_OF_SERVICE.md": 14,
+    "docs/product/DESIGN_SYSTEM.md": 1,
+    "docs/product/PRD.md": 5,
+    "docs/technical/API.md": 3,
+    "docs/technical/ARCHITECTURE.md": 1,
+    "docs/technical/OPERATIONS.md": 5,
+    "docs/technical/SECURITY_ARCHITECTURE.md": 6,
+    "docs/technical/TRD.md": 2
+  },
+  "findings": [
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": 164,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/engineering/CODE_STYLE.md",
+      "line": 165,
+      "message": "Anchor #6-accessibility not found in docs/product/DESIGN_SYSTEM.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/legal/COMPLIANCE.md",
+      "line": 23,
+      "message": "Anchor #6-accessibility not found in docs/product/DESIGN_SYSTEM.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 546,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 547,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 548,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 549,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 550,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 551,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 552,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 553,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 554,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/product/PRD.md",
+      "line": 555,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": 347,
+      "message": "Anchor #8-webhooks-and-events not found in docs/technical/API.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/technical/ARCHITECTURE.md",
+      "line": 348,
+      "message": "Anchor #8-webhooks-and-events not found in docs/technical/API.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/technical/IMPLEMENTATION_PLAN.md",
+      "line": 194,
+      "message": "Anchor #3-goals-and-non-goals not found in docs/product/PRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/technical/IMPLEMENTATION_PLAN.md",
+      "line": 266,
+      "message": "Anchor #6-feature-specifications not found in docs/product/PRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/technical/OPERATIONS.md",
+      "line": 180,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "docs/technical/TESTING.md",
+      "line": 62,
+      "message": "Anchor #6-feature-specifications not found in docs/product/PRD.md"
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": ".github/PULL_REQUEST_TEMPLATE.md",
+      "line": null,
+      "message": "Template section \"## related\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": ".github/PULL_REQUEST_TEMPLATE.md",
+      "line": null,
+      "message": "Template section \"## type of change\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": ".github/PULL_REQUEST_TEMPLATE.md",
+      "line": null,
+      "message": "Template section \"## how was this tested?\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": ".github/PULL_REQUEST_TEMPLATE.md",
+      "line": null,
+      "message": "Template section \"## risk and rollback\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": ".github/PULL_REQUEST_TEMPLATE.md",
+      "line": null,
+      "message": "Template section \"## ai assistance\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "sections",
+      "file": "CHANGELOG.md",
+      "line": null,
+      "message": "Template section \"## [1.1.0] - 2026-11-02\" missing — keep it, filled or \"N/A — reason\""
+    },
+    {
+      "severity": "warning",
+      "check": "link",
+      "file": "SUPPORT.md",
+      "line": 33,
+      "message": "Anchor #2-non-functional-requirements not found in docs/technical/TRD.md"
+    }
+  ]
+}

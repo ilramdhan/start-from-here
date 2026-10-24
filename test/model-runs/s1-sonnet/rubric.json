@@ -1,0 +1,201 @@
+{
+  "root": "/private/tmp/sfh-models/s1-sonnet",
+  "tier": "Standard",
+  "partial": false,
+  "files": 45,
+  "mermaidBlocks": 45,
+  "mermaidSuspicious": [],
+  "scores": {
+    "completeness": 100,
+    "compliance": 100,
+    "mermaid": 100
+  },
+  "checks": [
+    {
+      "area": "prd",
+      "id": "features",
+      "pass": true,
+      "detail": "10 Must F-ids (15 total)"
+    },
+    {
+      "area": "prd",
+      "id": "ac_per_feature",
+      "pass": true,
+      "detail": "10/10 features have AC; 82 AC"
+    },
+    {
+      "area": "prd",
+      "id": "negative_ac",
+      "pass": true,
+      "detail": "9/10 features with negative AC"
+    },
+    {
+      "area": "prd",
+      "id": "gwt_format",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "db",
+      "id": "erDiagram_with_attrs",
+      "pass": true,
+      "detail": "11 entities with attribute blocks"
+    },
+    {
+      "area": "db",
+      "id": "expected_entities",
+      "pass": true,
+      "detail": "all 13 present"
+    },
+    {
+      "area": "db",
+      "id": "fk_indexed",
+      "pass": true,
+      "detail": "13 FK in ERD, 31 index rows"
+    },
+    {
+      "area": "db",
+      "id": "column_tables",
+      "pass": true,
+      "detail": "36 column tables"
+    },
+    {
+      "area": "db",
+      "id": "tenant_retention_pii",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "arch",
+      "id": "c4_context_container",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "arch",
+      "id": "sequence_diagrams",
+      "pass": true,
+      "detail": "4 sequence diagrams"
+    },
+    {
+      "area": "arch",
+      "id": "deployment_view",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "sec",
+      "id": "stride_all6",
+      "pass": true,
+      "detail": "all 6"
+    },
+    {
+      "area": "sec",
+      "id": "trust_boundaries",
+      "pass": true,
+      "detail": "8 TB ids"
+    },
+    {
+      "area": "sec",
+      "id": "authz_matrix",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "plan",
+      "id": "phases_M0_M7",
+      "pass": true,
+      "detail": "milestones: M0,M1,M2,M3,M4,M5,M6,M7"
+    },
+    {
+      "area": "plan",
+      "id": "entry_exit_gates",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "trace",
+      "id": "F_in_plan",
+      "pass": true,
+      "detail": "all"
+    },
+    {
+      "area": "trace",
+      "id": "AC_in_tests",
+      "pass": true,
+      "detail": "82/82 AC mapped"
+    },
+    {
+      "area": "plan",
+      "id": "gantt_or_flow_plus_ascii",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "ai",
+      "id": "dos_donts",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "ai",
+      "id": "agents_md_links",
+      "pass": true,
+      "detail": "31 doc links"
+    },
+    {
+      "area": "compliance",
+      "id": "no_app_code_files",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "no_unverified_versions",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "legal_disclaimer",
+      "pass": true,
+      "detail": "3 legal docs, disclaimer all"
+    },
+    {
+      "area": "compliance",
+      "id": "no_compliance_claim",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "state_md",
+      "pass": true,
+      "detail": "present"
+    },
+    {
+      "area": "compliance",
+      "id": "status_headers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "compliance",
+      "id": "assumption_labels",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "area": "mermaid",
+      "id": "blocks_sane",
+      "pass": true,
+      "detail": "45 blocks, 0 suspicious"
+    },
+    {
+      "area": "compliance",
+      "id": "ascii_hyphen_ids",
+      "pass": true,
+      "detail": "0 IDs written with non-ASCII hyphens (breaks grep/traceability)"
+    }
+  ]
+}

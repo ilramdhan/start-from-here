@@ -1,0 +1,48 @@
+# CODEOWNERS — {{project_name}}
+#
+# guidance (remove these guidance lines in output; keep a short header):
+#   Purpose: auto-request reviews from owners of changed paths. Combine with branch protection
+#   "Require review from Code Owners" (see docs/engineering/GIT_WORKFLOW.md). Tier: S E.
+#   Owner: {{owner}} · Last updated: {{yyyy_mm_dd}}
+#
+# Syntax (GitHub docs: "About code owners"):
+#   - Location: .github/CODEOWNERS (preferred), root, or docs/ — GitHub uses the first one it finds.
+#   - Each line: <pattern> <owner> [<owner> ...]. Patterns follow .gitignore rules, EXCEPT:
+#     no "!" negation, no "[ ]" character ranges, no "\#" escaping.
+#   - The LAST matching pattern wins. Put the catch-all "*" FIRST, specific paths AFTER.
+#   - Owners: @username, @org/team-name (preferred), or email. Every owner MUST have write access,
+#     otherwise the line is ignored. Never invent handles — use real ones or leave as placeholders + [TBD].
+#   - A pattern with no owners means "no code owner" for that path.
+#   - Multiple owners on one line = any one of them can approve (unless team policy says otherwise).
+#   - Check errors in the GitHub UI (the CODEOWNERS file view shows invalid lines). Max size 3 MB.
+
+# Default owners for everything (catch-all — must come first)
+*                               {{default_owner_team}}
+
+# Documentation
+/docs/                          {{docs_owner_team}}
+*.md                            {{docs_owner_team}}
+
+# Architecture decisions require architecture owners
+/docs/decisions/                {{architecture_owner_team}}
+
+# Legal and policy files require legal/compliance review
+/docs/legal/                    {{legal_owner_team}}
+/LICENSE                        {{legal_owner_team}}
+/SECURITY.md                    {{security_owner_team}}
+
+# Source areas (examples across stacks — keep the real ones, delete the rest)
+# /src/api/                     @org/backend-team
+# /internal/auth/               @org/security-team
+# /apps/web/                    @org/frontend-team
+# /ios/  /android/              @org/mobile-team
+# /infra/  /deploy/  *.tf       @org/platform-team
+# /migrations/  /db/            @org/data-team
+{{source_path}}                 {{source_owner_team}}
+
+# CI/CD, repository settings, and this file — protect them
+/.github/                       {{platform_owner_team}}
+/.github/CODEOWNERS             {{repo_admin_team}}
+
+# AI agent instructions
+/AGENTS.md                      {{default_owner_team}}

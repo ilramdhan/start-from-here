@@ -1,0 +1,16 @@
+# https://docs.github.com/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+# The package has zero npm dependencies, so only GitHub Actions are tracked.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    commit-message:
+      prefix: ci
+      include: scope
+    labels: [dependencies, github-actions]
+    groups:
+      github-actions:
+        patterns: ['*']

@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="meta.title">start-from-here — plan first, then build with any AI coding agent</title>
+  <meta name="description" data-i18n-attr="content:meta.description" content="An open Agent Skill that interviews you and writes approved project docs (PRD, architecture, database, security, tests, legal, AGENTS.md) before your AI agent writes any code. Works with Claude Code, Codex, Gemini CLI, Copilot, Cursor and 30+ tools.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f7f7f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#14151a" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://ilramdhan.github.io/start-from-here/">
+  <link rel="alternate" hreflang="en" href="https://ilramdhan.github.io/start-from-here/?lang=en">
+  <link rel="alternate" hreflang="id" href="https://ilramdhan.github.io/start-from-here/?lang=id">
+  <link rel="alternate" hreflang="zh-CN" href="https://ilramdhan.github.io/start-from-here/?lang=zh-CN">
+  <link rel="alternate" hreflang="es" href="https://ilramdhan.github.io/start-from-here/?lang=es">
+  <link rel="alternate" hreflang="ja" href="https://ilramdhan.github.io/start-from-here/?lang=ja">
+  <link rel="alternate" hreflang="pt-BR" href="https://ilramdhan.github.io/start-from-here/?lang=pt-BR">
+  <link rel="alternate" hreflang="x-default" href="https://ilramdhan.github.io/start-from-here/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="start-from-here">
+  <meta property="og:title" content="start-from-here — plan first, then build">
+  <meta property="og:description" data-i18n-attr="content:meta.description" content="An open Agent Skill that interviews you and writes approved project docs before your AI agent writes any code.">
+  <meta property="og:url" content="https://ilramdhan.github.io/start-from-here/">
+  <meta property="og:image" content="https://ilramdhan.github.io/start-from-here/assets/og.svg">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script>
+    // Apply the saved theme before first paint to avoid a flash.
+    try { var t = localStorage.getItem('sfh-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top" aria-label="start-from-here">
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="8" fill="currentColor"/><path d="M9 22V10h8.5a4 4 0 0 1 0 8H13" fill="none" stroke="var(--bg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22.5" cy="22" r="2.2" fill="var(--accent-2)"/></svg>
+        <span>start-from-here</span>
+      </a>
+      <button class="icon-btn menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" data-i18n-attr="aria-label:a11y.menu" aria-label="Menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <nav id="site-nav" class="nav" aria-label="Primary">
+        <a href="#why" data-i18n="nav.why">Why</a>
+        <a href="#how" data-i18n="nav.how">How it works</a>
+        <a href="#docs" data-i18n="nav.docs">Documents</a>
+        <a href="#tiers" data-i18n="nav.tiers">Tiers</a>
+        <a href="#install" data-i18n="nav.install">Install</a>
+        <a href="#compat" data-i18n="nav.compat">Compatibility</a>
+        <a href="#usage" data-i18n="nav.usage">Usage</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      </nav>
+      <div class="tools">
+        <label class="sr-only" for="lang-select" data-i18n="a11y.language">Language</label>
+        <div class="select-wrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 0c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9m0-18C9.5 5.5 8.5 8.5 8.5 12s1 6.5 3.5 9M3.5 9h17M3.5 15h17" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <select id="lang-select">
+            <option value="en">English</option>
+            <option value="id">Bahasa Indonesia</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="es">Español</option>
+            <option value="ja">日本語</option>
+            <option value="pt-BR">Português (Brasil)</option>
+          </select>
+        </div>
+        <button id="theme-toggle" class="icon-btn" type="button" data-i18n-attr="aria-label:a11y.theme;title:a11y.theme" aria-label="Toggle light or dark theme" title="Toggle light or dark theme">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
+        <a class="icon-btn" href="https://github.com/ilramdhan/start-from-here" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .8.1-.7.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- HERO -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow" data-i18n="hero.eyebrow">Open Agent Skill · MIT · zero dependencies</p>
+          <h1 id="hero-title" data-i18n="hero.title">Plan first. Then build.</h1>
+          <p class="lead" data-i18n="hero.lead">start-from-here interviews you and writes the approved project documents your AI coding agent needs — PRD, architecture, database, security, tests, legal and AGENTS.md — before a single line of code is written.</p>
+          <p class="label" data-i18n="hero.install_label">Install in your project folder</p>
+          <pre class="code"><code>npx skills add ilramdhan/start-from-here</code></pre>
+          <p class="label small" data-i18n="hero.alt_label">No Node 22.20+? Use our zero-dependency installer (Node 18+):</p>
+          <pre class="code"><code>npx start-from-here@latest install</code></pre>
+          <p class="label small" data-i18n="hero.then_label">Then tell your agent:</p>
+          <pre class="code prompt"><code data-i18n="hero.then_prompt">Use the start-from-here skill to plan my new app.</code></pre>
+          <div class="cta">
+            <a class="btn primary" href="#install" data-i18n="hero.cta_install">All install options</a>
+            <a class="btn" href="https://github.com/ilramdhan/start-from-here" data-i18n="hero.cta_github">View on GitHub</a>
+          </div>
+        </div>
+        <div class="hero-side" aria-hidden="true">
+          <div class="term">
+            <div class="term-bar"><span></span><span></span><span></span></div>
+            <div class="term-body">
+              <p><b class="u">›</b> /start-from-here a booking app for my yoga studio</p>
+              <p class="m">Round 0 · 5 questions</p>
+              <p class="m">1. Language? <i>Recommended: English</i></p>
+              <p class="m">2. Experience? beginner / intermediate / expert</p>
+              <p class="m">…</p>
+              <p><b class="u">›</b> use your recommendations</p>
+              <p class="m">Proposed tier: <b>Lite</b> · 14 docs</p>
+              <p class="m stop">STOP — approve this tier?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <ul class="stats">
+          <li><strong>30+</strong> <span data-i18n="hero.stat_platforms">AI tools supported</span></li>
+          <li><strong>30+</strong> <span data-i18n="hero.stat_docs">document templates</span></li>
+          <li><strong>3</strong> <span data-i18n="hero.stat_tiers">tiers: Lite, Standard, Enterprise</span></li>
+          <li><strong>0</strong> <span data-i18n="hero.stat_code">lines of app code written by the skill</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section id="why" class="section" aria-labelledby="why-title">
+      <div class="wrap">
+        <h2 id="why-title" data-i18n="why.title">Why plan before you prompt?</h2>
+        <p class="lead" data-i18n="why.lead">“Vibe coding” — asking an AI to build an app straight from a one-line idea — feels fast. But the agent has to guess.</p>
+        <div class="split">
+          <div class="panel problem">
+            <h3 data-i18n="why.problem_title">The problem</h3>
+            <ul class="feature-list">
+              <li><strong data-i18n="why.p1_title">Silent guesses</strong><span data-i18n="why.p1_body">Scope, users, data model, permissions, security rules and conventions are all invented on the fly. Every guess becomes code.</span></li>
+              <li><strong data-i18n="why.p2_title">Expensive rework</strong><span data-i18n="why.p2_body">Wrong guesses surface late — after the schema, the auth flow and the UI are built on top of them.</span></li>
+              <li><strong data-i18n="why.p3_title">No shared memory</strong><span data-i18n="why.p3_body">A new session, a new model or a new teammate starts from zero, because nothing was written down.</span></li>
+            </ul>
+          </div>
+          <div class="panel solution">
+            <h3 data-i18n="why.solution_title">The solution</h3>
+            <ul class="feature-list">
+              <li><strong data-i18n="why.s1_title">It interviews you</strong><span data-i18n="why.s1_body">Short rounds of numbered questions, each with a labeled recommended default.</span></li>
+              <li><strong data-i18n="why.s2_title">It recommends, you decide</strong><span data-i18n="why.s2_body">No stack yet? You get 2–3 options with trade-offs and one marked Recommended.</span></li>
+              <li><strong data-i18n="why.s3_title">It writes consistent docs</strong><span data-i18n="why.s3_body">Shared IDs link every document, and a final audit cross-checks them.</span></li>
+              <li><strong data-i18n="why.s4_title">It never makes things up</strong><span data-i18n="why.s4_body">Unknowns become [TBD], ideas become PROPOSAL, guesses become ASSUMPTION.</span></li>
+              <li><strong data-i18n="why.s5_title">It never writes app code</strong><span data-i18n="why.s5_body">Its job ends with approved documents, a readiness checklist and a first implementation prompt.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW -->
+    <section id="how" class="section alt" aria-labelledby="how-title">
+      <div class="wrap">
+        <h2 id="how-title" data-i18n="how.title">How it works</h2>
+        <p class="lead" data-i18n="how.lead">Eight phases with explicit gates. The skill stops at every gate and waits for your answer.</p>
+
+        <figure class="diagram">
+          <svg viewBox="0 0 960 300" role="img" aria-labelledby="diagram-desc">
+            <desc id="diagram-desc" data-i18n="a11y.diagram">Diagram of the eight phases. Arrows show the order; gates marked STOP wait for your approval.</desc>
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+            </defs>
+            <g class="d-edges" fill="none" stroke="currentColor" stroke-width="2" marker-end="url(#arrow)">
+              <path d="M200 70H240"/><path d="M440 70H480"/><path d="M680 70H720"/>
+              <path d="M820 110V150H120V190"/>
+              <path d="M200 230H240"/><path d="M440 230H480"/><path d="M680 230H720"/>
+            </g>
+            <g class="d-gates">
+              <text x="220" y="56" text-anchor="middle">STOP</text>
+              <text x="700" y="56" text-anchor="middle">STOP</text>
+              <text x="470" y="144" text-anchor="middle">STOP</text>
+              <text x="220" y="216" text-anchor="middle">STOP</text>
+            </g>
+            <g class="d-nodes">
+              <rect x="40" y="30" width="160" height="80" rx="12"/><rect x="240" y="30" width="200" height="80" rx="12"/><rect x="480" y="30" width="200" height="80" rx="12"/><rect x="720" y="30" width="200" height="80" rx="12"/>
+              <rect x="40" y="190" width="160" height="80" rx="12"/><rect x="240" y="190" width="200" height="80" rx="12"/><rect x="480" y="190" width="200" height="80" rx="12"/>
+              <rect class="d-final" x="720" y="190" width="200" height="80" rx="40"/>
+            </g>
+            <g class="d-num" text-anchor="middle">
+              <text x="120" y="62">0</text><text x="340" y="62">1</text><text x="580" y="62">2</text><text x="820" y="62">3</text>
+              <text x="120" y="222">4</text><text x="340" y="222">5</text><text x="580" y="222">6</text><text x="820" y="222">7</text>
+            </g>
+            <g class="d-label" text-anchor="middle">
+              <text x="120" y="90" data-i18n="how.p0_name">Orient</text>
+              <text x="340" y="90" data-i18n="how.p1_name">Calibrate</text>
+              <text x="580" y="90" data-i18n="how.p2_name">Discover</text>
+              <text x="820" y="90" data-i18n="how.p3_name">Recommend</text>
+              <text x="120" y="250" data-i18n="how.p4_name">Confirm brief</text>
+              <text x="340" y="250" data-i18n="how.p5_name">Generate</text>
+              <text x="580" y="250" data-i18n="how.p6_name">Audit</text>
+              <text x="820" y="250" data-i18n="how.p7_name">Handoff</text>
+            </g>
+          </svg>
+        </figure>
+
+        <ol class="phases">
+          <li><span class="num">0</span><div><strong data-i18n="how.p0_name">Orient</strong><p data-i18n="how.p0_desc">New project, existing repo, resume or doc update? Can it write files here?</p></div></li>
+          <li><span class="num">1</span><div><strong data-i18n="how.p1_name">Calibrate</strong> <span class="gate" data-i18n="how.gate">STOP · you approve</span><p data-i18n="how.p1_desc">Language, experience, idea and size. Proposes a tier and the doc list.</p></div></li>
+          <li><span class="num">2</span><div><strong data-i18n="how.p2_name">Discover</strong><p data-i18n="how.p2_desc">Rounds of up to 7 questions, each with a recommended default.</p></div></li>
+          <li><span class="num">3</span><div><strong data-i18n="how.p3_name">Recommend</strong> <span class="gate" data-i18n="how.gate">STOP · you approve</span><p data-i18n="how.p3_desc">2–3 stack, hosting or license options with trade-offs.</p></div></li>
+          <li><span class="num">4</span><div><strong data-i18n="how.p4_name">Confirm brief</strong> <span class="gate" data-i18n="how.gate">STOP · you approve</span><p data-i18n="how.p4_desc">Writes docs/DISCOVERY.md and shows a short summary.</p></div></li>
+          <li><span class="num">5</span><div><strong data-i18n="how.p5_name">Generate</strong> <span class="gate" data-i18n="how.gate">STOP · you approve</span><p data-i18n="how.p5_desc">Writes docs in dependency order, in review batches.</p></div></li>
+          <li><span class="num">6</span><div><strong data-i18n="how.p6_name">Audit</strong><p data-i18n="how.p6_desc">Cross-checks scope, names, stack, roles, NFRs, legal and links.</p></div></li>
+          <li><span class="num">7</span><div><strong data-i18n="how.p7_name">Handoff</strong><p data-i18n="how.p7_desc">Readiness checklist, open questions and a first implementation prompt.</p></div></li>
+          <li class="final"><span class="num">→</span><div><strong data-i18n="how.you_build">You build with any agent</strong></div></li>
+        </ol>
+
+        <div class="cards four">
+          <article class="card"><h3 data-i18n="how.f1_title">Resumable</h3><p data-i18n="how.f1_body">Progress is saved to docs/.start-from-here/STATE.md after every step.</p></article>
+          <article class="card"><h3 data-i18n="how.f2_title">Brownfield-aware</h3><p data-i18n="how.f2_body">In an existing repo it inspects manifests, CI and docs first.</p></article>
+          <article class="card"><h3 data-i18n="how.f3_title">Works without a filesystem</h3><p data-i18n="how.f3_body">In chat-only tools each document arrives as a Markdown block.</p></article>
+          <article class="card"><h3 data-i18n="how.f4_title">Any language</h3><p data-i18n="how.f4_body">Chat in one language and write the docs in another.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOCS -->
+    <section id="docs" class="section" aria-labelledby="docs-title">
+      <div class="wrap">
+        <h2 id="docs-title" data-i18n="docs.title">What you get</h2>
+        <p class="lead" data-i18n="docs.lead">These files are generated inside your project. Which ones you get depends on the tier and your answers.</p>
+        <p class="legend"><span data-i18n="docs.legend">Tier badges:</span>
+          <span class="tier l">L</span> <span data-i18n="docs.legend_l">Lite</span>
+          <span class="tier s">S</span> <span data-i18n="docs.legend_s">Standard</span>
+          <span class="tier e">E</span> <span data-i18n="docs.legend_e">Enterprise</span>
+          <span class="tier c">?</span> <span data-i18n="docs.cond">conditional</span>
+        </p>
+        <div class="docgrid">
+          <section class="docgroup" aria-labelledby="g-product">
+            <h3 id="g-product" data-i18n="docs.g_product">Product</h3>
+            <dl>
+              <div><dt><code>docs/DISCOVERY.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.discovery">Interview record: answers, assumptions and decisions.</dd></div>
+              <div><dt><code>docs/README.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.docs_readme">Docs index with a Draft / Approved status table.</dd></div>
+              <div><dt><code>docs/product/PRD.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.prd">Vision, personas, features with acceptance criteria, success metrics.</dd></div>
+              <div><dt><code>docs/product/APP_FLOW.md</code><span class="tiers"><span class="tier c">L?</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.app_flow">Screens, commands or endpoints, user flows and states.</dd></div>
+              <div><dt><code>docs/product/DESIGN_SYSTEM.md</code><span class="tiers"><span class="tier c">S?</span><span class="tier c">E?</span></span></dt><dd data-i18n="docs.design_system">Design tokens, components, states and accessibility.</dd></div>
+            </dl>
+          </section>
+          <section class="docgroup" aria-labelledby="g-tech">
+            <h3 id="g-tech" data-i18n="docs.g_technical">Technical</h3>
+            <dl>
+              <div><dt><code>docs/technical/TRD.md</code><span class="tiers"><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.trd">Feature-to-technical mapping and measurable NFRs.</dd></div>
+              <div><dt><code>docs/technical/ARCHITECTURE.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.architecture">C4 context and container diagrams, stack table, data flow.</dd></div>
+              <div><dt><code>docs/technical/DATABASE.md</code><span class="tiers"><span class="tier c">L?</span><span class="tier c">S?</span><span class="tier c">E?</span></span></dt><dd data-i18n="docs.database">Entities, ERD, schema, access rules, migrations and retention.</dd></div>
+              <div><dt><code>docs/technical/API.md</code><span class="tiers"><span class="tier c">S?</span><span class="tier c">E?</span></span></dt><dd data-i18n="docs.api">Contract conventions, endpoints, RPCs or CLI, errors and versioning.</dd></div>
+              <div><dt><code>docs/technical/SECURITY_ARCHITECTURE.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.security">STRIDE threat model, authN/Z matrix, secrets and privacy.</dd></div>
+              <div><dt><code>docs/technical/TESTING.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.testing">Test strategy and an acceptance matrix.</dd></div>
+              <div><dt><code>docs/technical/OPERATIONS.md</code><span class="tiers"><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.operations">Environments, CI/CD, deploy and rollback, SLOs, backup and incidents.</dd></div>
+              <div><dt><code>docs/technical/IMPLEMENTATION_PLAN.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.impl_plan">Milestones and ordered tasks, each with a definition of done.</dd></div>
+              <div><dt><code>docs/decisions/</code><span class="tiers"><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.adr">Architecture decision records (MADR).</dd></div>
+            </dl>
+          </section>
+          <section class="docgroup" aria-labelledby="g-eng">
+            <h3 id="g-eng" data-i18n="docs.g_engineering">Engineering &amp; AI governance</h3>
+            <dl>
+              <div><dt><code>AGENTS.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.agents_md">Universal instructions for any AI coding agent; links every doc.</dd></div>
+              <div><dt><code>CLAUDE.md · GEMINI.md · copilot-instructions.md</code><span class="tiers"><span class="tier c">?</span></span></dt><dd data-i18n="docs.pointers">Optional thin pointer files to AGENTS.md.</dd></div>
+              <div><dt><code>docs/engineering/CODE_STYLE.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.code_style">Conventions, project structure and verified commands.</dd></div>
+              <div><dt><code>docs/engineering/AI_GUIDELINES.md</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.ai_guidelines">AI coding dos and don'ts.</dd></div>
+              <div><dt><code>docs/engineering/GIT_WORKFLOW.md</code><span class="tiers"><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.git_workflow">Branching, Conventional Commits, PR review and releases.</dd></div>
+            </dl>
+          </section>
+          <section class="docgroup" aria-labelledby="g-legal">
+            <h3 id="g-legal" data-i18n="docs.g_legal">Legal</h3>
+            <p class="note" data-i18n="docs.legal_note">Drafts for review by qualified counsel — not legal advice.</p>
+            <dl>
+              <div><dt><code>LICENSE</code><span class="tiers"><span class="tier l">L</span><span class="tier s">S</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.license">Full official license text — never paraphrased.</dd></div>
+              <div><dt><code>docs/legal/TERMS_OF_SERVICE.md</code><span class="tiers"><span class="tier c">S?</span><span class="tier c">E?</span></span></dt><dd data-i18n="docs.terms">Terms of service, if you have accounts or a SaaS.</dd></div>
+              <div><dt><code>docs/legal/PRIVACY_POLICY.md</code><span class="tiers"><span class="tier c">L?</span><span class="tier c">S?</span><span class="tier c">E?</span></span></dt><dd data-i18n="docs.privacy">Privacy policy, if you process any personal data.</dd></div>
+              <div><dt><code>docs/legal/COOKIE_POLICY.md</code><span class="tiers"><span class="tier c">?</span></span></dt><dd data-i18n="docs.cookie">Cookie policy, if a website uses tracking.</dd></div>
+              <div><dt><code>docs/legal/COMPLIANCE.md</code><span class="tiers"><span class="tier c">S?</span><span class="tier e">E</span></span></dt><dd data-i18n="docs.compliance">Regulatory register: regimes, controls and owners.</dd></div>
+            </dl>
+          </section>
+          <section class="docgroup wide" aria-labelledby="g-oss">
+            <h3 id="g-oss" data-i18n="docs.g_oss">Open source &amp; GitHub</h3>
+            <p data-i18n="docs.oss_files">README, CHANGELOG, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT, ACCESSIBILITY, CODEOWNERS, PR and issue templates.</p>
+            <p class="note" data-i18n="docs.threat_note">The threat model lives in docs/technical/SECURITY_ARCHITECTURE.md. Root SECURITY.md is reserved for GitHub's vulnerability-disclosure policy.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIERS + MODES -->
+    <section id="tiers" class="section alt" aria-labelledby="tiers-title">
+      <div class="wrap">
+        <h2 id="tiers-title" data-i18n="tiers.title">Tiers</h2>
+        <p class="lead" data-i18n="tiers.lead">The skill proposes a tier from what it learns, and you confirm it.</p>
+        <div class="cards three tiercards">
+          <article class="card tier-card"><h3><span class="tier l">L</span> Lite</h3>
+            <dl><dt data-i18n="tiers.col_for">For</dt><dd data-i18n="tiers.lite_for">Solo, indie, prototype, hackathon, internal tool</dd>
+            <dt data-i18n="tiers.col_interview">Interview</dt><dd data-i18n="tiers.lite_interview">≈ 3 rounds, 15–25 questions</dd>
+            <dt data-i18n="tiers.col_review">Review</dt><dd data-i18n="tiers.lite_review">3 grouped batches</dd></dl></article>
+          <article class="card tier-card"><h3><span class="tier s">S</span> Standard</h3>
+            <dl><dt data-i18n="tiers.col_for">For</dt><dd data-i18n="tiers.std_for">Startup MVP, open-source project, small-team product</dd>
+            <dt data-i18n="tiers.col_interview">Interview</dt><dd data-i18n="tiers.std_interview">≈ 5 rounds, 35–60 questions</dd>
+            <dt data-i18n="tiers.col_review">Review</dt><dd data-i18n="tiers.std_review">6 batches</dd></dl></article>
+          <article class="card tier-card"><h3><span class="tier e">E</span> Enterprise</h3>
+            <dl><dt data-i18n="tiers.col_for">For</dt><dd data-i18n="tiers.ent_for">Regulated data, multiple teams, SLAs, multi-tenant, audits</dd>
+            <dt data-i18n="tiers.col_interview">Interview</dt><dd data-i18n="tiers.ent_interview">≈ 7+ rounds, 60+ questions</dd>
+            <dt data-i18n="tiers.col_review">Review</dt><dd data-i18n="tiers.ent_review">One document per review</dd></dl></article>
+        </div>
+        <p class="note" data-i18n="tiers.note">Any regulated-data signal makes the skill propose Enterprise unless you object.</p>
+
+        <h2 id="modes" class="mt" data-i18n="modes.title">Experience modes</h2>
+        <p class="lead" data-i18n="modes.lead">Chosen in the first round, or inferred from how you write.</p>
+        <div class="cards three">
+          <article class="card"><h3 data-i18n="modes.beginner">Beginner</h3><p data-i18n="modes.beginner_body">Explains every technical term in one plain sentence.</p></article>
+          <article class="card"><h3 data-i18n="modes.intermediate">Intermediate</h3><p data-i18n="modes.intermediate_body">Short explanations of less common terms.</p></article>
+          <article class="card"><h3 data-i18n="modes.expert">Expert</h3><p data-i18n="modes.expert_body">Terse. Shows trade-offs and alternatives.</p></article>
+        </div>
+        <p class="note" data-i18n="modes.tip">Not sure what something means? Say “explain ERD” (or any term) at any time.</p>
+      </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section id="install" class="section" aria-labelledby="install-title">
+      <div class="wrap">
+        <h2 id="install-title" data-i18n="install.title">Install on your platform</h2>
+        <p class="lead" data-i18n="install.lead">Pick your tool. Every command comes from the official platform guides in this repository.</p>
+
+        <div class="tabs" data-tabs>
+          <div class="tablist" role="tablist" data-i18n-attr="aria-label:install.tablist" aria-label="Installation methods">
+            <button role="tab" id="tab-skills" aria-controls="panel-skills" aria-selected="true">npx skills</button>
+            <button role="tab" id="tab-ours" aria-controls="panel-ours" aria-selected="false" tabindex="-1">npx start-from-here</button>
+            <button role="tab" id="tab-gh" aria-controls="panel-gh" aria-selected="false" tabindex="-1">gh skill</button>
+            <button role="tab" id="tab-claude" aria-controls="panel-claude" aria-selected="false" tabindex="-1">Claude Code</button>
+            <button role="tab" id="tab-codex" aria-controls="panel-codex" aria-selected="false" tabindex="-1">Codex</button>
+            <button role="tab" id="tab-gemini" aria-controls="panel-gemini" aria-selected="false" tabindex="-1">Gemini CLI</button>
+            <button role="tab" id="tab-zip" aria-controls="panel-zip" aria-selected="false" tabindex="-1">Claude.ai</button>
+            <button role="tab" id="tab-chatgpt" aria-controls="panel-chatgpt" aria-selected="false" tabindex="-1">ChatGPT</button>
+            <button role="tab" id="tab-gems" aria-controls="panel-gems" aria-selected="false" tabindex="-1">Gemini Gems</button>
+            <button role="tab" id="tab-copilot" aria-controls="panel-copilot" aria-selected="false" tabindex="-1">Copilot</button>
+            <button role="tab" id="tab-cursor" aria-controls="panel-cursor" aria-selected="false" tabindex="-1">Cursor</button>
+            <button role="tab" id="tab-windsurf" aria-controls="panel-windsurf" aria-selected="false" tabindex="-1">Windsurf</button>
+            <button role="tab" id="tab-others" aria-controls="panel-others" aria-selected="false" tabindex="-1">Cline · Junie · Kiro…</button>
+            <button role="tab" id="tab-local" aria-controls="panel-local" aria-selected="false" tabindex="-1">Local LLMs</button>
+            <button role="tab" id="tab-manual" aria-controls="panel-manual" aria-selected="false" tabindex="-1">Manual</button>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-skills" aria-labelledby="tab-skills" tabindex="0">
+            <h3 data-i18n="install.skills_title">Vercel skills CLI — installs for every agent it detects</h3>
+            <p data-i18n="install.skills_body">The fastest route when you have Node 22.20 or newer.</p>
+            <p class="needs"><span data-i18n="install.needs">Needs:</span> Node ≥ 22.20</p>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here</code></pre>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here -g            # global
+npx skills add ilramdhan/start-from-here -a cursor     # one agent</code></pre>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-ours" aria-labelledby="tab-ours" tabindex="0" hidden>
+            <h3 data-i18n="install.ours_title">Our zero-dependency installer</h3>
+            <p data-i18n="install.ours_body">Works on Node 18+.</p>
+            <p class="needs"><span data-i18n="install.needs">Needs:</span> Node ≥ 18</p>
+            <pre class="code"><code>npx start-from-here@latest install</code></pre>
+            <pre class="code"><code>npx start-from-here@latest install -a cursor,cline -y   # specific agents
+npx start-from-here@latest install --global --all       # every skill-capable agent
+npx start-from-here@latest list-agents                  # supported ids and paths
+npx start-from-here@latest doctor                       # where it's installed, versions
+npx start-from-here@latest uninstall --dry-run</code></pre>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md#our-cli-reference" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-gh" aria-labelledby="tab-gh" tabindex="0" hidden>
+            <h3 data-i18n="install.gh_title">GitHub CLI</h3>
+            <p data-i18n="install.gh_body">No Node? gh 2.90 or newer can install skills directly from the repository.</p>
+            <p class="needs"><span data-i18n="install.needs">Needs:</span> gh ≥ 2.90</p>
+            <pre class="code"><code>gh skill install ilramdhan/start-from-here start-from-here --scope project</code></pre>
+            <pre class="code"><code>gh skill install ilramdhan/start-from-here start-from-here --scope user
+gh skill install ilramdhan/start-from-here start-from-here@v1.0.0 --pin</code></pre>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/github-copilot.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude" tabindex="0" hidden>
+            <h3 data-i18n="install.claude_title">Claude Code plugin</h3>
+            <p data-i18n="install.claude_body">Add the marketplace and install the plugin inside Claude Code.</p>
+            <pre class="code"><code>/plugin marketplace add ilramdhan/start-from-here
+/plugin install start-from-here@start-from-here</code></pre>
+            <pre class="code"><code>claude plugin marketplace add ilramdhan/start-from-here
+claude plugin install start-from-here@start-from-here --scope project</code></pre>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here -a claude-code</code></pre>
+            <p class="needs"><span data-i18n="install.invoke">Then say:</span> <code>/start-from-here</code></p>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/claude-code.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-codex" aria-labelledby="tab-codex" tabindex="0" hidden>
+            <h3 data-i18n="install.codex_title">OpenAI Codex</h3>
+            <p data-i18n="install.codex_body">Install as a skill or add the plugin marketplace.</p>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here -a codex</code></pre>
+            <pre class="code"><code>npx start-from-here@latest install --agent codex</code></pre>
+            <pre class="code"><code>codex plugin marketplace add ilramdhan/start-from-here</code></pre>
+            <p class="needs"><span data-i18n="install.invoke">Then say:</span> <code>$start-from-here</code></p>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/codex.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-gemini" aria-labelledby="tab-gemini" tabindex="0" hidden>
+            <h3 data-i18n="install.gemini_title">Gemini CLI extension</h3>
+            <p data-i18n="install.gemini_body">Install as an extension or as a plain skill.</p>
+            <pre class="code"><code>gemini extensions install https://github.com/ilramdhan/start-from-here</code></pre>
+            <pre class="code"><code>gemini skills install https://github.com/ilramdhan/start-from-here --consent</code></pre>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here -a gemini-cli</code></pre>
+            <p class="needs"><span data-i18n="install.invoke">Then say:</span> <code>/start-from-here</code></p>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/gemini-cli.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-zip" aria-labelledby="tab-zip" tabindex="0" hidden>
+            <h3 data-i18n="install.zip_title">Claude.ai, Claude Desktop and skill upload</h3>
+            <p data-i18n="install.zip_body">Download start-from-here.zip from the latest GitHub release and upload it.</p>
+            <p><a class="btn small" href="https://github.com/ilramdhan/start-from-here/releases/latest/download/start-from-here.zip">start-from-here.zip</a></p>
+            <ol class="steps">
+              <li data-i18n="install.zip_s1">Open Customize › Skills.</li>
+              <li data-i18n="install.zip_s2">Click + › Create skill › Upload a skill.</li>
+              <li data-i18n="install.zip_s3">Choose start-from-here.zip and make sure the skill is toggled on.</li>
+              <li data-i18n="install.zip_s4">Say: “Use the start-from-here skill to plan my new app.”</li>
+            </ol>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/claude-apps.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-chatgpt" aria-labelledby="tab-chatgpt" tabindex="0" hidden>
+            <h3 data-i18n="install.chatgpt_title">ChatGPT</h3>
+            <p data-i18n="install.chatgpt_body">Use Skills (beta) when available; otherwise build a Custom GPT or a Project.</p>
+            <p class="dl-row">
+              <a class="btn small" href="https://github.com/ilramdhan/start-from-here/releases/latest/download/start-from-here.zip">start-from-here.zip</a>
+              <a class="btn small" href="https://github.com/ilramdhan/start-from-here/releases/latest/download/gpt-instructions.md">gpt-instructions.md</a>
+              <a class="btn small" href="https://github.com/ilramdhan/start-from-here/releases/latest/download/start-from-here-knowledge.zip">start-from-here-knowledge.zip</a>
+            </p>
+            <ol class="steps">
+              <li data-i18n="install.chatgpt_s1">Skills (beta): upload start-from-here.zip.</li>
+              <li data-i18n="install.chatgpt_s2">Custom GPT: paste gpt-instructions.md into Instructions.</li>
+              <li data-i18n="install.chatgpt_s3">Upload every knowledge file, then save.</li>
+              <li data-i18n="install.chatgpt_s4">Start a chat and type “start”.</li>
+            </ol>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/chatgpt.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-gems" aria-labelledby="tab-gems" tabindex="0" hidden>
+            <h3 data-i18n="install.gems_title">Gemini app — Gems</h3>
+            <p data-i18n="install.gems_body">Gems have no filesystem, so the skill runs from instructions plus knowledge files.</p>
+            <p class="dl-row">
+              <a class="btn small" href="https://github.com/ilramdhan/start-from-here/releases/latest/download/gem-instructions.md">gem-instructions.md</a>
+              <a class="btn small" href="https://github.com/ilramdhan/start-from-here/releases/latest/download/start-from-here-knowledge.zip">start-from-here-knowledge.zip</a>
+            </p>
+            <ol class="steps">
+              <li data-i18n="install.gems_s1">Gems › New Gem.</li>
+              <li data-i18n="install.gems_s2">Paste gem-instructions.md into Instructions.</li>
+              <li data-i18n="install.gems_s3">Upload the knowledge files.</li>
+              <li data-i18n="install.gems_s4">Save and type “start”.</li>
+            </ol>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/gemini-app-gems.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-copilot" aria-labelledby="tab-copilot" tabindex="0" hidden>
+            <h3 data-i18n="install.copilot_title">GitHub Copilot</h3>
+            <p data-i18n="install.copilot_body">Copilot reads .agents/skills.</p>
+            <pre class="code"><code>gh skill install ilramdhan/start-from-here start-from-here --scope project</code></pre>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here -a github-copilot</code></pre>
+            <pre class="code"><code>npx start-from-here@latest install --agent copilot</code></pre>
+            <p class="needs"><span data-i18n="install.invoke">Then say:</span> <code>/start-from-here</code></p>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/github-copilot.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-cursor" aria-labelledby="tab-cursor" tabindex="0" hidden>
+            <h3 data-i18n="install.cursor_title">Cursor</h3>
+            <p data-i18n="install.cursor_body">Cursor reads .agents/skills in the project.</p>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here -a cursor</code></pre>
+            <pre class="code"><code>npx start-from-here@latest install --agent cursor</code></pre>
+            <p class="needs"><span data-i18n="install.invoke">Then say:</span> <code>/start-from-here</code></p>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/cursor.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-windsurf" aria-labelledby="tab-windsurf" tabindex="0" hidden>
+            <h3 data-i18n="install.windsurf_title">Windsurf / Devin Desktop</h3>
+            <p data-i18n="install.windsurf_body">Installs to .windsurf/skills.</p>
+            <pre class="code"><code>npx skills add ilramdhan/start-from-here -a windsurf</code></pre>
+            <pre class="code"><code>npx start-from-here@latest install --agent windsurf</code></pre>
+            <p class="needs"><span data-i18n="install.invoke">Then say:</span> <code>@start-from-here</code></p>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/windsurf.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-others" aria-labelledby="tab-others" tabindex="0" hidden>
+            <h3 data-i18n="install.others_title">Cline, Roo, Kilo, Junie, Kiro, Zed, OpenCode, Goose, Amp and more</h3>
+            <p data-i18n="install.others_body">Use our installer with the agent id.</p>
+            <pre class="code"><code>npx start-from-here@latest install --agent cline,roo,kilo
+npx start-from-here@latest install --agent junie
+npx start-from-here@latest install --agent kiro
+npx start-from-here@latest install --agent zed
+npx start-from-here@latest install --agent opencode   # or goose | amp | augment | qwen-code | trae
+npx start-from-here@latest install --agent aider      # rules-file fallback: prints a pointer
+npx start-from-here@latest list-agents</code></pre>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md#all-guides" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-local" aria-labelledby="tab-local" tabindex="0" hidden>
+            <h3 data-i18n="install.local_title">Local and other LLMs</h3>
+            <p data-i18n="install.local_body">No filesystem? Paste start-from-here.prompt.md into the chat or the system prompt.</p>
+            <p class="dl-row"><a class="btn small" href="https://github.com/ilramdhan/start-from-here/releases/latest/download/start-from-here.prompt.md">start-from-here.prompt.md</a></p>
+            <ol class="steps">
+              <li data-i18n="install.local_s1">Download start-from-here.prompt.md.</li>
+              <li data-i18n="install.local_s2">Paste it as the system prompt.</li>
+              <li data-i18n="install.local_s3">For Ollama, bake it into a Modelfile:</li>
+            </ol>
+            <pre class="code"><code>cat > Modelfile &lt;&lt;'EOF'
+FROM &lt;model-you-pulled&gt;
+SYSTEM """
+&lt;paste the contents of start-from-here.prompt.md here&gt;
+"""
+EOF
+ollama create start-from-here -f Modelfile
+ollama run start-from-here</code></pre>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/local-and-other-llms.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+
+          <div class="tabpanel" role="tabpanel" id="panel-manual" aria-labelledby="tab-manual" tabindex="0" hidden>
+            <h3 data-i18n="install.manual_title">Manual copy (no Node, no gh)</h3>
+            <p data-i18n="install.manual_body">Clone the repository and copy the skill folder into your project.</p>
+            <pre class="code"><code>git clone https://github.com/ilramdhan/start-from-here /tmp/sfh
+mkdir -p .agents/skills &amp;&amp; cp -R /tmp/sfh/skills/start-from-here .agents/skills/</code></pre>
+            <p><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md" data-i18n="install.guide">Full guide</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPAT -->
+    <section id="compat" class="section alt" aria-labelledby="compat-title">
+      <div class="wrap">
+        <h2 id="compat-title" data-i18n="compat.title">Compatibility</h2>
+        <p class="lead" data-i18n="compat.lead">Native skill support means the tool loads SKILL.md folders on demand.</p>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="compat-title">
+          <table>
+            <thead><tr><th scope="col" data-i18n="compat.col_platform">Platform</th><th scope="col" data-i18n="compat.col_level">Support</th><th scope="col" data-i18n="compat.col_invoke">Invocation</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Claude Code</th><td><span class="pill ok" data-i18n="compat.native_plugin">Native skill + plugin</span></td><td><code>/start-from-here</code></td></tr>
+              <tr><th scope="row">Claude.ai / Desktop</th><td><span class="pill ok" data-i18n="compat.upload">Native skill (upload)</span></td><td data-i18n="compat.natural">Natural language</td></tr>
+              <tr><th scope="row">Claude API / Agent SDK</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td><code>container.skills</code></td></tr>
+              <tr><th scope="row">OpenAI Codex</th><td><span class="pill ok" data-i18n="compat.native_plugin">Native skill + plugin</span></td><td><code>$start-from-here</code></td></tr>
+              <tr><th scope="row">ChatGPT</th><td><span class="pill ok" data-i18n="compat.upload">Native skill (upload)</span></td><td><code>@start-from-here</code></td></tr>
+              <tr><th scope="row">OpenAI API / Agents SDK</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td><code>Skills(from_=…)</code></td></tr>
+              <tr><th scope="row">Gemini CLI</th><td><span class="pill ok" data-i18n="compat.native_plugin">Native skill + plugin</span></td><td><code>/start-from-here</code></td></tr>
+              <tr><th scope="row">Google Antigravity</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td data-i18n="compat.natural">Natural language</td></tr>
+              <tr><th scope="row">Gemini app (Gems)</th><td><span class="pill warn" data-i18n="compat.prompt">Prompt-only</span></td><td data-i18n="compat.say_start">“start”</td></tr>
+              <tr><th scope="row">GitHub Copilot</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td><code>/start-from-here</code></td></tr>
+              <tr><th scope="row">Cursor</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td><code>/start-from-here</code></td></tr>
+              <tr><th scope="row">Windsurf / Devin Desktop</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td><code>@start-from-here</code></td></tr>
+              <tr><th scope="row">Cline · Roo Code · Kilo Code</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td data-i18n="compat.natural">Natural language</td></tr>
+              <tr><th scope="row">JetBrains Junie</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td><code>/start-from-here</code></td></tr>
+              <tr><th scope="row">Kiro</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td data-i18n="compat.natural">Natural language</td></tr>
+              <tr><th scope="row">OpenCode · Goose · Amp · Augment · Qwen Code · Mistral Vibe · Zed</th><td><span class="pill ok" data-i18n="compat.native">Native skill</span></td><td><code>/start-from-here</code></td></tr>
+              <tr><th scope="row">Continue · Trae · OpenHands · Factory Droid</th><td><span class="pill warn" data-i18n="compat.partial">Partial / unverified</span></td><td data-i18n="compat.natural">Natural language</td></tr>
+              <tr><th scope="row">Aider · Amazon Q · JetBrains AI Assistant · Jules</th><td><span class="pill mid" data-i18n="compat.rules">Rules-file fallback</span></td><td data-i18n="compat.say_start">“start”</td></tr>
+              <tr><th scope="row">Ollama · LM Studio · Open WebUI · Le Chat · DeepSeek · Grok · Perplexity</th><td><span class="pill warn" data-i18n="compat.prompt">Prompt-only</span></td><td data-i18n="compat.say_start">“start”</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note"><span data-i18n="compat.unverified_note">Agents whose paths are known only from third-party sources are marked UNVERIFIED.</span>
+          <a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md#compatibility-matrix" data-i18n="compat.full_matrix">Full matrix and decision tree</a></p>
+      </div>
+    </section>
+
+    <!-- USAGE -->
+    <section id="usage" class="section" aria-labelledby="usage-title">
+      <div class="wrap">
+        <h2 id="usage-title" data-i18n="usage.title">Usage &amp; quick commands</h2>
+        <p class="lead" data-i18n="usage.lead">Say these at any time.</p>
+        <div class="split">
+          <div>
+            <h3 data-i18n="usage.start_title">Start it</h3>
+            <div class="table-wrap" tabindex="0" role="region" aria-labelledby="usage-title">
+              <table>
+                <thead><tr><th scope="col" data-i18n="usage.col_tool">Tool</th><th scope="col" data-i18n="usage.col_say">Say</th></tr></thead>
+                <tbody>
+                  <tr><td>Claude Code, Copilot, Cursor, Junie, Zed, Gemini CLI</td><td><code>/start-from-here</code></td></tr>
+                  <tr><td>Codex, Open WebUI</td><td><code>$start-from-here</code></td></tr>
+                  <tr><td>Windsurf, ChatGPT Skills</td><td><code>@start-from-here</code></td></tr>
+                  <tr><td data-i18n="usage.anything_else">Anything else</td><td><code>Use the start-from-here skill to plan my new app.</code></td></tr>
+                  <tr><td data-i18n="usage.pasted">Pasted prompt, Gem, Custom GPT</td><td><code>start</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="note" data-i18n="usage.start_tip">Add your idea on the same line to save a round.</p>
+            <h3 data-i18n="usage.check_title">Check your docs any time</h3>
+            <p data-i18n="usage.check_body">Finds missing files, leftover placeholders and broken links in a generated project.</p>
+            <pre class="code"><code>npx start-from-here@latest check .</code></pre>
+          </div>
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Quick commands">
+            <table class="cmds">
+              <thead><tr><th scope="col" data-i18n="usage.col_command">Command</th><th scope="col" data-i18n="usage.col_effect">Effect</th></tr></thead>
+              <tbody>
+                <tr><td><code>start</code></td><td data-i18n="usage.c_start">Begin at phase 0.</td></tr>
+                <tr><td><code>resume</code></td><td data-i18n="usage.c_resume">Continue where you left off.</td></tr>
+                <tr><td><code>status</code></td><td data-i18n="usage.c_status">Show phase, tier, document status and open questions.</td></tr>
+                <tr><td><code>use your recommendations</code></td><td data-i18n="usage.c_recs">Accept every recommended default in this round.</td></tr>
+                <tr><td><code>skip to generation</code></td><td data-i18n="usage.c_skip">Fill gaps with labeled assumptions.</td></tr>
+                <tr><td><code>audit docs</code></td><td data-i18n="usage.c_audit">Run only the consistency audit.</td></tr>
+                <tr><td><code>update &lt;doc&gt;</code></td><td data-i18n="usage.c_update">Edit that doc and every dependent doc.</td></tr>
+                <tr><td><code>add &lt;doc&gt;</code></td><td data-i18n="usage.c_add">Generate one extra document.</td></tr>
+                <tr><td><code>explain &lt;term&gt;</code></td><td data-i18n="usage.c_explain">Plain-language explanation with one example.</td></tr>
+                <tr><td><code>change tier &lt;…&gt;</code></td><td data-i18n="usage.c_tier">Recompute the document set.</td></tr>
+                <tr><td><code>handoff</code></td><td data-i18n="usage.c_handoff">Jump to the handoff phase.</td></tr>
+                <tr><td><code>next</code></td><td data-i18n="usage.c_next">Chat-only mode: send the next batch.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMPLE -->
+    <section id="example" class="section alt" aria-labelledby="example-title">
+      <div class="wrap">
+        <h2 id="example-title" data-i18n="example.title">Example session</h2>
+        <p class="lead" data-i18n="example.lead">A beginner plans a booking app in Claude Code. Abridged.</p>
+        <div class="chat">
+          <div class="msg you"><span class="who" data-i18n="example.you">You</span><p data-i18n="example.l1">/start-from-here a booking app for my yoga studio</p></div>
+          <div class="msg agent"><span class="who" data-i18n="example.agent">Agent</span><p data-i18n="example.l2">Phase 0 — new project…</p></div>
+          <div class="msg you"><span class="who" data-i18n="example.you">You</span><p data-i18n="example.l3">beginner, public, at the studio for now, just me.</p></div>
+          <div class="msg agent"><span class="who" data-i18n="example.agent">Agent</span><p data-i18n="example.l4">Proposed tier: Lite…</p></div>
+          <div class="msg agent dim"><span class="who">…</span><p>…</p></div>
+          <div class="msg agent"><span class="who" data-i18n="example.agent">Agent</span><p data-i18n="example.l5">Phase 7 — Handoff…</p></div>
+        </div>
+        <h3 class="mt-s" data-i18n="example.prompt_title">The first implementation prompt</h3>
+        <p data-i18n="example.prompt_body">The skill stops at handoff. Paste this into any coding agent.</p>
+        <pre class="code"><code>Read AGENTS.md and every document it links. Summarize the approved MVP, architecture,
+data and permission rules, coding conventions, and acceptance criteria. List blocking
+contradictions or [TBD] items. Then propose a plan for Milestone 1, Task 1 from
+docs/technical/IMPLEMENTATION_PLAN.md, with files to create and how each acceptance
+criterion will be verified. Do not write code until I approve the plan.</code></pre>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section" aria-labelledby="faq-title">
+      <div class="wrap narrow">
+        <h2 id="faq-title" data-i18n="faq.title">Frequently asked questions</h2>
+        <details><summary data-i18n="faq.q1">Does it write any code?</summary><p data-i18n="faq.a1">No.</p></details>
+        <details><summary data-i18n="faq.q2">Which AI model do I need?</summary><p data-i18n="faq.a2">Any capable model.</p></details>
+        <details><summary data-i18n="faq.q3">Can I use it on an existing project?</summary><p data-i18n="faq.a3">Yes.</p></details>
+        <details><summary data-i18n="faq.q4">Will it invent facts or claim compliance?</summary><p data-i18n="faq.a4">No.</p></details>
+        <details><summary data-i18n="faq.q5">Do I have to answer every question?</summary><p data-i18n="faq.a5">No.</p></details>
+        <details><summary data-i18n="faq.q6">What if my session ends halfway?</summary><p data-i18n="faq.a6">Say “resume”.</p></details>
+        <details><summary data-i18n="faq.q7">Is my data sent anywhere?</summary><p data-i18n="faq.a7">The skill makes no network calls of its own.</p></details>
+        <details><summary data-i18n="faq.q8">Which install method should I pick?</summary><p data-i18n="faq.a8">See the install section.</p></details>
+        <details><summary data-i18n="faq.q9">How do I update it?</summary><p data-i18n="faq.a9">Re-run your install command.</p></details>
+        <details><summary data-i18n="faq.q10">Is it free?</summary><p data-i18n="faq.a10">Yes, MIT licensed.</p></details>
+        <details><summary data-i18n="faq.q11">My AI has a small context window. Will it work?</summary><p data-i18n="faq.a11">Yes — use session mode.</p></details>
+      </div>
+    </section>
+
+    <!-- LINKS -->
+    <section id="links" class="section alt" aria-labelledby="links-title">
+      <div class="wrap">
+        <h2 id="links-title" data-i18n="links.title">Resources</h2>
+        <ul class="links">
+          <li><a href="https://github.com/ilramdhan/start-from-here"><strong>GitHub</strong><span data-i18n="links.github">Source code, issues and discussions</span></a></li>
+          <li><a href="https://www.npmjs.com/package/start-from-here"><strong>npm</strong><span data-i18n="links.npm">npm package</span></a></li>
+          <li><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/guides/README.md"><strong>Guides</strong><span data-i18n="links.guides">Per-platform install guides</span></a></li>
+          <li><a href="https://github.com/ilramdhan/start-from-here/blob/main/docs/USAGE.md"><strong>USAGE.md</strong><span data-i18n="links.manual">User manual</span></a></li>
+          <li><a href="https://github.com/ilramdhan/start-from-here/releases"><strong>Releases</strong><span data-i18n="links.releases">Releases and downloadable bundles</span></a></li>
+          <li><a href="https://github.com/ilramdhan/start-from-here/blob/main/CONTRIBUTING.md"><strong>CONTRIBUTING.md</strong><span data-i18n="links.contributing">Contributing guide</span></a></li>
+          <li><a href="https://github.com/ilramdhan/start-from-here/blob/main/CHANGELOG.md"><strong>CHANGELOG.md</strong><span data-i18n="links.changelog">Changelog</span></a></li>
+          <li><a href="https://github.com/ilramdhan/start-from-here/blob/main/SECURITY.md"><strong>SECURITY.md</strong><span data-i18n="links.security">Security policy</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p><strong>start-from-here</strong> — <span data-i18n="footer.tagline">Plan first, then build.</span></p>
+      <p><span data-i18n="footer.license">Released under the MIT License.</span> © 2026 <a href="https://github.com/ilramdhan">ilramdhan</a> · <span data-i18n="footer.version">Version</span> <span id="site-version">—</span></p>
+      <p class="small" data-i18n="footer.trademark">Product names are trademarks of their respective owners and are used only to describe compatibility.</p>
+      <p><a href="#top" data-i18n="a11y.back_to_top">Back to top</a></p>
+    </div>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

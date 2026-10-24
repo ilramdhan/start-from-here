@@ -1,0 +1,74 @@
+name: Bug report
+description: Something in the installer CLI, bundle, checker, or skill behavior is broken.
+title: "bug: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. **Security issues must not be filed here**. See SECURITY.md (private vulnerability reporting).
+        Never paste secrets, tokens, or private project data.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Installer CLI (install / uninstall / list-agents / doctor)
+        - Bundle (zip / prompt.md / knowledge files)
+        - Doc checker (check / check-docs.mjs)
+        - Skill behavior (interview, gates, generated docs)
+        - Plugin / extension manifest
+        - Documentation / guides
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run `npx start-from-here@latest install -a cursor --dry-run`
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output or transcript excerpt
+      description: CLI output, `doctor` output, or the part of the agent conversation that went wrong.
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: start-from-here version
+      placeholder: "output of `npx start-from-here@latest --version`, or the skill's metadata.version"
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: AI tool / agent and model
+      placeholder: "e.g. Claude Code + model X, Cursor, ChatGPT Custom GPT, Ollama + model Y"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: OS and Node.js version
+      placeholder: "e.g. macOS 15, Node 22.x / Windows 11, Node 20.x"
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I removed any secrets or private data from this report.
+          required: true
