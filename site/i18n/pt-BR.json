@@ -255,7 +255,7 @@
     "c_handoff": "Pula para a fase de entrega.",
     "c_next": "Modo só de chat: envia o próximo lote de documentos.",
     "check_title": "Verifique seus documentos a qualquer momento",
-    "check_body": "Encontra arquivos faltando, placeholders esquecidos e links quebrados em um projeto gerado."
+    "check_body": "Encontra arquivos faltando, placeholders esquecidos, links quebrados e referências cruzadas de ID quebradas (IDs não definidos ou duplicados, funcionalidades Must sem testes) em um projeto gerado."
   },
   "example": {
     "title": "Sessão de exemplo",

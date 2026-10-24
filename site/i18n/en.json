@@ -255,7 +255,7 @@
     "c_handoff": "Jump to the handoff phase.",
     "c_next": "Chat-only mode: send the next batch of documents.",
     "check_title": "Check your docs any time",
-    "check_body": "Finds missing files, leftover placeholders and broken links in a generated project."
+    "check_body": "Finds missing files, leftover placeholders, broken links and broken ID cross-references (undefined or duplicate IDs, untested Must features) in a generated project."
   },
   "example": {
     "title": "Example session",

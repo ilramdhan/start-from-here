@@ -252,7 +252,7 @@ docs/technical/IMPLEMENTATION_PLAN.md, with files to create and how each accepta
 criterion will be verified. Do not write code until I approve the plan.
 ```
 
-Work through `IMPLEMENTATION_PLAN.md` one task at a time. When a decision changes, come back and say `update <doc>`, and the skill updates every downstream doc. Run `npx start-from-here@latest check .` at any time to find missing files, leftover placeholders, and broken links.
+Work through `IMPLEMENTATION_PLAN.md` one task at a time. When a decision changes, come back and say `update <doc>`, and the skill updates every downstream doc. Run `npx start-from-here@latest check .` at any time to find missing files, leftover placeholders, broken links, and IDs that are referenced but never defined (or defined twice).
 
 ## Repository layout
 

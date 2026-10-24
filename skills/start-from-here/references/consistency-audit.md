@@ -8,7 +8,21 @@ If you can run commands and Node ≥18 is available, also run:
 node <skill-dir>/scripts/check-docs.mjs <projectDir>
 ```
 
-The script covers mechanical checks (files present, placeholders, guidance comments, `[TBD` counts, broken relative links, status headers, obvious secrets). You MUST still perform the semantic checks below yourself. Never report that the script ran if it did not.
+The script covers mechanical checks (files present, placeholders, guidance comments, `[TBD` counts, broken relative links, status headers, obvious secrets, ID cross-references, blocking TBDs). You MUST still perform the semantic checks below yourself.
+
+ID cross-references done by the script (definition rules: `writing-conventions.md` §3):
+
+| Finding | Severity |
+|---|---|
+| ID referenced but never defined (defining doc exists) | Error |
+| IDs of one prefix referenced but the defining doc is not generated (one finding per prefix) | Warning |
+| Same ID defined twice in one table or AC list; two ADR files with the same number | Error |
+| Must F-xx (or a feature without a priority) not referenced in TESTING or IMPLEMENTATION_PLAN | Warning |
+| AC-xx.y of a Must feature with no row in TESTING | Warning |
+| NFR-xx (TRD, Lite: ARCHITECTURE) referenced in neither TESTING nor OPERATIONS | Warning |
+| `[TBD-BLOCKING: …]` without a Q-xx | Error |
+
+Features marked withdrawn, Won't, or out of scope are not required downstream. The script does not check names, priorities, or numbers; C, D, and G below still need you. Never report that the script ran if it did not.
 
 Severity:
 - **Error** — contradicts another doc, breaks traceability, leaks a secret, invents a fact, or leaves a template artifact. Must be fixed or explicitly accepted by the user.
@@ -27,7 +41,7 @@ Severity:
 
 - [ ] No `{{` … `}}` placeholders remain. (Error)
 - [ ] No `<!-- guidance` comments remain. (Error)
-- [ ] Count `[TBD` items per doc; list blocking ones. (Info; Error if a Required section is entirely TBD without a Q-xx)
+- [ ] Count `[TBD` items per doc; list blocking ones (`[TBD-BLOCKING: … — Q-xx]`). (Info; Error if a blocking TBD has no Q-xx or a Required section is entirely TBD without a Q-xx)
 - [ ] Every `> **PROPOSAL:**` is either approved (converted to plain text) or listed as open. (Warning)
 - [ ] Every `> **ASSUMPTION:**` also appears in DISCOVERY.md assumptions. (Warning)
 
@@ -39,7 +53,8 @@ Severity:
 - [ ] Every F-xx with user interaction appears in APP_FLOW. (Error for Must, Warning otherwise)
 - [ ] Every F-xx is mapped in TRD (Standard/Enterprise). (Warning)
 - [ ] No doc describes a feature listed as out of scope or Won't. (Error)
-- [ ] No doc references an ID that does not exist (F-, NFR-, P-, US-, R-, Q-, ADR-). (Error)
+- [ ] No doc references an ID that does not exist (any prefix in `writing-conventions.md` §3; the script checks this). (Error)
+- [ ] No ID is defined twice. (Error)
 - [ ] Personas P-xx used in APP_FLOW/DESIGN_SYSTEM exist in PRD. (Error)
 
 ## D. Naming

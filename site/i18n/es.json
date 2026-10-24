@@ -255,7 +255,7 @@
     "c_handoff": "Salta a la fase de entrega.",
     "c_next": "Modo solo chat: envía el siguiente lote de documentos.",
     "check_title": "Revisa tus documentos cuando quieras",
-    "check_body": "Detecta archivos faltantes, marcadores pendientes y enlaces rotos en un proyecto generado."
+    "check_body": "Detecta archivos faltantes, marcadores pendientes, enlaces rotos y referencias cruzadas de ID rotas (ID no definidos o duplicados, funciones Must sin pruebas) en un proyecto generado."
   },
   "example": {
     "title": "Sesión de ejemplo",

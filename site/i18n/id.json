@@ -255,7 +255,7 @@
     "c_handoff": "Langsung ke fase serah terima.",
     "c_next": "Mode chat saja: kirim batch dokumen berikutnya.",
     "check_title": "Periksa dokumen Anda kapan saja",
-    "check_body": "Menemukan file yang hilang, placeholder yang tertinggal, dan tautan rusak di proyek yang sudah di-generate."
+    "check_body": "Menemukan file yang hilang, placeholder yang tertinggal, tautan rusak, dan referensi ID yang tidak konsisten (ID tidak terdefinisi atau ganda, fitur Must tanpa tes) di proyek yang sudah di-generate."
   },
   "example": {
     "title": "Contoh sesi",
