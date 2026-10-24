@@ -1,0 +1,89 @@
+# guidance (remove in output): GitHub issue form. Valid keys per "Syntax for issue forms":
+# name, description, title, labels, assignees, projects, type, body. Body element types: markdown, input, textarea,
+# dropdown, checkboxes, upload. "required" validations only enforced on public repos. Labels must exist in the repo
+# (create "bug" and "needs-triage" or change these). Adjust dropdown options to real versions/platforms. Tier: S E.
+# Owner: {{owner}} · Last updated: {{yyyy_mm_dd}}
+name: Bug report
+description: Report something that is broken or behaves unexpectedly.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+        **Security vulnerabilities must not be reported here** — please follow [SECURITY.md](https://github.com/{{github_owner}}/{{repo_name}}/blob/{{default_branch}}/SECURITY.md).
+        Please search [existing issues](https://github.com/{{github_owner}}/{{repo_name}}/issues) first to avoid duplicates.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug.
+      placeholder: When I click "Save", the page shows an error and my changes are lost.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps (or a link to a minimal reproduction repository).
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Which version, release, or commit are you using?
+      placeholder: "e.g. 1.4.2 or commit abc1234"
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment / platform
+      description: Where does the bug occur? Select all that apply.
+      multiple: true
+      options:
+        - "{{platform_option_1}}"
+        - "{{platform_option_2}}"
+        - Other (describe below)
+    validations:
+      required: false
+  - type: textarea
+    id: environment_details
+    attributes:
+      label: Environment details
+      description: OS, browser/runtime and versions, device, configuration.
+      placeholder: "e.g. macOS 15, Chrome 130 / Node 22 / Python 3.12"
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or screenshots
+      description: Paste log output (automatically formatted as code). Remove secrets and personal data first.
+      render: shell
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+        - label: I have removed secrets and personal data from this report.
+          required: true
+        # Keep the next option only if CODE_OF_CONDUCT.md is generated (open source); otherwise delete these two lines.
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/{{github_owner}}/{{repo_name}}/blob/{{default_branch}}/CODE_OF_CONDUCT.md).
+          required: true

@@ -1,0 +1,14 @@
+# guidance (remove in output): Issue template chooser configuration. Valid top-level keys: blank_issues_enabled, contact_links.
+# Each contact link needs name, url, about. Only list channels that exist (match SUPPORT.md). Tier: S E.
+# Owner: {{owner}} · Last updated: {{yyyy_mm_dd}}
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and discussions
+    url: "{{discussions_url}}"
+    about: Ask questions and share ideas here instead of opening an issue.
+  - name: Report a security vulnerability
+    url: "https://github.com/{{github_owner}}/{{repo_name}}/security/advisories/new"
+    about: Please report security issues privately, never in public issues. See SECURITY.md.
+  - name: Documentation
+    url: "{{documentation_url}}"
+    about: Read the docs before opening an issue.
