@@ -167,6 +167,8 @@ rm -rf .claude/skills/start-from-here                              # manual
 
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/plugins/cli-reference
+- https://code.claude.com/docs/en/settings-reference#enabledplugins
 - https://code.claude.com/docs/en/plugins/marketplace-reference
 - https://code.claude.com/docs/en/plugins/create-marketplace
 - https://code.claude.com/docs/en/memory
