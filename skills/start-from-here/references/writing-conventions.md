@@ -29,6 +29,7 @@ Legal docs can be `Approved` as drafts by the user; the separate counsel review 
 | `{{snake_case_name}}` | Template placeholder. MUST NOT appear in output. | `{{product_name}}` → `Acme Notes` |
 | `<!-- guidance: … -->` | Instruction to the AI inside a template. MUST be removed in output. | — |
 | `[TBD: question — owner]` | Unknown that someone must decide. | `[TBD: Which region hosts EU data? — CTO]` |
+| `[TBD-BLOCKING: question — owner — Q-xx]` | Unknown that blocks approval or a dependent task. Always names its Q-xx. | `[TBD-BLOCKING: Which region hosts EU data? — CTO — Q-04]` |
 | `> **PROPOSAL:** …` | AI suggestion awaiting approval. | `> **PROPOSAL:** Use managed PostgreSQL (see ADR-0002).` |
 | `> **ASSUMPTION:** …` | Treated as true until told otherwise. | `> **ASSUMPTION:** (A-03) Fewer than 500 users in year one.` |
 | `Not configured` | No verified command exists yet. | `Test: Not configured` |
@@ -39,7 +40,7 @@ Rules:
 
 1. When the user approves a PROPOSAL, rewrite it as plain text and record the decision (D-xx) in DISCOVERY.md.
 2. Every ASSUMPTION also appears in DISCOVERY.md with an A-xx ID.
-3. Every blocking TBD also appears as a Q-xx in DISCOVERY.md "Open questions".
+3. Every blocking TBD is written `[TBD-BLOCKING: … — Q-xx]` and also appears as that Q-xx in DISCOVERY.md "Open questions". `scripts/check-docs.mjs` counts blocking TBDs separately and reports one without a Q-xx as an error.
 4. Never use a marker to hide an invented fact. If you are not sure, it is TBD.
 
 ## 3. IDs
@@ -82,6 +83,13 @@ IDs are permanent. Never renumber; if an item is withdrawn, mark it `(withdrawn)
 Interview question IDs (`VIS-01`, `IDN-02`, `ACC-01`, …) belong to `discovery-question-bank.md` and appear only in DISCOVERY.md. `SEC-xx` and `A11Y-xx` in generated docs always mean tests.
 
 Cross-reference by ID and link: `F-03 ([PRD](../product/PRD.md#7-features))`. A bare ID is acceptable inside the same doc.
+
+How an ID is defined (this is what `scripts/check-docs.mjs` reads):
+
+- **Defined** = the ID starts a cell in an `ID` / `Test ID` / `SLO ID` / `TB` / `Gate` column, starts the first column of a table, starts a heading (`#### F-03 — Share a note`), or starts an acceptance-criterion bullet (`- **AC-03.1 (happy)** …`), in a doc listed under "Defined in". ADRs are defined by their files (`docs/decisions/NNNN-title.md`). Sub-rows such as `SEC-08.1` define `SEC-08`.
+- **Referenced** = any other occurrence in prose or tables. Ranges count: `AC-01.1–AC-01.4`, `AC-01.1–4`, `T-03..T-07`. `M0`–`M7` and `G0`–`G5` are read only in IMPLEMENTATION_PLAN and docs/README.md.
+- Ignored: code blocks, inline code other than a bare ID (`` `F-03` `` still counts), `{{placeholders}}`, and HTML comments.
+- Each ID is defined once per table. Restating a row in a summary table of another doc (DISCOVERY seed register, traceability tables) is fine.
 
 ## 4. Acceptance criteria
 

@@ -215,7 +215,7 @@ criterion will be verified. Do not write code until I approve the plan.
 ```
 
 4. Work through `docs/technical/IMPLEMENTATION_PLAN.md` task by task. When a decision changes, go back to the skill and say `update <doc>` so all docs stay consistent.
-5. Optional check (Node ≥ 18): `npx start-from-here@latest check .` reports missing files, leftover placeholders and template comments, broken links, missing status headers or legal notices, and obvious secrets.
+5. Optional check (Node ≥ 18): `npx start-from-here@latest check .` reports missing files, leftover placeholders and template comments, broken links, missing status headers or legal notices, and obvious secrets. It also cross-checks IDs between docs: a reference to an ID that is never defined (for example `F-07` in TESTING when the PRD stops at `F-06`) or an ID defined twice is an error, and a Must feature, its acceptance criteria, or an NFR that no test, task, or monitor references is a warning. A `[TBD-BLOCKING: …]` marker without its `Q-xx` is an error. For machine-readable output run `node <skill-dir>/scripts/check-docs.mjs . --json`.
 
 ## FAQ
 

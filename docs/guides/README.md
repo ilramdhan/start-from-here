@@ -108,7 +108,7 @@ npx start-from-here@latest uninstall [--agent <id,...>|--all] [--global]
 npx start-from-here@latest list-agents      # ids + project/global paths (unverified paths are marked)
 npx start-from-here@latest doctor           # where it is installed, versions, frontmatter check
 npx start-from-here@latest bundle --out dist  # zip + prompt.md + knowledge/
-npx start-from-here@latest check [dir]      # check generated docs (missing files, leftover markers, broken links)
+npx start-from-here@latest check [dir]      # check generated docs (missing files, leftover markers, broken links, ID cross-references)
 ```
 
 Agent ids: `universal`, `claude-code`, `codex`, `gemini-cli`, `antigravity`, `copilot`, `cursor`, `windsurf`, `cline`, `kiro`, `trae`, `opencode`, `goose`, `amp`, `roo`, `kilo`, `junie`, `augment`, `qwen-code`, `zed`, `continue`. Rules-file fallback ids: `aider`, `amazon-q`, `jetbrains-ai-assistant` (these print instructions; with `--yes` they write a pointer rules file).
