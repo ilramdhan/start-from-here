@@ -26,8 +26,8 @@ The Gemini web app has no native skill loading. Gems cannot run bundled scripts.
 4. Add knowledge: upload the files in `dist/knowledge/` (up to **10 files at a time**, each up to **100 MB**). You can also add them from Google Drive.
 5. Save. Optionally share the Gem.
 
-> ⚠️ Unverified: whether Gems accept `.md` uploads. If an upload is refused, rename the files to `.txt`.
-> ⚠️ Unverified: a character limit for Gem instructions (none published). If the full `start-from-here.prompt.md` fits, you can paste it instead.
+> ⚠️ Unverified: whether Gems accept `.md` uploads (Google's help page says Gemini Apps "support most file types", up to 10 files per prompt and 100 MB per non-video file, but does not list Markdown; https://support.google.com/gemini/answer/14903178, checked 2026-10-25). If an upload is refused, rename the files to `.txt`.
+> ⚠️ Unverified: a character limit for Gem instructions (none published in Google's help pages as of 2026-10-25). If the full `start-from-here.prompt.md` fits, you can paste it instead.
 
 Tip: store the knowledge files as Google Docs in Drive. Linked Docs update automatically; uploaded files must be re-uploaded after changes.
 

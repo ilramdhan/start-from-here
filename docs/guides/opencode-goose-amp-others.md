@@ -58,7 +58,7 @@ amp skill add ilramdhan/start-from-here            # project
 amp skill add ilramdhan/start-from-here --global   # → ~/.config/agents/skills/
 ```
 
-> ⚠️ Unverified: that `amp skill add` accepts the `owner/repo` shorthand (docs say `<source>`). If not, pass the full GitHub URL.
+> ⚠️ Unverified: that `amp skill add` accepts the `owner/repo` shorthand (docs say `<source>`; https://ampcode.com/manual does not detail it, checked 2026-10-25). If not, pass the full GitHub URL.
 
 GitHub CLI (→ `.agents/skills/`): `gh skill install ilramdhan/start-from-here start-from-here --scope project`.
 
@@ -92,7 +92,7 @@ Agent: Proposed tier: Standard (public library). Archetype: library/SDK → API.
 
 ## Resuming in a new session
 
-`Use the start-from-here skill. resume` (or `/start-from-here resume`). OpenCode reads `AGENTS.md` (falls back to `CLAUDE.md`). ⚠️ Unverified: `AGENTS.md` support in Goose, Amp, Augment, Qwen Code (Qwen uses `QWEN.md`) — if not read, paste the first implementation prompt from the handoff.
+`Use the start-from-here skill. resume` (or `/start-from-here resume`). OpenCode reads `AGENTS.md` (falls back to `CLAUDE.md`). `AGENTS.md` support verified 2026-10-25 for Goose (https://goose-docs.ai/docs/guides/context-engineering/using-goosehints/), Augment (https://docs.augmentcode.com/setup-augment/guidelines) and Amp (it has an AGENTS.md docs page, https://ampcode.com/manual). Qwen Code's documented context file is `QWEN.md` (`context.fileName`), with no `AGENTS.md` mention (https://qwenlm.github.io/qwen-code-docs/en/users/configuration/settings/) — if not read, paste the first implementation prompt from the handoff.
 
 ## Update
 
@@ -110,7 +110,7 @@ npx skills remove start-from-here
 
 ## Limitations & troubleshooting
 
-- **Mistral Vibe** may refuse to copy skills with > 200 files, any file > 256 KiB, or > 1 MiB of non-SKILL files (⚠️ Unverified, third-party). Mistral **Vibe Work** (web) has its own Skills upload (Context › Skills › New Skill) in the same format.
+- **Mistral Vibe** may refuse to copy skills with > 200 files, any file > 256 KiB, or > 1 MiB of non-SKILL files (⚠️ Unverified, third-party; the official Mistral Vibe skills page https://docs.mistral.ai/vibe/code/cli/skills states no such limits, checked 2026-10-25). Mistral **Vibe Work** (web) has its own Skills upload (Context › Skills › New Skill) in the same format.
 - **Amp** limits: 200 skills per repo, 10 MiB per file, 25 MiB total.
 - OpenCode: skill permissions can be set via `opencode.json` `permission.skill`.
 

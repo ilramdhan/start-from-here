@@ -48,7 +48,7 @@ Pin a version with `ilramdhan/start-from-here#v1.0.0`. To pre-register the marke
 }
 ```
 
-> ⚠️ Unverified: the exact `enabledPlugins` shape. Check https://code.claude.com/docs/en/settings-reference#enabledplugins.
+> `enabledPlugins` is an object mapping plugin IDs to booleans, settable in user, project, local or managed settings (verified 2026-10-25: https://code.claude.com/docs/en/settings-reference#enabledplugins).
 
 ### Option B — `npx skills add`
 
@@ -78,7 +78,7 @@ npx start-from-here@latest install --agent claude-code,universal
 gh skill install ilramdhan/start-from-here start-from-here --agent claude-code --scope project   # or --scope user
 ```
 
-> ⚠️ Unverified: that `claude-code` is an accepted `gh skill --agent` value. If it fails, use Option B, C or E.
+> `claude-code` is a documented `gh skill --agent` value (verified 2026-10-25: https://cli.github.com/manual/gh_skill_install).
 
 ### Option E — Manual copy
 
@@ -139,7 +139,7 @@ The skill reads `docs/.start-from-here/STATE.md` and continues from the recorded
 
 | Installed with | Update command |
 |---|---|
-| Plugin | `claude plugin marketplace upgrade start-from-here` ⚠️ Unverified for Claude Code (verified for Codex); otherwise remove and re-add the marketplace, or re-run `/plugin install` |
+| Plugin | `claude plugin marketplace update start-from-here` (corrected 2026-10-25: Claude Code uses `update`, not `upgrade`; https://code.claude.com/docs/en/plugins/cli-reference.md#plugin-marketplace-update) |
 | `npx skills` | `npx skills update` (add `-g` for global) |
 | Our CLI | `npx start-from-here@latest install --agent claude-code --force` |
 | `gh skill` | `gh skill install ilramdhan/start-from-here start-from-here --force` |
@@ -167,6 +167,8 @@ rm -rf .claude/skills/start-from-here                              # manual
 
 - https://code.claude.com/docs/en/skills
 - https://code.claude.com/docs/en/plugins/install
+- https://code.claude.com/docs/en/plugins/cli-reference
+- https://code.claude.com/docs/en/settings-reference#enabledplugins
 - https://code.claude.com/docs/en/plugins/marketplace-reference
 - https://code.claude.com/docs/en/plugins/create-marketplace
 - https://code.claude.com/docs/en/memory

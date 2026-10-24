@@ -14,7 +14,7 @@ All three are VS Code agents with **native skill** support.
 
 Invocation: natural language ("Use the start-from-here skill to plan my new app"). Roo precedence: project `.roo` (mode-specific, then generic) > project `.agents` > global `.roo` > global `.agents`.
 
-> ⚠️ Unverified: whether Cline reads `.agents/skills/`. `npx skills add -a cline` installs there, but Cline's docs don't list it. **For Cline, use our CLI or copy into `.cline/skills/`.**
+> Cline's docs list `.cline/skills/`, `.clinerules/skills/` and `.claude/skills/` (project) and `~/.cline/skills/` (global), and do not list `.agents/skills/` (verified 2026-10-25: https://docs.cline.bot/customization/skills). `npx skills add -a cline` installs to `.agents/skills/`, which Cline does not document. **For Cline, use our CLI or copy into `.cline/skills/`.**
 
 ## Prerequisites
 

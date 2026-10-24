@@ -47,7 +47,7 @@ mkdir -p .agents/skills && cp -R /tmp/sfh/skills/start-from-here .agents/skills/
 
 In Cascade, type `@` and look for `start-from-here`.
 
-> ⚠️ Unverified: a dedicated skills panel in Devin Desktop.
+> Devin Desktop (Windsurf): open the Cascade panel, click the three dots, then the **Skills** section of the customizations menu (verified 2026-10-25: https://docs.devin.ai/desktop/cascade/skills).
 
 ## How to use
 

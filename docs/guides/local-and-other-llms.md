@@ -30,7 +30,7 @@ Output mode is **chat-only**: documents come as `### path` headings with fenced 
 - The `dist/` files.
 - For local models: a model with a large context window. The flattened prompt plus a long interview needs many tokens.
 
-> ⚠️ Unverified: a minimum context size or model size for good results. Small local models may skip gates or lose track. Prefer the largest model you can run.
+> ⚠️ Unverified: a minimum context size or model size for good results (no vendor publishes one; this is project guidance, checked 2026-10-25). Small local models may skip gates or lose track. Prefer the largest model you can run.
 
 **Context ≤ 64k (most local models)?** Use **session mode**: say `session mode` at the start (the skill also proposes it). The work is split into short work packages, one per fresh chat, connected by `docs/.start-from-here/HANDOVER.md`. See [Session mode for local models](#session-mode-for-local-models).
 
