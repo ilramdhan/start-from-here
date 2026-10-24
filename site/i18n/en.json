@@ -296,7 +296,11 @@
     "q10": "Is it free?",
     "a10": "Yes. It is open source under the MIT license. You only pay for the AI tool you already use.",
     "q11": "My AI has a small context window (local LLM, small model). Will it work?",
-    "a11": "Yes — use session mode. Say “session mode” and the work is split into short work packages, one per fresh session, connected by a handover file (docs/.start-from-here/HANDOVER.md) that keeps decisions and IDs consistent. The skill proposes it automatically for local or small models and long projects."
+    "a11": "Yes — use session mode. Say “session mode” and the work is split into short work packages, one per fresh session, connected by a handover file (docs/.start-from-here/HANDOVER.md) that keeps decisions and IDs consistent. The skill proposes it automatically for local or small models and long projects.",
+    "q12": "What is start-from-here?",
+    "a12": "An open, MIT-licensed Agent Skill that interviews you with recommended defaults, recommends a stack, gets your brief approval, and then generates a complete set of pre-development documents before any code is written.",
+    "q13": "What documents does it generate?",
+    "a13": "PRD, app flow, design system, TRD, architecture with ADRs, database and ERD, API, security threat model, testing, operations, implementation plan, code style, git workflow, AGENTS.md, legal drafts (terms of service, privacy, cookies, compliance, and conditional MSA, DPA and BAA) and open-source files."
   },
   "links": {
     "title": "Resources",
