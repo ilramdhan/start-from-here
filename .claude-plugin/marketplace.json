@@ -7,14 +7,14 @@
   },
   "metadata": {
     "description": "start-from-here skill marketplace",
-    "version": "1.2.0"
+    "version": "1.2.1"
   },
   "plugins": [
     {
       "name": "start-from-here",
       "source": "./",
       "description": "Interviews you, then writes approved pre-code project docs (PRD, TRD, architecture, stack, security, tests, legal, AGENTS.md) before any code is written.",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "productivity",
       "tags": [
         "planning",
