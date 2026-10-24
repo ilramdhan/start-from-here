@@ -1,11 +1,22 @@
 {
   "name": "start-from-here",
   "displayName": "Start From Here",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Interviews you, then writes approved pre-code project docs (PRD, TRD, architecture, stack, security, tests, legal, AGENTS.md) before any code is written.",
-  "author": { "name": "ilramdhan", "url": "https://github.com/ilramdhan" },
+  "author": {
+    "name": "ilramdhan",
+    "url": "https://github.com/ilramdhan"
+  },
   "homepage": "https://github.com/ilramdhan/start-from-here",
   "repository": "https://github.com/ilramdhan/start-from-here",
   "license": "MIT",
-  "keywords": ["agent-skills", "project-discovery", "prd", "architecture", "documentation", "planning", "vibe-coding"]
+  "keywords": [
+    "agent-skills",
+    "project-discovery",
+    "prd",
+    "architecture",
+    "documentation",
+    "planning",
+    "vibe-coding"
+  ]
 }

@@ -1,16 +1,28 @@
 {
   "name": "start-from-here",
   "description": "Marketplace for the start-from-here Agent Skill: project discovery and pre-development documentation.",
-  "owner": { "name": "ilramdhan", "url": "https://github.com/ilramdhan" },
-  "metadata": { "description": "start-from-here skill marketplace", "version": "1.0.0" },
+  "owner": {
+    "name": "ilramdhan",
+    "url": "https://github.com/ilramdhan"
+  },
+  "metadata": {
+    "description": "start-from-here skill marketplace",
+    "version": "1.1.0"
+  },
   "plugins": [
     {
       "name": "start-from-here",
       "source": "./",
       "description": "Interviews you, then writes approved pre-code project docs (PRD, TRD, architecture, stack, security, tests, legal, AGENTS.md) before any code is written.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "productivity",
-      "tags": ["planning", "documentation", "prd", "architecture", "agent-skills"]
+      "tags": [
+        "planning",
+        "documentation",
+        "prd",
+        "architecture",
+        "agent-skills"
+      ]
     }
   ]
 }
