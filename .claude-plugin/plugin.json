@@ -1,7 +1,7 @@
 {
   "name": "start-from-here",
   "displayName": "Start From Here",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Interviews you, then writes approved pre-code project docs (PRD, TRD, architecture, stack, security, tests, legal, AGENTS.md) before any code is written.",
   "author": {
     "name": "ilramdhan",
