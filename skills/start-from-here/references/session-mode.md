@@ -109,6 +109,8 @@ Approximate token sizes (bytes ÷ 4; real tokenizers vary ±25%, non-English tex
 | AI_GUIDELINES | 7.7k | AGENTS.md | 2.4k |
 | PRIVACY_POLICY | 2.8k | TERMS_OF_SERVICE | 2.0k |
 | COMPLIANCE | 1.6k | COOKIE_POLICY | 0.9k |
+| DATA_PROCESSING_AGREEMENT | 3.2k | BUSINESS_ASSOCIATE_AGREEMENT | 2.5k |
+| MASTER_SERVICES_AGREEMENT | 2.0k | | |
 | README / CONTRIBUTING / SECURITY.md / ACCESSIBILITY | 1.2–1.5k each | `.github/*`, CHANGELOG, SUPPORT, CODE_OF_CONDUCT | 0.3–0.8k each |
 | HANDOVER | 0.9k (filled ≤ 2k) | | |
 

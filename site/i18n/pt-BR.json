@@ -130,6 +130,9 @@
     "privacy": "Política de privacidade, se você processar qualquer dado pessoal.",
     "cookie": "Política de cookies, se um site usar rastreamento.",
     "compliance": "Registro regulatório: regimes, controles e responsáveis.",
+    "msa": "Esqueleto de contrato-mestre de serviços (MSA), se você vende para empresas.",
+    "dpa": "Esqueleto de acordo de tratamento de dados (GDPR art. 28), se você trata dados pessoais dos clientes.",
+    "baa": "Esqueleto de acordo de associado comercial HIPAA (BAA), se você lida com dados de saúde para entidades cobertas.",
     "oss_files": "README, CHANGELOG, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT, ACCESSIBILITY, CODEOWNERS, modelos de PR e de issue.",
     "threat_note": "O modelo de ameaças fica em docs/technical/SECURITY_ARCHITECTURE.md. O SECURITY.md na raiz é reservado para a política de divulgação de vulnerabilidades do GitHub."
   },

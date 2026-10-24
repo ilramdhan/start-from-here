@@ -191,3 +191,31 @@ test('check-docs does not flag session-mode HANDOVER.md (no status header / temp
   assert.ok(Array.isArray(list), 'findings array');
   assert.deepEqual(list.filter((f) => /HANDOVER/.test(f.file ?? '')), []);
 });
+
+test('check-docs: B2B legal docs are conditional on STATE.md flags (never expected by tier alone)', () => {
+  const script = path.join(ROOT, 'skills', SKILL, 'scripts', 'check-docs.mjs');
+  const legalPresence = (flags) => {
+    const dir = tmp();
+    fs.mkdirSync(path.join(dir, 'docs', '.start-from-here'), { recursive: true });
+    fs.writeFileSync(path.join(dir, 'docs', '.start-from-here', 'STATE.md'),
+      `# start-from-here state\n- tier: Enterprise\n\n## Flags\n${flags}\n`);
+    const r = spawnSync(process.execPath, [script, dir, '--json'], { encoding: 'utf8' });
+    return JSON.parse(r.stdout).findings
+      .filter((f) => f.check === 'presence' && /AGREEMENT/.test(f.file))
+      .map((f) => `${f.severity}:${f.file}`).sort();
+  };
+  assert.deepEqual(legalPresence('- b2b: no\n- processor_for_customers: no\n- phi_for_covered_entities: no'), []);
+  assert.deepEqual(legalPresence('- b2b: yes\n- processor_for_customers: yes\n- phi_for_covered_entities: yes'), [
+    'warning:docs/legal/BUSINESS_ASSOCIATE_AGREEMENT.md',
+    'warning:docs/legal/DATA_PROCESSING_AGREEMENT.md',
+    'warning:docs/legal/MASTER_SERVICES_AGREEMENT.md',
+  ]);
+});
+
+test('B2B legal templates carry the not-legal-advice notice and a status header', () => {
+  for (const f of ['MASTER_SERVICES_AGREEMENT.md', 'DATA_PROCESSING_AGREEMENT.md', 'BUSINESS_ASSOCIATE_AGREEMENT.md']) {
+    const text = fs.readFileSync(path.join(ROOT, 'skills', SKILL, 'assets', 'templates', 'docs', 'legal', f), 'utf8');
+    assert.match(text, /This is a draft, not legal advice\. Have it reviewed by qualified counsel\./, f);
+    assert.match(text, /\*\*Status:\*\* Draft/, f);
+  }
+});

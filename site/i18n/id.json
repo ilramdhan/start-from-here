@@ -130,6 +130,9 @@
     "privacy": "Kebijakan privasi, jika Anda memproses data pribadi apa pun.",
     "cookie": "Kebijakan cookie, jika situs web menggunakan pelacakan.",
     "compliance": "Register regulasi: rezim, kontrol, dan penanggung jawab.",
+    "msa": "Kerangka perjanjian layanan induk (MSA), jika Anda menjual ke bisnis.",
+    "dpa": "Kerangka perjanjian pemrosesan data (GDPR Pasal 28), jika Anda memproses data pribadi milik pelanggan.",
+    "baa": "Kerangka perjanjian business associate HIPAA (BAA), jika Anda menangani data kesehatan untuk covered entity.",
     "oss_files": "README, CHANGELOG, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT, ACCESSIBILITY, CODEOWNERS, template PR dan issue.",
     "threat_note": "Threat model ada di docs/technical/SECURITY_ARCHITECTURE.md. SECURITY.md di root dikhususkan untuk kebijakan pengungkapan kerentanan GitHub."
   },

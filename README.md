@@ -124,7 +124,10 @@ docs/legal/
 ├── TERMS_OF_SERVICE.md          # if accounts / SaaS                                                    S E
 ├── PRIVACY_POLICY.md            # if any personal data                                                  S E (L if personal data)
 ├── COOKIE_POLICY.md             # if web + tracking                                                     optional
-└── COMPLIANCE.md                # regulatory register: regimes, controls, owners                        E (S if regulated)
+├── COMPLIANCE.md                # regulatory register: regimes, controls, owners                        E (S if regulated)
+├── MASTER_SERVICES_AGREEMENT.md # MSA skeleton, if you sell to businesses (B2B)                         E if B2B (S optional)
+├── DATA_PROCESSING_AGREEMENT.md # DPA skeleton (GDPR Art. 28), if you process customers' personal data  S E if processor
+└── BUSINESS_ASSOCIATE_AGREEMENT.md # HIPAA BAA skeleton, if you handle PHI for covered entities         S E if PHI
 ```
 
 **Open-source / GitHub**

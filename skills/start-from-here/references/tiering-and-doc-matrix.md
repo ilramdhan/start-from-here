@@ -50,7 +50,7 @@ Tell the user the score drivers in one line: "Standard — small team, accounts 
 - **O** Optional: offer, default off unless the user wants it.
 - **—** Skip.
 
-Conditions: `UI` = has a graphical user interface; `data` = stores data beyond config; `PD` = personal data; `API` = exposes an API to clients/other services; `OSS` = open source; `public` = publicly accessible product or repo; `accounts` = user sign-in; `SaaS` = hosted service for others; `regulated` = regulated data; `tracking` = non-essential cookies/analytics/ads on web; `store` = distributed through an app store; `tool named` = user named that AI tool.
+Conditions: `UI` = has a graphical user interface; `data` = stores data beyond config; `PD` = personal data; `API` = exposes an API to clients/other services; `OSS` = open source; `public` = publicly accessible product or repo; `accounts` = user sign-in; `SaaS` = hosted service for others; `regulated` = regulated data; `tracking` = non-essential cookies/analytics/ads on web; `store` = distributed through an app store; `tool named` = user named that AI tool; `B2B` = sold to businesses under order forms or negotiated contracts (CMP-06); `processor` = processes personal data on behalf of business customers (CMP-07); `PHI` = creates, receives, maintains, or transmits protected health information for a HIPAA covered entity or another business associate (CMP-08).
 
 `PD` means personal data the developer or a third-party service it uses (analytics, crash reporting, sync, AI provider) can access. Data that stays only on the user's device and is never transmitted is not `PD` for this purpose, but note it in DATABASE and SECURITY_ARCHITECTURE. `public` means the product or the repository is publicly available.
 
@@ -75,10 +75,13 @@ Conditions: `UI` = has a graphical user interface; `data` = stores data beyond c
 | docs/engineering/CODE_STYLE.md | R | R | R | L: language conventions, structure, commands. E: + review checklist, dependency policy. |
 | docs/engineering/GIT_WORKFLOW.md | — (2 lines in CODE_STYLE) | R | R | E: + protected branches, release approvals, signed commits. |
 | docs/engineering/AI_GUIDELINES.md | R | R | R | L: one page dos/don'ts. E: + data handling with AI tools, approved tools list, audit of AI changes. |
-| docs/legal/TERMS_OF_SERVICE.md | O | C(accounts or SaaS) | C(accounts or SaaS) | Always draft + counsel notice. Store apps without accounts: the store's standard EULA usually suffices — offer ToS as optional. B2B SaaS: ToS is often replaced by a counsel-drafted MSA + DPA (+ BAA for HIPAA); the draft lists them as `[TBD: counsel]`. |
+| docs/legal/TERMS_OF_SERVICE.md | O | C(accounts or SaaS) | C(accounts or SaaS) | Always draft + counsel notice. Store apps without accounts: the store's standard EULA usually suffices — offer ToS as optional. B2B SaaS: self-serve users keep ToS; negotiated deals use MASTER_SERVICES_AGREEMENT + DATA_PROCESSING_AGREEMENT (+ BUSINESS_ASSOCIATE_AGREEMENT for HIPAA). |
 | docs/legal/PRIVACY_POLICY.md | C(PD or store) | C(PD or store) | C(PD or store) | Data inventory must match DATABASE. App stores require a privacy policy URL even when nothing is collected: then write a short "we collect no personal data; data stays on your device" version and map it to the store privacy label / data safety form. |
 | docs/legal/COOKIE_POLICY.md | O | C(tracking) | C(tracking) | Only for web with non-essential cookies/trackers. |
 | docs/legal/COMPLIANCE.md | — | C(regulated or PD in GDPR-like regions) | R | Register of regimes, controls, owners, evidence; never claims compliance. |
+| docs/legal/MASTER_SERVICES_AGREEMENT.md | — | O (offer if B2B) | C(B2B) | Term-sheet skeleton of commercial positions for counsel (scope/Order Forms/SOWs, fees, term, IP, confidentiality, warranties, liability, indemnities, SLA, governing law). Never invents prices, caps, credits, or SLA numbers. |
+| docs/legal/DATA_PROCESSING_AGREEMENT.md | — | C(processor) | C(processor) | Skeleton structured on GDPR Art. 28(3) + transfers + Annexes I–III. Sub-processors and data categories must match COMPLIANCE §4 and DATABASE. |
+| docs/legal/BUSINESS_ASSOCIATE_AGREEMENT.md | — | C(PHI) | C(PHI) | Skeleton structured on 45 CFR 164.504(e) and the HHS sample BAA provisions. PHI is regulated data, so the tier override normally forces Enterprise. |
 | README.md | R | R | R | L: what, status, how to run (Not configured yet), license. |
 | LICENSE | R | R | R | Full official text (MIT bundled; others fetched from official URLs in `assets/templates/licenses/README.md`, else `[TBD]`). Proprietary: "All rights reserved" notice. |
 | CHANGELOG.md | O | R | R | Keep a Changelog + SemVer, starts with `Unreleased`. |

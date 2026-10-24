@@ -7,7 +7,7 @@
 1. MUST NOT state that the project "is compliant", "is certified", "meets", or "satisfies" any law or standard. Use "may apply", "is likely triggered", "to be assessed by counsel".
 2. MUST NOT invent legal entity names, addresses, jurisdictions, DPO names, registration numbers, or dates of assessments.
 3. MUST record each triggered regime in DISCOVERY.md and (Standard with regulated data / Enterprise) in `docs/legal/COMPLIANCE.md` with status `Not assessed`.
-4. MUST put the notice on every legal doc.
+4. MUST put the notice on every legal doc, including MSA, DPA, and BAA skeletons.
 5. SHOULD recommend reducing scope when possible (e.g. hosted payment page instead of handling card data; not collecting data you don't need).
 6. Thresholds below are approximate summaries to trigger questions. Say "verify current thresholds with counsel" whenever a threshold matters.
 
@@ -98,7 +98,7 @@ Format: **Trigger** · **Docs affected** · **What to ask**.
 
 **HIPAA (US health)**
 - Trigger: you are a covered entity (provider, plan, clearinghouse) or a business associate handling protected health information (PHI) for one. Consumer health apps may instead fall under FTC rules (e.g. Health Breach Notification Rule) and state health-data laws.
-- Docs: COMPLIANCE, SECURITY_ARCHITECTURE (access controls, audit logs, encryption), OPERATIONS (backup, incident), DATABASE, PRIVACY_POLICY, vendor list (BAAs).
+- Docs: COMPLIANCE, SECURITY_ARCHITECTURE (access controls, audit logs, encryption), OPERATIONS (backup, incident), DATABASE, PRIVACY_POLICY, vendor list (BAAs), BUSINESS_ASSOCIATE_AGREEMENT (see B2B contracts below).
 - Ask: Will you receive PHI from covered entities? Will vendors sign a BAA? Audit logging? Minimum necessary access? → propose Enterprise tier.
 - B2B note: as a business associate you sign BAAs with customers and MUST flow BAAs down to every sub-processor touching PHI (hosting, email/SMS, logging, support tools). Record a "vendor agreement gate" in COMPLIANCE (no PHI to a vendor before its BAA/DPA is signed) and a HIPAA Security Rule risk analysis row. Breach-notice timing differs for business associates vs covered entities — counsel to confirm.
 - EU + US health data together: GDPR Art. 9 special-category data needs an Art. 9(2) condition; residency usually means DR/backup replicas stay in the same jurisdiction (do not default to cross-region failover across the EU/US line).
@@ -172,6 +172,37 @@ Format: **Trigger** · **Docs affected** · **What to ask**.
 - Docs: TERMS_OF_SERVICE (content rules, moderation, appeals), PRD (notice-and-action/report flow, statement of reasons), OPERATIONS (moderation process, points of contact), COMPLIANCE.
 - Ask: Do users post content others can see? Marketplace with traders (trader traceability)? Reporting/flagging flow? Moderation and complaint handling? Single point of contact? Ads or recommender systems shown to users (transparency)?
 
+### B2B contracts (MSA, DPA, BAA)
+
+These are contract skeletons for counsel, generated only when triggered (CMP-06/07/08). They capture structure and the team's positions; they are never finished legal text. Templates: `assets/templates/docs/legal/MASTER_SERVICES_AGREEMENT.md`, `DATA_PROCESSING_AGREEMENT.md`, `BUSINESS_ASSOCIATE_AGREEMENT.md`.
+
+**Master Services Agreement (MSA)**
+- Trigger: selling to businesses under order forms or negotiated contracts (B2B SaaS, APIs, managed services, enterprise licenses).
+- Docs: MASTER_SERVICES_AGREEMENT, TERMS_OF_SERVICE (self-serve users), OPERATIONS (SLOs feed any SLA), COMPLIANCE.
+- Typical sections: parties and document hierarchy; scope with Order Forms / SOWs; fees; term and termination; IP; confidentiality; data protection by reference to the DPA/BAA; SLA and support; warranties; limitation of liability; indemnities; governing law. No single statute defines an MSA: every commercial number (price, cap, credit, uptime) is a business decision → `[TBD: owner/counsel]` until the user decides.
+
+**Data Processing Agreement / Addendum (DPA) — GDPR Art. 28**
+- Trigger: you process personal data on behalf of business customers (you are the processor; the customer is the controller) and the GDPR / UK GDPR may apply. Other laws have similar contract duties (e.g. CCPA/CPRA "service provider" contract terms) — counsel to confirm.
+- Required content (GDPR Art. 28(3)): the contract sets out the subject-matter and duration, nature and purpose of the processing, type of personal data, categories of data subjects, and the obligations and rights of the controller, and stipulates that the processor (a) processes only on documented instructions, including for transfers; (b) ensures personnel confidentiality; (c) takes the measures required by Art. 32 (security of processing); (d) respects Art. 28(2) and (4) for sub-processors (prior specific or general written authorization with a right to object; same obligations flow down; the processor stays liable); (e) assists with data-subject requests (Chapter III rights); (f) assists with Arts. 32–36 (security, breach notification, DPIA, prior consultation); (g) deletes or returns all personal data at the end of the services, at the controller's choice; (h) makes information available and allows for and contributes to audits, including inspections. The processor also informs the controller if an instruction infringes data-protection law. Art. 28(9): the contract is in writing, including electronic form.
+- Related: Art. 33(2) — the processor notifies the controller of a personal data breach "without undue delay" (any hour count is a negotiated term). Art. 30(2) — processors keep records of processing. Transfers to third countries need a Chapter V mechanism, e.g. adequacy (Art. 45) or Standard Contractual Clauses (Art. 46(2)(c); Commission Implementing Decision (EU) 2021/914, Module Two controller→processor, Module Three processor→processor, with Annex I details, Annex II technical and organisational measures, Annex III sub-processors). Reference the official SCC text; never reproduce it from memory.
+- Docs: DATA_PROCESSING_AGREEMENT, PRIVACY_POLICY (controller vs processor roles), COMPLIANCE §4, DATABASE, SECURITY_ARCHITECTURE, OPERATIONS (residency, deletion, incident).
+- Ask: Which customer data categories and data subjects? Specific or general sub-processor authorization, and how are changes notified? Hosting and support locations (transfers)? Deletion period after termination? Breach notice timing (counsel)?
+
+**HIPAA Business Associate Agreement (BAA) — 45 CFR 164.504(e)**
+- Trigger: you create, receive, maintain, or transmit PHI on behalf of a covered entity (or of another business associate, as a subcontractor).
+- Required content (45 CFR 164.504(e)(2)): establish permitted and required uses and disclosures of PHI (optionally for the BA's management and administration or legal responsibilities, and data aggregation); provide that the BA will (A) not use or further disclose PHI except as permitted or required by law; (B) use appropriate safeguards and comply with the Security Rule (Subpart C) for electronic PHI; (C) report uses or disclosures not provided for, including breaches of unsecured PHI under 164.410; (D) ensure subcontractors agree to the same restrictions and conditions; (E) make PHI available for access (164.524); (F) for amendment (164.526); (G) for an accounting of disclosures (164.528); (H) comply with Subpart E when carrying out a covered entity's obligation; (I) make its practices, books, and records available to the HHS Secretary; (J) at termination return or destroy PHI if feasible, otherwise extend protections; and authorize termination by the covered entity for a material violation. 45 CFR 164.314(a)(2)(i) adds the Security Rule terms (comply with Subpart C, subcontractor agreements, report security incidents).
+- Breach notice: 45 CFR 164.410(b) sets the outer limit for a BA's notice to the covered entity ("without unreasonable delay" and no later than a fixed number of days after discovery — verify current text). HHS notes parties may agree a stricter timeframe.
+- Docs: BUSINESS_ASSOCIATE_AGREEMENT, COMPLIANCE (vendor agreement gate, Security Rule risk analysis), SECURITY_ARCHITECTURE, OPERATIONS, DATABASE. Tier: regulated-data override → Enterprise.
+- Ask: Covered entity or subcontractor role? Which vendors touch PHI and will each sign a BAA? Who notifies individuals/HHS/media? Return-or-destroy process including backups and logs?
+
+**Sources** (verify current text before relying on them)
+- GDPR, Regulation (EU) 2016/679 — Arts. 28, 30, 32, 33, 46: https://eur-lex.europa.eu/eli/reg/2016/679/oj
+- Standard Contractual Clauses, Commission Implementing Decision (EU) 2021/914: https://eur-lex.europa.eu/eli/dec_impl/2021/914/oj
+- HHS, Sample Business Associate Agreement Provisions: https://www.hhs.gov/hipaa/for-professionals/covered-entities/sample-business-associate-agreement-provisions/index.html
+- 45 CFR 164.504 (business associate contracts): https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-E/section-164.504
+- 45 CFR 164.314 (Security Rule organizational requirements): https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-C/section-164.314
+- 45 CFR 164.410 (notification by a business associate): https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-D/section-164.410
+
 ---
 
 ## Part 3 — Quick trigger checklist (ask in discovery)
@@ -187,6 +218,9 @@ Format: **Trigger** · **Docs affected** · **What to ask**.
 | Children? | COPPA, GDPR-K, UK AADC |
 | School records? | FERPA |
 | Enterprise B2B buyers? | SOC 2 / ISO 27001 expectations |
+| Sell to businesses under order forms / negotiated contracts? | MASTER_SERVICES_AGREEMENT (CMP-06) |
+| Process customers' personal data on their behalf (processor)? | GDPR Art. 28 DPA; DATA_PROCESSING_AGREEMENT (CMP-07) |
+| Handle PHI for HIPAA covered entities or their business associates? | 45 CFR 164.504(e) BAA; BUSINESS_ASSOCIATE_AGREEMENT; Enterprise (CMP-08) |
 | AI features in EU or decisions about people? | EU AI Act, state AI laws |
 | Public UI? | Accessibility laws, WCAG 2.2 AA |
 | Strong crypto or sanctioned regions? | Export control |

@@ -10,7 +10,7 @@ user-generated content, or an API with usage terms. For an open-source library w
 RULES FOR THE AI: derive features, plans, roles, and restrictions from PRD.md and DISCOVERY.md; never invent prices, SLAs, refund terms,
 governing law, or company details — use `[TBD: … — owner]`. Never promise uptime/SLA unless OPERATIONS.md defines it and the user approves.
 Never claim certifications. Consumer-protection law (e.g. EU consumer rights, UK CRA, US state auto-renewal laws) may override clauses — flag for counsel.
-Tier notes — Lite: sections 1–6, 9–12, 15 short. Standard: all applicable. Enterprise/B2B: usually a separate negotiated MSA + DPA + SLA;
+Tier notes — Lite: sections 1–6, 9–12, 15 short. Standard: all applicable. Enterprise/B2B: usually a separate negotiated MSA + DPA + SLA (templates: MASTER_SERVICES_AGREEMENT.md, DATA_PROCESSING_AGREEMENT.md, BUSINESS_ASSOCIATE_AGREEMENT.md);
 keep this for self-serve users and link those agreements. -->
 
 **Effective date:** {{effective_date}} · **Version:** {{terms_version}}

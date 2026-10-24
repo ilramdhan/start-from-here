@@ -121,11 +121,14 @@ Generated inside **your** project. Which files you get depends on the tier and o
     ├── engineering/  CODE_STYLE.md · AI_GUIDELINES.md · GIT_WORKFLOW.md
     ├── decisions/    README.md · 0001-record-architecture-decisions.md · one ADR per major decision
     └── legal/        TERMS_OF_SERVICE.md · PRIVACY_POLICY.md · COOKIE_POLICY.md · COMPLIANCE.md
+                      + B2B only: MASTER_SERVICES_AGREEMENT.md · DATA_PROCESSING_AGREEMENT.md · BUSINESS_ASSOCIATE_AGREEMENT.md
 ```
 
 Every doc starts with a status line (`Status · Owner · Last updated · Tier · Related`). IDs link the docs together: `P-01` persona, `F-01` feature, `US-01` story, `NFR-01` non-functional requirement, `R-01` risk, `Q-01` open question, `ADR-0001` decision. Diagrams are Mermaid and render on GitHub.
 
 Legal drafts say: "This is a draft, not legal advice. Have it reviewed by qualified counsel."
+
+The B2B contract skeletons are generated only when discovery triggers them: an MSA if you sell to businesses under order forms or negotiated contracts, a DPA (structured on GDPR Art. 28) if you process personal data on behalf of business customers, and a HIPAA BAA (structured on 45 CFR 164.504(e)) if you handle protected health information for covered entities. They hold structure, drafting notes and your commercial positions for counsel, not finished contract text.
 
 ### Filesystem mode vs chat-only mode
 

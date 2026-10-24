@@ -64,7 +64,7 @@ Translate gate wording into the user's conversation language. Keep file names an
 > - Proposed tier: **{{tier}}** — {{one-line reason}}
 > - Documents I plan to write: {{list grouped Product / Technical / Engineering / Legal / Repo}}
 >
-> Reply "ok" to confirm, or change anything (e.g. "use Standard", "skip GIT_WORKFLOW", "add COOKIE_POLICY"). **STOP.**
+> Reply "ok" to confirm, or change anything (e.g. "use Standard", "skip GIT_WORKFLOW", "add COOKIE_POLICY", "add DATA_PROCESSING_AGREEMENT"). **STOP.**
 
 **Exit:** user confirmed tier and doc list. STATE.md updated (`phase: 1-calibrate` → `2-discover`).
 
@@ -259,7 +259,10 @@ When any answer, decision, or document changes:
 | Screen / flow | APP_FLOW, DESIGN_SYSTEM, TESTING (E2E) |
 | Role / permission | PRD, SECURITY_ARCHITECTURE (authZ matrix), DATABASE (access rules), API (auth), TESTING (denial tests) |
 | Entity / field | DATABASE, API, SECURITY_ARCHITECTURE (data classification), PRIVACY_POLICY (if personal), TESTING |
-| Personal / sensitive data collected | DATABASE, SECURITY_ARCHITECTURE, PRIVACY_POLICY, COOKIE_POLICY, COMPLIANCE, TERMS_OF_SERVICE |
+| Personal / sensitive data collected | DATABASE, SECURITY_ARCHITECTURE, PRIVACY_POLICY, COOKIE_POLICY, COMPLIANCE, TERMS_OF_SERVICE, DATA_PROCESSING_AGREEMENT / BUSINESS_ASSOCIATE_AGREEMENT (if generated) |
+| B2B / processor / PHI status (CMP-06/07/08) | doc set (add/remove MSA, DPA, BAA — show a diff first), COMPLIANCE, PRIVACY_POLICY (controller vs processor roles), TERMS_OF_SERVICE, tier (PHI override) |
+| Sub-processor / vendor receiving personal data or PHI | COMPLIANCE §4, PRIVACY_POLICY, DATA_PROCESSING_AGREEMENT Annex III, BUSINESS_ASSOCIATE_AGREEMENT §5 |
+| SLO / availability target | OPERATIONS, TRD, MASTER_SERVICES_AGREEMENT §10 (if generated) |
 | Target region / market | legal docs, COMPLIANCE, OPERATIONS (data residency), PRD (i18n) |
 | NFR number | TRD, ARCHITECTURE, OPERATIONS (SLOs), TESTING (perf tests) |
 | Stack / framework / language | ARCHITECTURE, ADR (new), CODE_STYLE, TESTING (tools), OPERATIONS (CI), AI_GUIDELINES, AGENTS.md, README, IMPLEMENTATION_PLAN |
@@ -379,6 +382,9 @@ In chat-only mode, ask the user to paste HANDOVER.md (if they have one), STATE.m
 - has_api: yes | no | unknown
 - stores_data: yes | no | unknown
 - personal_data: yes | no | unknown
+- b2b: yes | no | unknown
+- processor_for_customers: yes | no | unknown
+- phi_for_covered_entities: yes | no | unknown
 - regulated_data: none | health | payment | children | finance | education | other
 - open_source: yes | no | unknown
 - public_facing: yes | no | unknown

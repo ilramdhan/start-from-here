@@ -54,7 +54,7 @@ Never mark a document Approved on the user's behalf. Remove rows for documents n
 | Engineering | [AI_GUIDELINES.md](engineering/AI_GUIDELINES.md) | Rules for AI-assisted development | {{status}} | {{owner}} | {{date}} |
 | Engineering | [GIT_WORKFLOW.md](engineering/GIT_WORKFLOW.md) | Branching, commits, reviews, releases | {{status}} | {{owner}} | {{date}} |
 | Decisions | [decisions/](decisions/README.md) | Architecture Decision Records (ADR-xxxx) | {{status}} | {{owner}} | {{date}} |
-| Legal | [legal/](legal/) | Terms, privacy, cookies, compliance register | {{status}} | {{owner}} | {{date}} |
+| Legal | [legal/](legal/) | Terms, privacy, cookies, compliance register; B2B contract skeletons (MSA, DPA, BAA) if triggered | {{status}} | {{owner}} | {{date}} |
 
 Repository-level policies live at the root: [README](../README.md), [CONTRIBUTING](../CONTRIBUTING.md),
 [SECURITY](../SECURITY.md) (vulnerability disclosure), [CHANGELOG](../CHANGELOG.md), [LICENSE](../LICENSE).

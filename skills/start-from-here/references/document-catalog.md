@@ -34,7 +34,7 @@ Generation rules shared by all documents:
 | 14 | docs/engineering/GIT_WORKFLOW.md | assets/templates/docs/engineering/GIT_WORKFLOW.md |
 | 15 | docs/engineering/AI_GUIDELINES.md | assets/templates/docs/engineering/AI_GUIDELINES.md |
 | 16 | docs/technical/IMPLEMENTATION_PLAN.md | assets/templates/docs/technical/IMPLEMENTATION_PLAN.md |
-| 17 | docs/legal/TERMS_OF_SERVICE.md, PRIVACY_POLICY.md, COOKIE_POLICY.md, COMPLIANCE.md | assets/templates/docs/legal/<same> |
+| 17 | docs/legal/TERMS_OF_SERVICE.md, PRIVACY_POLICY.md, COOKIE_POLICY.md, COMPLIANCE.md (+ conditional B2B: MASTER_SERVICES_AGREEMENT.md, DATA_PROCESSING_AGREEMENT.md, BUSINESS_ASSOCIATE_AGREEMENT.md) | assets/templates/docs/legal/<same> |
 | 18 | README.md, LICENSE, CHANGELOG.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md, SUPPORT.md, ACCESSIBILITY.md, .github/* (+ optional .github/dependabot.yml) | assets/templates/<same>; LICENSE from assets/templates/licenses/ guidance (README.md, MIT.txt, PROPRIETARY.txt — not copied into the project) |
 | 19 | AGENTS.md (+ CLAUDE.md, GEMINI.md, .github/copilot-instructions.md) | assets/templates/<same> |
 | 20 | docs/README.md | assets/templates/docs/README.md |
@@ -166,6 +166,24 @@ In session mode the order above is grouped into work packages WP1–WP9, one per
 - **Inputs:** CMP-*, PRV-03, AIM-06, ACC-02; legal primer; SECURITY_ARCHITECTURE.
 - **Must contain:** notice; scope; regimes table (regime, trigger, applies? yes/no/TBD, owner, status "Not assessed" by default); control mapping (control, regime, doc/section implementing it, evidence location); open legal questions; review schedule.
 - **Done when:** every trigger found in discovery is listed; no status says "compliant" or "certified" unless the user provides evidence.
+
+## docs/legal/MASTER_SERVICES_AGREEMENT.md
+- **Purpose:** Conditional (B2B). Term-sheet skeleton of the provider's commercial positions for counsel to turn into a master agreement with Order Forms / SOWs.
+- **Inputs:** CMP-06, BIZ-02/04/05, LEG-02/03, NFR/SLO numbers, CMP-02; PRD, OPERATIONS, SECURITY_ARCHITECTURE, COMPLIANCE.
+- **Must contain:** notice; parties and document hierarchy; scope, Order Forms, SOWs; customer obligations; fees, invoicing, taxes; term, renewal, termination; IP; confidentiality; data protection by reference to the DPA (and BAA if PHI); SLA and support; warranties; limitation of liability; indemnities; insurance; governing law and disputes; general terms. Unknown commercial terms stay `[TBD: owner]` / `[TBD: counsel]`.
+- **Done when:** SLA numbers match approved SLO-xx/NFR-xx or are `[TBD]`; no invented prices, caps, credits, entities, or certifications.
+
+## docs/legal/DATA_PROCESSING_AGREEMENT.md
+- **Purpose:** Conditional (processor). Skeleton of the controller–processor contract for business customers' personal data.
+- **Inputs:** CMP-07, PRV-03/04, DAT-02, LEG-02/03; DATABASE, ARCHITECTURE, SECURITY_ARCHITECTURE, OPERATIONS, COMPLIANCE §4, PRIVACY_POLICY.
+- **Must contain:** notice; parties and roles; the GDPR Art. 28(3) elements (subject-matter, duration, nature and purpose, types of personal data, categories of data subjects, controller obligations and rights; points (a) documented instructions, (b) confidentiality, (c) Art. 32 security, (d) sub-processors per Art. 28(2) and (4), (e) data-subject request assistance, (f) Arts. 32–36 assistance, (g) deletion or return, (h) information and audits); breach notification; international transfers (e.g. SCCs by reference to the official text); Annex I details, Annex II technical and organizational measures, Annex III sub-processors.
+- **Done when:** data categories equal DATABASE; Annex II matches SECURITY_ARCHITECTURE/OPERATIONS; Annex III equals COMPLIANCE §4 and PRIVACY_POLICY sub-processors; deadlines are user-decided or `[TBD: counsel]`.
+
+## docs/legal/BUSINESS_ASSOCIATE_AGREEMENT.md
+- **Purpose:** Conditional (PHI). Skeleton of a HIPAA business associate (or subcontractor) agreement.
+- **Inputs:** CMP-01, CMP-08, LEG-02/03; SECURITY_ARCHITECTURE, OPERATIONS (incident runbook), DATABASE, ARCHITECTURE (vendors), COMPLIANCE §4.
+- **Must contain:** notice; parties and role (BA or subcontractor); definitions by reference to the HIPAA Rules; permitted and required uses and disclosures (164.504(e)(2)(i), (e)(4), minimum necessary, de-identification); BA obligations table covering 164.504(e)(2)(ii)(A)–(J) and 164.314(a)(2)(i); subcontractor flow-down; breach and security-incident reporting (164.410); covered-entity obligations; term, termination for cause, return or destruction of PHI; miscellaneous.
+- **Done when:** every required element maps to a doc section or `[TBD]`; subcontractors match COMPLIANCE §4; no "HIPAA compliant/certified" claims.
 
 ## README.md
 - **Purpose:** Front door of the repo.

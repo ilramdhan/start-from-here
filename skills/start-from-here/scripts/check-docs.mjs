@@ -6,6 +6,7 @@
 //
 // Checks (mechanical only — semantic consistency is the AI's job, see references/consistency-audit.md):
 //   1. Expected core files present (tier read from docs/.start-from-here/STATE.md; report-only if absent)
+//      + conditional B2B legal docs triggered by STATE.md flags (b2b / processor / PHI) -> warning if missing
 //   2. Leftover {{placeholders}}                        -> error (warning inside code blocks)
 //   3. Leftover <!-- guidance ... --> comments          -> error
 //   4. [TBD ...] markers                                -> counted (info)
@@ -66,6 +67,14 @@ CORE.Standard = [
   '.github/ISSUE_TEMPLATE/config.yml',
 ];
 CORE.Enterprise = [...CORE.Standard, 'SUPPORT.md', 'docs/legal/COMPLIANCE.md'];
+
+// Conditional B2B legal docs, triggered by STATE.md "## Flags" (references/workflow.md). Never expected by tier alone.
+const FLAG_DOCS = [
+  { flag: 'b2b', doc: 'docs/legal/MASTER_SERVICES_AGREEMENT.md', minTier: 'Enterprise' },
+  { flag: 'processor_for_customers', doc: 'docs/legal/DATA_PROCESSING_AGREEMENT.md', minTier: 'Standard' },
+  { flag: 'phi_for_covered_entities', doc: 'docs/legal/BUSINESS_ASSOCIATE_AGREEMENT.md', minTier: 'Standard' },
+];
+const TIER_RANK = { Lite: 0, Standard: 1, Enterprise: 2 };
 
 // Files that intentionally have no status header.
 const NO_HEADER = new Set([
@@ -136,7 +145,9 @@ function readState() {
     if (/[,*]|\s\+\s/.test(path)) continue;
     docs.set(path, { applicability: m[2].trim(), status: m[3].trim() });
   }
-  return { tier: tierMatch ? tierMatch[1] : null, docs };
+  const flags = new Map(); // flag -> lower-cased value ("- b2b: yes")
+  for (const m of text.matchAll(/^\s*[-*]\s*([a-z][a-z0-9_]*)\s*:\s*([^\n#]*?)\s*$/gim)) flags.set(m[1].toLowerCase(), m[2].trim().toLowerCase());
+  return { tier: tierMatch ? tierMatch[1] : null, docs, flags };
 }
 
 // Applicability vocabulary (references/workflow.md): Required | Optional (on) | Skipped (reason).
@@ -262,6 +273,13 @@ if (tier) {
     const info = state.docs.get(p);
     if (isSkipped(info)) continue;
     if (!existsSync(join(root, p))) add('error', 'presence', p, null, `Expected for ${tier} tier but missing`);
+  }
+  for (const { flag, doc, minTier } of FLAG_DOCS) {
+    if (!/^(yes|true)\b/.test(state.flags.get(flag) ?? '') || TIER_RANK[tier] < TIER_RANK[minTier]) continue;
+    if (expected.includes(doc) || isSkipped(state.docs.get(doc))) continue;
+    if (!existsSync(join(root, doc))) {
+      add('warning', 'presence', doc, null, `STATE.md flag "${flag}: yes" triggers this doc — generate it or record it as "Skipped (reason)" in STATE.md`);
+    }
   }
 } else {
   const present = CORE.Enterprise.filter((p) => existsSync(join(root, p)));
