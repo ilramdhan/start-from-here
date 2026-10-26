@@ -38,9 +38,10 @@ Generation rules shared by all documents:
 | 18 | README.md, LICENSE, CHANGELOG.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md, SUPPORT.md, ACCESSIBILITY.md, .github/* (+ optional .github/dependabot.yml) | assets/templates/<same>; LICENSE from assets/templates/licenses/ guidance (README.md, MIT.txt, PROPRIETARY.txt — not copied into the project) |
 | 19 | AGENTS.md (+ CLAUDE.md, GEMINI.md, .github/copilot-instructions.md) | assets/templates/<same> |
 | 20 | docs/README.md | assets/templates/docs/README.md |
-| — | docs/.start-from-here/HANDOVER.md (session mode only; process file, no status header, not listed in docs/README.md) | assets/templates/docs/.start-from-here/HANDOVER.md |
+| — | docs/.start-from-here/DIGEST.md (all modes, from Phase 4; process file, no status header, not listed in docs/README.md) | assets/templates/docs/.start-from-here/DIGEST.md |
+| — | docs/.start-from-here/HANDOVER.md (session mode, or a context-pressure checkpoint; process file, no status header, not listed in docs/README.md) | assets/templates/docs/.start-from-here/HANDOVER.md |
 
-In session mode the order above is grouped into work packages WP1–WP9, one per fresh session; see `session-mode.md`.
+In session mode the order above is grouped into work packages WP1–WP9, one per fresh session; see `session-mode.md`. In every mode, read only DIGEST + the template + its guide section + the upstream sections the template names as inputs before each document.
 
 ---
 
@@ -105,6 +106,7 @@ In session mode the order above is grouped into work packages WP1–WP9, one per
 - **Purpose:** Threat model and security design (not the disclosure policy).
 - **Inputs:** IDN-*, PRV-*, CMP-*, AIM-05, DAT-07/11; ARCHITECTURE, DATABASE, API.
 - **Must contain:** assets and data classification; trust boundaries (TB-x) diagram; STRIDE table (TH-xx threat, component, trust boundary TB-x, mitigation, status, R-xx); authentication design; authorization matrix (role × resource × action) matching DATABASE and API; tenant isolation; secrets management (names only, storage, rotation, owner); input/output handling; dependency and supply-chain policy; logging and redaction; privacy engineering (minimization, retention, data subject rights); incident response (severity classes, containment, notification clocks as `[TBD: counsel]` unless COMPLIANCE defines them, communications); AI-specific threats if AI; residual risks; security testing plan; vulnerability management (SLAs, exceptions); access governance; third-party/vendor risk (one row per ARCHITECTURE third party); platform hardening baseline; control mapping to COMPLIANCE CR-xx (Enterprise). Data classes are DATABASE §2's, verbatim.
+- **Depth:** use `references/security-threat-catalog.md` for §3 (core classes always; domain sections only when their triggers match); record considered/skipped domains in the §3 coverage line. Status values: Planned, Implemented, Accepted risk, Needs decision (+ Q-xx). Full row lists for §9.1–§9.4, §10, §15, §17, §19 and the sample DFD/seed threats live in `references/security-standards-checklists.md`: load only the sections whose condition applies (tier, API, mobile, AI).
 - **Done when:** every role from PRD appears in the matrix; each STRIDE category considered (or N/A with reason); no secret values.
 
 ## docs/technical/TESTING.md
@@ -243,11 +245,17 @@ In session mode the order above is grouped into work packages WP1–WP9, one per
 - **Must contain:** one line saying "Follow AGENTS.md" plus a link; tool-specific notes only if the user asked.
 - **Done when:** created only for tools the user named (TEA-05).
 
+## docs/.start-from-here/DIGEST.md (all modes)
+- **Purpose:** Compact project digest so every document is written from the same names and IDs without re-reading earlier docs; lets any fresh chat resume from a batch gate.
+- **Inputs:** DISCOVERY.md (at creation), then each drafted or approved document.
+- **Must contain:** product summary, tier/flags; glossary of canonical names (product, roles, entities, screens, terms); ID registry, one line per ID (P-, F- with title and priority, J-, NFR- with its number, OP-, TB-, TH- titles, ADR-, M-, D-, Q-, R-, A-); ≤10 key decisions; stack line; "doc → key sections other docs depend on".
+- **Done when:** created at Phase 4; patched after every document and refreshed at every batch gate; ≤ ~150 lines (compress, never drop an ID); no `{{`; no secrets. Not a project deliverable — no status header, never listed in AGENTS.md.
+
 ## docs/.start-from-here/HANDOVER.md (session mode)
-- **Purpose:** Connects fresh sessions in session mode so a small-context model stays consistent without re-reading everything.
-- **Inputs:** STATE.md, everything produced so far.
-- **Must contain:** session number and WP done; files created/changed with status; ≤15 key decisions; ID registry snapshot (personas, roles, F-xx titles, NFR-xx, entities, operations, ADR titles, milestones); open TBDs; quality notes; next WP with its lean reading list; a copy-paste next-session prompt.
-- **Done when:** overwritten at the end of every session; ≤ ~150 lines; no `{{`; no secrets. Not a project deliverable — no status header, never listed in AGENTS.md.
+- **Purpose:** Connects fresh sessions in session mode (or after a context-pressure checkpoint) so the next session knows what happened and what to load.
+- **Inputs:** STATE.md, DIGEST.md, everything produced so far.
+- **Must contain:** session number and WP done; files created/changed with status; decisions made this session (IDs only); a pointer to the DIGEST ID registry plus the ID ranges added this session (no copy); open TBDs; quality notes; next WP with its lean reading list; a copy-paste next-session prompt.
+- **Done when:** overwritten at the end of every session; ≤ ~100 lines; no `{{`; no secrets. Not a project deliverable — no status header, never listed in AGENTS.md.
 
 ## docs/README.md
 - **Purpose:** Documentation index and status board.

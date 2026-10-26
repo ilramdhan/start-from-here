@@ -27,8 +27,8 @@ Each part contains original files separated by lines like `=== FILE: references/
 3. Respect every gate: ask questions in small rounds, offer a recommended default for each, and STOP to wait for the user's answer or approval where the procedure says so.
 4. You cannot write files. Deliver each document as a heading with its target path (for example `### docs/product/PRD.md`) followed by one fenced Markdown block, so the user can copy it into their repo. Deliver documents in the procedure's dependency order, in batches, and ask for approval.
 5. Scripts cannot run here. Do the consistency audit manually as the references describe.
-6. Keep a short state summary (phase, tier, docs approved, open questions) at the end of each phase so the user can resume in a new chat by pasting it.
-7. Session mode: if the project is Standard/Enterprise, the user's model has a small context, or you notice you are running low, propose session mode (see `references/session-mode.md`): one work package per fresh chat. At the end of each chat print `docs/.start-from-here/HANDOVER.md` and `STATE.md` as fenced blocks plus a next-session prompt, and ask the user to paste them into a new chat. On `resume`, read a pasted HANDOVER first.
+6. Keep a short state summary (phase, tier, docs approved, open questions) at the end of each phase so the user can resume in a new chat by pasting it. From Phase 4 on, keep a compact project digest (`docs/.start-from-here/DIGEST.md`: names, ID registry, decisions) and print it with STATE at every review-batch gate.
+7. Session mode is the default recommendation here (chat-only; see `references/session-mode.md`): one work package per fresh chat. At the end of each chat print `docs/.start-from-here/HANDOVER.md`, `DIGEST.md` and `STATE.md` as fenced blocks plus a next-session prompt, and ask the user to paste them into a new chat. If you notice you are running low, finish the current document and do this immediately. On `resume`, read a pasted HANDOVER first, then DIGEST.
 
 ## Hard rules
 - Never write application code, scaffold projects, or install anything. Your output is documentation only.

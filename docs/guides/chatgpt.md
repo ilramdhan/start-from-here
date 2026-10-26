@@ -84,7 +84,7 @@ ChatGPT: Proposed tier: Lite. "Tier" = how deep the docs go; Lite is shortest…
 
 Save the `STATE.md` block as `docs/.start-from-here/STATE.md`. In a new chat (same GPT/Project), type `resume` and attach `STATE.md` and `docs/DISCOVERY.md`. In a Project, upload them as project files so every chat sees them.
 
-**Long project or answers getting shallow? Use session mode.** Say `session mode` (the skill proposes it automatically in chat-only tools for Standard/Enterprise). Each work package (interview, product, architecture, data/API, …) runs in its own fresh chat. At the end of each chat the skill prints `HANDOVER.md` and `STATE.md` blocks and a next-session prompt: save them, open a new chat with the same GPT/Project, and paste or attach them with the prompt. Say `next session` to hand over early. See [Small context windows & session mode](../USAGE.md#small-context-windows--session-mode).
+**Long project or answers getting shallow? Use session mode.** Say `session mode` (the skill recommends it by default in chat-only tools). Each work package (interview, product, architecture, data/API, …) runs in its own fresh chat. At the end of each chat the skill prints `HANDOVER.md`, `DIGEST.md` and `STATE.md` blocks and a next-session prompt: save them, open a new chat with the same GPT/Project, and paste or attach them with the prompt. Say `next session` to hand over early. See [Small context windows & session mode](../USAGE.md#small-context-windows--session-mode).
 
 ## Update
 

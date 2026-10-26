@@ -197,3 +197,89 @@ test('text report groups ID findings and shows the blocking TBD count', () => {
   assert.match(r.stdout, /OPEN \[TBD\] ITEMS \(\d+, 0 blocking\)/);
   assert.equal(r.status, 1);
 });
+
+// ---------------------------------------------------------------------------
+// Check 14: SECURITY_ARCHITECTURE §3 threat table
+// ---------------------------------------------------------------------------
+const THEAD = '| ID | TB | Component | STRIDE | Threat | L | I | Risk | Control(s) | Status | Test | Risk ID |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n';
+const tRow = (n, tb, l, extra = {}) => {
+  const c = { threat: 'Attacker does X', risk: 'Low', status: 'Planned', test: 'SEC-01', riskId: '—', ...extra };
+  return `| TH-${n} | ${tb} | app | ${l} | ${c.threat} | L | L | ${c.risk} | control | ${c.status} | ${c.test} | ${c.riskId} |\n`;
+};
+const L6 = ['S', 'T', 'R', 'I', 'D', 'E'];
+const fullRows = (tb, start, extra) => L6.map((l, k) => tRow(String(start + k).padStart(2, '0'), tb, l, extra)).join('');
+function secDoc(rows, header = HEADER) {
+  return `# Security architecture — Demo
+
+${header}
+
+## 2. Trust boundaries
+\`\`\`
+| TB-9 | in a code fence only |
+\`\`\`
+| TB | Crossing |
+| --- | --- |
+| TB-1 | Client to app |
+| TB-2 | App to db |
+
+## 3. Threat model (STRIDE)
+${THEAD}${rows}
+\`\`\`
+| TH-99 | TB-1 | x | S | fenced | | | | | Bogus | | |
+\`\`\`
+`;
+}
+const sec = (rows, header) => check(project({
+  'docs/technical/SECURITY_ARCHITECTURE.md': secDoc(rows, header),
+  'docs/technical/TESTING.md': append('docs/technical/TESTING.md', '| SEC-01 | TH-01 | Authz test | Not run |\n'),
+}));
+const threats = (r) => r.j.findings.filter((f) => f.check === 'threats');
+
+test('threats: a full TB x STRIDE table with tests passes silently', () => {
+  const na = L6.map((l, k) => `| TH-${k + 7} | TB-2 | db | ${l} | N/A — no actor here | — | — | — | — | — | — | — |\n`).join('');
+  const r = sec(fullRows('TB-1', 1) + na);
+  assert.deepEqual(threats(r), [], JSON.stringify(threats(r)));
+  assert.equal(r.code, 0);
+});
+
+test('threats: missing STRIDE pair is one warning per TB', () => {
+  const r = sec(fullRows('TB-1', 1).replace(/^\| TH-03.*\n/m, '').replace(/^\| TH-04.*\n/m, '') + fullRows('TB-2', 7), HEADER.replace('Lite', 'Standard'));
+  const t = threats(r);
+  assert.equal(t.length, 1);
+  assert.equal(t[0].severity, 'warning');
+  assert.match(t[0].message, /TB-1 has no §3 row for STRIDE R, I/);
+  assert.equal(r.code, 0);
+});
+
+test('threats: Lite tier only needs each letter once across the table', () => {
+  const rows = L6.map((l, k) => tRow(`0${k + 1}`, 'TB-1', l)).join('');
+  assert.deepEqual(threats(sec(rows)), []);
+  const std = sec(rows, HEADER.replace('Lite', 'Standard'));
+  assert.match(threats(std)[0].message, /TB-2 has no §3 row for STRIDE S, T, R, I, D, E/);
+  const missing = sec(rows.replace(/^\| TH-06.*\n/m, ''));
+  assert.match(threats(missing)[0].message, /Lite tier: STRIDE letter E/);
+});
+
+test('threats: test, status, residual-risk and question rules', () => {
+  const rows = fullRows('TB-1', 1) + fullRows('TB-2', 7)
+    + tRow('13', 'TB-1', 'S', { test: '' })
+    + tRow('14', 'TB-1', 'T', { test: 'N/A — manual review' })
+    + tRow('15', 'TB-1', 'S', { status: 'Accepted risk', risk: 'High', test: '—' })
+    + tRow('16', 'TB-1', 'S', { status: 'Accepted risk', risk: 'High', test: '—', riskId: 'R-01' })
+    + tRow('17', 'TB-1', 'S', { status: 'Needs decision', test: '—' })
+    + tRow('18', 'TB-1', 'S', { status: 'Needs decision', test: '—', riskId: 'Q-01' })
+    + tRow('19', 'TB-1', 'S', { status: 'Done' });
+  const msgs = threats(sec(rows, HEADER.replace('Lite', 'Standard'))).map((f) => f.message);
+  assert.equal(msgs.length, 4, msgs.join('\n'));
+  assert.ok(msgs.some((m) => /TH-13: Planned threat has no Test/.test(m)));
+  assert.ok(msgs.some((m) => /TH-15: High risk .* needs an R-xx/.test(m)));
+  assert.ok(msgs.some((m) => /TH-17: .* Needs decision must reference a Q-xx/.test(m)));
+  assert.ok(msgs.some((m) => /TH-19: invalid Status "Done"/.test(m)));
+});
+
+test('threats: placeholder cells and an absent SECURITY_ARCHITECTURE do not crash', () => {
+  const rows = fullRows('TB-1', 1, { status: '{{Planned}}', test: '{{SEC-01}}', riskId: '{{R-xx}}', risk: '{{High}}' });
+  const r = sec(rows);
+  assert.equal(threats(r).filter((f) => /Status|Test|R-xx/.test(f.message)).length, 0);
+  assert.deepEqual(threats(check(project())), []);
+});
