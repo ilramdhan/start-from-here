@@ -100,10 +100,10 @@ Approximate token sizes (bytes ÷ 4; real tokenizers vary ±25%, non-English tex
 |---|---|---|---|
 | DISCOVERY | 2.5k | docs/README | 2.3k |
 | PRD | 4.9k | APP_FLOW | 3.1k |
-| DESIGN_SYSTEM | 3.4k | TRD | 2.6k |
+| DESIGN_SYSTEM | 3.4k | TRD | 3.0k |
 | ARCHITECTURE | 4.8k | ADR README + 0001 + template | 2.3k |
-| DATABASE | 5.3k | API | 2.7k |
-| SECURITY_ARCHITECTURE | 10.1k | TESTING | 5.3k |
+| DATABASE | 5.3k | API | 3.5k |
+| SECURITY_ARCHITECTURE | 12.7k | TESTING | 5.3k |
 | OPERATIONS | 5.8k | IMPLEMENTATION_PLAN | 6.3k |
 | CODE_STYLE | 4.1k | GIT_WORKFLOW | 3.8k |
 | AI_GUIDELINES | 7.7k | AGENTS.md | 2.4k |

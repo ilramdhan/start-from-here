@@ -37,13 +37,16 @@ with no data or interface writes `none` deliberately. -->
 <!-- guidance: Minimum content — every category below is either an NFR row with metric + target + measurement
 method + condition (load, device, network) + priority + owner, or a row `N/A — reason`. Performance needs at least one
 row per user-facing surface (API latency, page/screen load, background job lag). Availability, RPO/RTO, and security
-targets are required for any hosted product. Examples are illustrative only, not defaults to copy. -->
+targets are required for any hosted product. Security and privacy NFRs MUST be measurable too: NFR-04 (authentication) plus
+NFR-14…NFR-17 below (encryption, audit logging, vulnerability SLA, secret rotation); RPO/RTO is NFR-09. Numbers are PROPOSALs
+until agreed, and the vulnerability SLA MUST equal SECURITY_ARCHITECTURE §16. Lite: NFR-04, NFR-14, NFR-16 at minimum.
+Examples are illustrative only, not defaults to copy. -->
 | ID | Category | Requirement | Target | Measurement method | Priority | Owner |
 | --- | --- | --- | --- | --- | --- | --- |
 | NFR-01 | Performance | {{e.g. API p95 latency / LCP on mid-tier mobile / CLI cold start / library op throughput}} | {{e.g. ≤ 300 ms / ≤ 2.5 s / ≤ 200 ms / ≥ 10k ops/s}} | {{load test, RUM, benchmark}} | Must | {{owner}} |
 | NFR-02 | Availability | {{monthly availability of user-facing API}} | {{e.g. 99.9%}} | {{SLO in OPERATIONS.md}} | {{prio}} | {{owner}} |
 | NFR-03 | Scalability | {{headroom}} | {{e.g. 10× launch load without redesign}} | {{load test}} | {{prio}} | {{owner}} |
-| NFR-04 | Security | {{e.g. ASVS level, MFA for admins, TLS 1.2+}} | {{target}} | {{review, scan}} | {{prio}} | {{owner}} |
+| NFR-04 | Security: authentication assurance | {{e.g. MFA for admin accounts; session lifetime; ASVS level}} | {{e.g. 100% of admin accounts MFA; idle timeout ≤ 30 min, absolute ≤ 12 h}} | {{IdP report, auth tests SEC-xx}} | {{prio}} | {{owner}} |
 | NFR-05 | Privacy | {{data minimization, retention, DSR turnaround}} | {{e.g. export/delete within 30 days}} | {{process audit}} | {{prio}} | {{owner}} |
 | NFR-06 | Accessibility | {{UI conformance}} | {{WCAG 2.2 AA}} | {{automated + manual audit}} | {{prio}} | {{owner}} |
 | NFR-07 | Internationalization | {{locales, formats, RTL}} | {{target}} | {{pseudo-locale test}} | {{prio}} | {{owner}} |
@@ -53,6 +56,10 @@ targets are required for any hosted product. Examples are illustrative only, not
 | NFR-11 | Portability / compatibility | {{OS, browser, runtime, API backward compatibility}} | {{target}} | {{test matrix}} | {{prio}} | {{owner}} |
 | NFR-12 | Compliance | {{regime-driven requirement}} | {{target}} | {{evidence}} | {{prio}} | {{owner}} |
 | NFR-13 | Cost | {{monthly infra budget}} | {{e.g. ≤ $X at launch scale}} | {{billing alert}} | {{prio}} | {{owner}} |
+| NFR-14 | Security: encryption | {{in transit and at rest}} | {{e.g. TLS 1.2+ on all external links; AES-256 or provider default at rest; no plaintext secrets}} | {{TLS scan, IaC scan}} | {{prio}} | {{owner}} |
+| NFR-15 | Security: audit logging | {{security events per SECURITY_ARCHITECTURE §12}} | {{e.g. 100% of admin actions logged; retention ≥ period; append-only}} | {{log review, test}} | {{prio}} | {{owner}} |
+| NFR-16 | Security: vulnerability remediation | {{time to fix by severity}} | {{e.g. Critical ≤ n d, High ≤ n d; identical to [SECURITY_ARCHITECTURE §16](SECURITY_ARCHITECTURE.md#16-vulnerability-management)}} | {{scanner report, ticket ageing}} | {{prio}} | {{owner}} |
+| NFR-17 | Security: secret rotation | {{max secret/key age; time to rotate after a leak}} | {{e.g. ≤ 90 d routine; ≤ 4 h after leak (RB-03)}} | {{secret manager report, drill}} | {{prio}} | {{owner}} |
 
 ## 4. Constraints
 | Type | Constraint | Source | Impact |

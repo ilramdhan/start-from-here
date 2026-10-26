@@ -161,7 +161,7 @@ Apply to every entity. Omit an item only with a reason.
 9. **Money.** Integer minor units (`amount_minor bigint`) + `currency char(3)` (ISO 4217). Never floating point. Note currencies with 0 or 3 decimal places. Use fixed-point `numeric/decimal` only for rates, FX, or sub-cent pricing, and state the scale.
 10. **Time.** Instants in UTC as `timestamptz` / ISO 8601 with `Z` / epoch ms. Store the user's IANA time zone (`Europe/Berlin`) separately when local time matters (reminders, "every Monday 9:00"). Calendar dates without time use a `date` type.
 11. **Text limits.** Maximum length for every user-entered string (e.g. title 1–200). Case-insensitive uniqueness where users expect it (emails, slugs).
-12. **PII and classification.** Mark each column Public / Internal / PII / Sensitive / Secret (DATABASE §2). Secrets are hashed (tokens, passwords) or encrypted (third-party credentials, webhook secrets). Sensitive fields get field-level encryption or tokenization when required.
+12. **PII and classification.** Mark each column with one DATABASE §2 class: Public / Internal / Personal (PII) / Sensitive / special category / Secrets. Secrets are hashed (tokens, passwords) or encrypted (third-party credentials, webhook secrets). Sensitive fields get field-level encryption or tokenization when required.
 13. **JSON columns.** Allowed for genuinely schemaless payloads (event payloads, provider responses, open-ended settings). Not for fields you filter, join, or constrain — those become columns.
 14. **Derived / cached fields** (`comment_count`, `last_activity_at`): marked as derived with the update mechanism (trigger, same transaction, async job).
 

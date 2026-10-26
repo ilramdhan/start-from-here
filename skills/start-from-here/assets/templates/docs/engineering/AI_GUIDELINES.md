@@ -34,7 +34,7 @@ boundaries, IDN-07, AIM-*). Coverage rules (MANDATORY):
 |---|---|---|---|---|
 | {{ai_tool}} | {{use_cases}} | {{data_classes_allowed}} | {{data_classes_forbidden}} | {{approver}} |
 
-<!-- guidance: Data classes example: Public / Internal / Confidential / Restricted (personal, health, payment, credentials).
+<!-- guidance: Data classes: reuse DATABASE §2 verbatim (Public / Internal / Personal (PII) / Sensitive / special category / Secrets).
 Typical rule: only Public + Internal code may be sent to cloud AI tools unless a data-processing agreement covers more.
 If the team has no policy yet, write a PROPOSAL row and an open question. -->
 
@@ -122,7 +122,7 @@ tailor rows to the stack and team. Add project-specific rows from DISCOVERY TEA-
 |---|---|
 | Use synthetic data (`user@example.test`) in tests, fixtures, and prompts | Copy production records or real personal data into the session |
 | Reference secrets by name (`DATABASE_URL`) | Print, log, echo, or commit secret values |
-| Respect the data classes in §2 and the never-log list | Send Restricted data to AI tools or third-party services |
+| Respect the data classes in §2 and the never-log list | Send Personal, Sensitive or Secrets data to AI tools or third-party services |
 | Stop and alert on any exposed secret | Try to "clean up" a leaked secret by rewriting history alone |
 | Keep migrations reversible and data-preserving | Run migrations or destructive queries against shared databases |
 

@@ -311,8 +311,10 @@ Environments, rollout, and rollback: [OPERATIONS](OPERATIONS.md).
 ### 14.4 Deploy & run
 <!-- guidance: Hosted: environments, deploy, rollback, backups, error tracking. Mobile/desktop: build signing, store test tracks
 (TestFlight / Play internal testing), staged rollout, no instant rollback (ship a fix forward), on-device data migrations
-must be backward-safe, crash reporting (privacy impact!), OS backup/export of local data. CLI/library: release + publishing. -->
+must be backward-safe, crash reporting (privacy impact!), OS backup/export of local data. CLI/library: release + publishing.
+Always include the one-line "Incident & secret rotation" item below: SECURITY_ARCHITECTURE §7.3 and §13 point here in Lite. -->
 - {{item}}
+- **Incident & secret rotation:** {{who is paged/contacted, first actions (disable feature / revoke + rotate secret / roll back), where secrets are rotated, how users are told}}
 
 ## 15. Quality attribute tactics
 <!-- guidance: Minimum content — one row per NFR-xx from TRD §3 (Lite: §14.2), with concrete tactics from

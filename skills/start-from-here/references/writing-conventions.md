@@ -60,6 +60,7 @@ IDs are permanent. Never renumber; if an item is withdrawn, mark it `(withdrawn)
 | `OP-xx` | API operation (endpoint, RPC, command, public function) | API | APP_FLOW, SECURITY_ARCHITECTURE, TESTING |
 | `TB-x` | Trust boundary | SECURITY_ARCHITECTURE | ARCHITECTURE |
 | `TH-xx` | Threat (STRIDE) | SECURITY_ARCHITECTURE | TESTING (SEC-xx), R-xx |
+| `SEV-n` | Security incident severity class (SEV-1…3, fixed scale; not a counted ID) | SECURITY_ARCHITECTURE §13 | OPERATIONS runbooks |
 | `AT-xx` | Acceptance test | TESTING | IMPLEMENTATION_PLAN |
 | `SEC-xx` | Security test | TESTING | SECURITY_ARCHITECTURE |
 | `PERF-xx` | Performance test | TESTING | TRD, OPERATIONS |

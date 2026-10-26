@@ -13,7 +13,7 @@ for audit, a static-analysis/SAST gate, license-compliance rules for dependencie
 TESTING (§2 layers, §9 commands), DISCOVERY (TEA-08 conventions, I18N-01). Coverage rules (MANDATORY):
 - Every language/runtime in ARCHITECTURE has a §1 row and a §3 formatter + linter row (or PROPOSAL / Not configured).
 - §5 has one row per top-level directory in ARCHITECTURE's project structure — identical names.
-- §8 "Never log" includes every Restricted field from SECURITY_ARCHITECTURE §1.1.
+- §8 "Never log" includes every Personal, Sensitive and Secrets field from SECURITY_ARCHITECTURE §1.1.
 - §13 lists every check that CI runs (TESTING §8) with a verified command or "Not configured".
 - Rules are concrete and checkable ("functions ≤ 50 lines unless justified"), not aspirations ("write clean code").
 Self-review: references/governance-guide.md §9. -->
@@ -218,7 +218,7 @@ Never invent commands or claim checks passed without running them. -->
 ### Completeness self-check
 - [ ] Every language in ARCHITECTURE has version pin, naming, formatter, linter, and type-check rows (or PROPOSAL / Not configured).
 - [ ] §5 directory table equals ARCHITECTURE project structure (same names, same boundaries).
-- [ ] §8 never-log list covers every Restricted field in SECURITY_ARCHITECTURE §1.1.
+- [ ] §8 never-log list covers every Personal, Sensitive and Secrets field in SECURITY_ARCHITECTURE §1.1.
 - [ ] §10 dependency policy names an approver and allowed/forbidden licenses.
 - [ ] §12 review checklist is referenced by GIT_WORKFLOW and AI_GUIDELINES; §13 matches TESTING §8 gates.
 - [ ] Every rule is checkable (a reviewer or tool can say pass/fail); no vague advice.
