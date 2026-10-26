@@ -3,7 +3,7 @@ name: start-from-here
 description: "Interviews the user, then writes approved pre-code project docs (PRD, TRD, architecture, stack, security, tests, legal, AGENTS.md). Use for a new project, idea, kickoff, vibe coding, repo setup."
 license: MIT
 metadata:
-  version: "1.3.1" # x-release-please-version
+  version: "1.4.0" # x-release-please-version
   author: "ilramdhan"
 ---
 
