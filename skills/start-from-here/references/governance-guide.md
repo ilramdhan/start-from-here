@@ -132,7 +132,7 @@ TB-3 "Payment provider → webhook endpoint":
 1. **Columns = roles.** Every PRD role/persona with distinct rights + `Anonymous` (if anything is public) + service accounts/integrations.
 2. **Row groups = resources.** Every DATABASE entity users can act on, plus non-entity resources (billing, settings, audit log, admin console, exports).
 3. **Rows = actions.** For each resource, list every action the API/UI exposes: create, read, list, update, delete, export, share, invite, change role, approve, impersonate. Map each OP-xx to exactly one row.
-4. **Cells:** `✓` allowed · `✗` denied · `own` only own records · `org` within own tenant · `cond C-n` attribute/relationship rule written in §5.2.
+4. **Cells:** `✓` allowed · `✗` denied · `own` only own records · `org` within own tenant · `cond C-n` attribute/relationship rule written in §5.3.
 5. **Choose the model:** RBAC (roles only) for simple products; RBAC + ownership/tenant attributes for most SaaS; ReBAC (relationships, e.g. "shared with", folder inheritance) for collaboration apps; ABAC for policy-heavy domains (region, plan, data class). Record the choice; propose a policy engine only as PROPOSAL.
 6. **Enforcement:** one policy layer, deny by default; tenant/owner from verified session; consistent 403 vs 404; step-up auth for privileged actions; audit events for role changes and exports.
 7. **Tests:** every `✗` or `cond` a real caller can attempt becomes a SEC-xx denial row in TESTING §3.1 (group identical cases).
@@ -282,7 +282,10 @@ Run the template's "Completeness self-check" plus these cross-doc checks. Fix, t
 - [ ] TB × STRIDE coverage complete; threats written as attacker → action → asset.
 - [ ] Roles = PRD roles; resources = DATABASE entities; OP-xx all mapped; matches DATABASE access rules and API auth.
 - [ ] Secrets: one per integration; names only; storage, rotation, owner.
-- [ ] OWASP mappings present per product type; ASVS level stated; no "compliant" claims.
+- [ ] OWASP mappings present per product type (MASVS: all 8 categories); ASVS level stated; no "compliant" claims.
+- [ ] §1.1 classes are DATABASE §2's names verbatim; §4.2, §8, §12 complete; §13 has severity classes and notification clocks as `[TBD: counsel]` or cited from COMPLIANCE.
+- [ ] §16 SLAs = TRD security NFR; every ARCHITECTURE third party has a §18 row; §17 and §19 filled; §20 mapped to CR-xx (Enterprise) or `N/A — reason`.
+- [ ] Lite: OPERATIONS/API/SECURITY.md links repointed per tiering-and-doc-matrix "Lite merges".
 - [ ] Every SEC-xx named here exists in TESTING.
 
 **TESTING**
@@ -300,7 +303,7 @@ Run the template's "Completeness self-check" plus these cross-doc checks. Fix, t
 **CODE_STYLE**
 - [ ] Every language has version, naming, formatter, linter, type rules.
 - [ ] Directory table equals ARCHITECTURE structure.
-- [ ] Never-log list ⊇ Restricted fields; dependency policy with approver and licenses.
+- [ ] Never-log list ⊇ Sensitive, Secrets and masked Personal fields; dependency policy with approver and licenses.
 - [ ] Review checklist present (`#12-review-checklist` anchor intact).
 
 **GIT_WORKFLOW**

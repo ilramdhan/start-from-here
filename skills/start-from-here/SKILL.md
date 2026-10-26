@@ -310,7 +310,7 @@ Path: `docs/.start-from-here/STATE.md`. Update after every phase, round, and doc
 
 ```markdown
 # start-from-here state
-- skill_version: 1.0.0
+- skill_version: <metadata.version from SKILL.md frontmatter>
 - project: <name or TBD>
 - mode: new | brownfield | update
 - output_mode: filesystem | chat-only

@@ -70,13 +70,31 @@ Example (HTTP, `Content-Type: application/problem+json`):
 - Never expose stack traces, SQL, or internal hostnames in errors.
 
 ### 2.6 Authentication and authorization
+<!-- guidance: Decide each bullet; cross-check with SECURITY_ARCHITECTURE §4–§5. Lite: mechanism, token lifetime, and tenant rule only. -->
 - Mechanism: {{e.g. OAuth 2.0 / OIDC bearer tokens · session cookies (HttpOnly, Secure, SameSite) · API keys for server-to-server · mTLS · CLI device-code login with OS keychain storage}}
 - Scopes/permissions per operation are listed in §3; matrix in [SECURITY_ARCHITECTURE](SECURITY_ARCHITECTURE.md#5-authorization).
+- Token/session lifetime and refresh: {{access ≤ 15 min, refresh rotation with reuse detection / session idle ≤ 30 min / API key rotation ≤ 90 d}}; credentials only in headers, never in URLs or logs.
+- Object-level checks (BOLA, TH-02): every operation that takes an ID verifies ownership/tenant from the token, not from the request. Function-level checks: admin operations are gated per matrix row.
+- API keys and service accounts: {{scoped, one per consumer, hashed at rest, revocable, last-used tracked}}. Machine clients use {{OAuth client credentials / mTLS / signed requests}}.
+- Failure responses for authN/authZ use the §2.5 model, never reveal whether an account or object exists, and are rate limited (TH-01).
 
 ### 2.7 Rate limits and quotas
 | Consumer tier | Limit | Window | Headers |
 | --- | --- | --- | --- |
 | {{anonymous / authenticated / partner}} | {{n}} | {{per minute}} | {{RateLimit-* / Retry-After}} |
+
+### 2.8 Request and response security
+<!-- guidance: One decision per row; each links to its threat in SECURITY_ARCHITECTURE §3 (use the real TH-xx IDs) and to OWASP API Top 10 rows in §9.2. Non-HTTP APIs (CLI, library, gRPC): keep the rows that apply and mark others `N/A — reason`. -->
+| Topic | Decision | Threat / OWASP |
+| --- | --- | --- |
+| CORS | {{allow-list of exact origins; no `*` with credentials; allowed methods/headers; preflight cache}} or `N/A — no browser clients` | {{API8}} |
+| Max request / upload size | {{body ≤ n MB; upload ≤ n MB with type and content sniffing; reject early with 413}} | {{TH-05, API4}} |
+| Input schema validation | {{schema (OpenAPI/JSON Schema/protobuf) enforced at the edge; reject unknown fields (or document ignore policy); strict types, lengths, enums}} | {{TH-06, API3}} |
+| Response field allow-lists | {{explicit DTO/serializer per role; never serialize entities directly; no over-fetching}} | {{TH-04, API3}} |
+| Error verbosity | {{generic message + `trace_id` to clients; detail only in logs}} (see §2.5) | {{API8}} |
+| Idempotency keys | {{required on unsafe retried operations (§2.4); key scoped per caller; stored {{24 h}}}} | {{TH-08}} |
+| Inventory and versions | This document is the API inventory; no undocumented or shadow endpoints; retire old versions per §6 | {{API9}} |
+| Consuming third-party APIs | {{validate and size-limit upstream responses, timeouts, retries with backoff, no blind redirects}} | {{API10, TB-5}} |
 
 ## 3. Operation catalog
 <!-- guidance: Minimum content — one row per operation needed by APP_FLOW actions, admin functions, auth (sign-in,
@@ -120,6 +138,8 @@ effects/events, data entities touched (DATABASE §5), NFR target, and a realisti
 | --- | --- | --- | --- | --- |
 | {{item.created}} | {{trigger}} | {{link}} | {{at-least-once, retries with backoff for {{n}} h, ordered?}} | {{HMAC signature header + timestamp; consumers verify and dedupe by event id}} |
 
+**Webhook security (required for inbound and outbound):** verify the signature over the raw body with a per-endpoint secret before parsing (TH-07); reject timestamps outside a {{5 min}} tolerance and remember processed event IDs for the replay window (TH-08); process idempotently (a duplicate delivery has no second effect); respond fast and queue work; use constant-time comparison; rotate secrets with an overlap period. Outbound senders: sign, retry with backoff, and allow-list destination URLs (SSRF, SECURITY_ARCHITECTURE §8).
+
 ## 6. Deprecation and change policy
 - Breaking changes only in a new major version; the previous version is supported for {{period}} after the successor is GA.
 - Deprecations announced in [CHANGELOG](../../CHANGELOG.md) and signalled in-band ({{e.g. `Deprecation` and `Sunset` headers, CLI warning on stderr, language-level deprecation annotations}}).
@@ -148,6 +168,7 @@ becomes [TBD] + Q-xx. Keep this checklist in the output, ticked. -->
 - [ ] Every list is paginated (cursor) with a max page size; every unsafe retryable operation is idempotent; updates use concurrency control.
 - [ ] Every input has constraints (types, lengths, ranges, enums) matching DATABASE §5 and §14.
 - [ ] Sensitive fields are never exposed (§8); the authorization matrix in SECURITY_ARCHITECTURE has a row per OP-xx.
+- [ ] §2.6 and §2.8 decide token lifetime, CORS, size limits, schema validation, response allow-lists, and error verbosity; webhook verification, replay window and idempotency are stated.
 - [ ] Rate limits, versioning, and deprecation policy are decided; events/webhooks are signed and deduplicated (or N/A).
 - [ ] Machine-readable spec source of truth is named or `[TBD]` with owner.
 - [ ] No `{{placeholders}}` or guidance comments remain.

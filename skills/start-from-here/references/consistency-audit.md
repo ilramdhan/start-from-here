@@ -62,6 +62,9 @@ Severity:
 - [ ] Product name is spelled identically everywhere (README, PRD, AGENTS, LICENSE holder line where relevant, legal docs). (Error)
 - [ ] Entity names are identical across PRD, DATABASE, API, SECURITY_ARCHITECTURE (singular/plural and casing conventions consistent). (Error)
 - [ ] Role names are identical across PRD, SECURITY_ARCHITECTURE, DATABASE, API, TESTING. (Error)
+- [ ] Data classification names in SECURITY_ARCHITECTURE §1.1 are identical to DATABASE §2 (no Confidential/Restricted unless DATABASE defines them). (Error)
+- [ ] Vulnerability remediation SLAs are identical in TRD (security NFR) and SECURITY_ARCHITECTURE §16. (Error)
+- [ ] Every third party/integration in ARCHITECTURE appears in SECURITY_ARCHITECTURE §18. (Error)
 - [ ] Screen/command names identical between APP_FLOW, DESIGN_SYSTEM, TESTING. (Warning)
 
 ## E. Stack and commands

@@ -113,7 +113,7 @@ A template or a previous approval does not grant standing permission for later t
 - Enforce authorization server-side; follow the matrix in [SECURITY_ARCHITECTURE](docs/technical/SECURITY_ARCHITECTURE.md).
 - Validate all external input at the trust boundary; encode output for its context.
 - Do not log personal data or tokens; follow the redaction list in [SECURITY_ARCHITECTURE](docs/technical/SECURITY_ARCHITECTURE.md).
-- Use synthetic test data only (`user@example.test`); never send Restricted data to AI tools.
+- Use synthetic test data only (`user@example.test`); never send Personal, Sensitive or Secrets data to AI tools.
 - Report suspected vulnerabilities privately per [SECURITY.md](SECURITY.md) — never in public issues.
 
 ## Commits and pull requests

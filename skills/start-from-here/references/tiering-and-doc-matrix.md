@@ -112,6 +112,7 @@ When a doc is skipped in Lite because it is merged, put a short section in the t
 | OPERATIONS | ARCHITECTURE §14.4 "Deploy & run" |
 | GIT_WORKFLOW | CODE_STYLE §14 "Git (Lite)" |
 | ADRs | ARCHITECTURE §12 "Decisions" table |
+| Links from SECURITY_ARCHITECTURE to OPERATIONS / API (generated in Lite) | Incident, secret-rotation and runbook links (§7.3, §13, §13.1: OPERATIONS RB-03, #8, #14, #15) → ARCHITECTURE §14.4 "Incident & secret rotation" item; backup links (§19) → ARCHITECTURE §14.4; API links → ARCHITECTURE §7 "Interfaces"; root SECURITY.md links → remove if SECURITY.md is not generated |
 
 In Lite, links that templates point at skipped docs (e.g. PRD → `TRD.md#…`, Related headers → API/OPERATIONS/GIT_WORKFLOW) MUST be repointed to the merge target above or removed.
 

@@ -21,29 +21,30 @@ CMP-*, AIM-* answers), legal/COMPLIANCE (if generated). Every table below has a 
 keeps its heading and one line `N/A — reason`. Example rows marked "Example" are illustrations; replace them with real rows. -->
 
 <!-- guidance: Tier notes —
-Lite: §1 assets, §2 boundaries (diagram + table), §3 threat table (top 5–8 threats, still ≥1 per STRIDE letter across the system), §4 authN, §5 role matrix, §7 secrets, §8 input handling, §12 redaction list, §14 residual risks, §15 a 3-row testing plan. Keep it to ~2 pages; skip §9.1 ASVS checklist (state target level only).
-Standard: all sections; full STRIDE per trust boundary; ASVS Level 1 checklist as a typical baseline; OWASP Top 10 mapping (+ API Top 10 if API, + LLM Top 10 if AI).
-Enterprise: ASVS Level 2 (Level 3 for high-assurance), formal DFD per trust boundary, abuse cases (§3.2), pen-test plan, key management (KMS/HSM, rotation), SBOM + signed artifacts + provenance mandatory, DPIA link, control owners and evidence locations for audit (link legal/COMPLIANCE.md CR-xx). -->
+Lite: §1 assets, §2 boundaries (diagram + table), §3 threat table (top 5–8 threats, still ≥1 per STRIDE letter across the system), §4 authN, §5 role matrix, §7 secrets, §8 input handling, §12 redaction list, §14 residual risks, §15 a 3-row testing plan. Keep it to ~2 pages; skip §9.1 ASVS checklist (state target level only). Lite also: §13 severity table + first-action lines only; §16 three-line policy (intake, one SLA, exception rule); §17 one paragraph (who has prod/admin access, MFA, break-glass); §18 one row per third party; §19 backups + DNS/email lines only; §20 `N/A — Lite`. In Lite, OPERATIONS and API are not generated: repoint links per references/tiering-and-doc-matrix.md "Lite merges" (incident/secret rotation/runbooks/backups → ARCHITECTURE §14.4; API → ARCHITECTURE §7).
+Standard: all sections; full STRIDE per trust boundary; ASVS Level 1 checklist as a typical baseline; OWASP Top 10 mapping (+ API Top 10 if API, + LLM Top 10 if AI). §13 full (detection sources, containment, notification table, communications); §16–§19 complete tables; §20 `N/A — reason` unless legal/COMPLIANCE.md exists.
+Enterprise: ASVS Level 2 (Level 3 for high-assurance), formal DFD per trust boundary, abuse cases (§3.2), pen-test plan, key management (KMS/HSM, rotation), SBOM + signed artifacts + provenance mandatory, DPIA link, control owners and evidence locations for audit (§20 maps controls to legal/COMPLIANCE.md CR-xx), annual incident tabletop, access reviews with recorded evidence. -->
 
 ## 1. Assets
-<!-- guidance: Minimum content: one row for (a) every data class in DATABASE §2 that holds Confidential/Restricted data,
+<!-- guidance: Minimum content: one row for (a) every data class in DATABASE §2 that holds Personal (PII), Sensitive or Secrets data,
 (b) credentials and session tokens, (c) secrets and signing keys, (d) admin/privileged interfaces, (e) source code and CI/CD pipeline,
 (f) availability of the primary journey. CIA = which property matters most (Confidentiality, Integrity, Availability). -->
 | Asset | Classification | CIA priority | Why it matters (impact if compromised) | Stored / processed in | Owner |
 | --- | --- | --- | --- | --- | --- |
-| {{e.g. user accounts & credentials}} | {{Restricted}} | {{C, I}} | {{account takeover, data exposure}} | {{auth provider, users table}} | {{owner}} |
-| {{e.g. customer content}} | {{Confidential}} | {{C}} | {{privacy breach, contractual liability}} | {{db, object storage}} | |
-| {{e.g. signing keys, CI tokens}} | {{Restricted}} | {{I}} | {{malicious release to all users}} | {{secret manager, CI}} | |
+| {{e.g. user accounts & credentials}} | {{Secrets}} | {{C, I}} | {{account takeover, data exposure}} | {{auth provider, users table}} | {{owner}} |
+| {{e.g. customer content}} | {{Personal (PII)}} | {{C}} | {{privacy breach, contractual liability}} | {{db, object storage}} | |
+| {{e.g. signing keys, CI tokens}} | {{Secrets}} | {{I}} | {{malicious release to all users}} | {{secret manager, CI}} | |
 | {{e.g. primary journey J-01}} | {{—}} | {{A}} | {{revenue / trust loss}} | {{all containers}} | |
 
 ### 1.1 Data classification and handling
-<!-- guidance: Reuse the classes from DATABASE §2 verbatim. One row per class actually used. -->
+<!-- guidance: Use the class names from DATABASE §2 verbatim (Public, Internal, Personal (PII), Sensitive / special category, Secrets); never invent or rename classes here. One row per class actually used. -->
 | Class | Examples in this product | Encryption | May appear in logs? | May be sent to AI tools? | Retention |
 | --- | --- | --- | --- | --- | --- |
 | Public | {{marketing pages, public docs}} | In transit | Yes | Yes | — |
-| Internal | {{feature flags, non-sensitive config}} | In transit | Yes | {{per AI_GUIDELINES §2}} | {{period}} |
-| Confidential | {{customer content, emails}} | In transit + at rest | Masked only | {{No unless DPA}} | {{period}} |
-| Restricted | {{credentials, tokens, payment, health, government IDs}} | In transit + at rest (+ field-level if required) | Never | Never | {{period}} |
+| Internal | {{task titles, feature flags, non-sensitive config}} | In transit | Yes | {{per AI_GUIDELINES §2}} | {{period}} |
+| Personal (PII) | {{email, name, IP, customer content}} | In transit + at rest | Masked only | {{No unless DPA}} | {{period}} |
+| Sensitive / special category | {{payment, health, government IDs, precise location, children's data}} | In transit + at rest (+ field-level if required) | Never | Never | {{period}} |
+| Secrets | {{password hashes, tokens, API keys, signing keys, webhook secrets}} | In transit + at rest (hash or KMS-wrapped) | Never | Never | {{period}} |
 
 ## 2. Trust boundaries
 <!-- guidance: Minimum content: a data-flow diagram (DFD) with every external actor, every container from ARCHITECTURE,
@@ -97,7 +98,7 @@ ASCII fallback (keep in sync with the diagram; use when Mermaid cannot render):
 
 | TB | From → To | Data classes crossing | Protocol | Authentication | Authorization | Key controls |
 | --- | --- | --- | --- | --- | --- | --- |
-| TB-1 | {{Client → edge}} | {{Confidential, credentials}} | {{HTTPS (TLS 1.2+)}} | {{session cookie / bearer token}} | {{per §5}} | {{WAF, rate limits, input validation}} |
+| TB-1 | {{Client → edge}} | {{Personal (PII), Secrets}} | {{HTTPS (TLS 1.2+)}} | {{session cookie / bearer token}} | {{per §5}} | {{WAF, rate limits, input validation}} |
 | TB-2 | {{Edge → app}} | | | | | |
 | TB-3 | {{Third party → app (webhook)}} | | | {{HMAC signature + timestamp}} | {{fixed sender}} | {{replay window, idempotency key}} |
 | TB-4 | {{App → data store}} | | | {{DB credentials from secret manager}} | {{least-privilege role, RLS}} | {{parameterized queries}} |
@@ -132,7 +133,7 @@ Lite: 5–8 highest-risk threats total, but every STRIDE letter appears at least
 | **Low** | Low | Low | Medium |
 
 - Likelihood: H = exploitable by an anonymous attacker with public tools; M = needs an account or insider knowledge; L = needs privileged access or an unlikely chain.
-- Impact: H = Restricted data exposed, money moved, or service down for all; M = one tenant/user affected or partial outage; L = minor, recoverable.
+- Impact: H = Sensitive, Secrets or bulk Personal data exposed, money moved, or service down for all; M = one tenant/user affected or partial outage; L = minor, recoverable.
 - Critical and High risks MUST have a control before release or an accepted-risk entry in §14 signed by {{risk_owner}}.
 
 ### 3.2 Abuse cases (Standard optional, Enterprise required)
@@ -231,7 +232,7 @@ Minimum content (coverage rules):
 - Every role/persona from PRD appears as a column (plus Anonymous if anything is public, plus service accounts if any).
 - Every resource (entity) from DATABASE appears as a row group; every action the API exposes on it (create/read/update/delete/list/export/share/admin) is a row.
 - Every OP-xx in API maps to exactly one permission row (record it in the "Operations" column).
-- Cells use: ✓ allowed · ✗ denied · `own` only own records · `org` only within own tenant · `cond` see §5.2 rule ID.
+- Cells use: ✓ allowed · ✗ denied · `own` only own records · `org` only within own tenant · `cond` see §5.3 rule ID.
 - Every ✗ that a real user could attempt becomes a permission-denial test in TESTING §3 (SEC-xx).
 Model: RBAC (roles), ABAC (attributes like owner, tenant, plan, status), or ReBAC (relationships like "shared with"). Most products are RBAC + ownership/tenant conditions. -->
 **Model:** {{RBAC + ownership/tenant conditions / ABAC / ReBAC}} · **Policy location:** {{e.g. policy module in service layer / policy engine (OPA, Cedar, Casbin) / DB row-level security}} · **Default:** deny.
@@ -244,7 +245,7 @@ Model: RBAC (roles), ABAC (attributes like owner, tenant, plan, status), or ReBA
 | {{Admin}} | {{P-02}} | {{granted by Owner}} | {{own tenant}} | No |
 | {{Owner / Super-admin}} | {{P-03}} | {{tenant creator / ops}} | {{tenant / platform}} | No |
 
-### Permission matrix
+### 5.2 Permission matrix
 | Resource | Action | {{Anonymous}} | {{Member}} | {{Admin}} | {{Owner / Super-admin}} | Operations (OP-xx) | Enforced at |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | {{item}} | create | ✗ | org | org | org | {{OP-01}} | {{service + DB policy}} |
@@ -255,13 +256,13 @@ Model: RBAC (roles), ABAC (attributes like owner, tenant, plan, status), or ReBA
 | {{member}} | change role | ✗ | ✗ | cond C-2 | org | {{OP-10}} | |
 | {{billing}} | manage | ✗ | ✗ | ✗ | org | {{OP-20}} | |
 
-### 5.2 Attribute and relationship conditions
+### 5.3 Attribute and relationship conditions
 | ID | Condition | Example |
 | --- | --- | --- |
 | C-1 | {{Member may read an item if owner OR the item is shared with them}} | {{share table lookup}} |
 | C-2 | {{Admin may change roles except their own and except to Owner}} | {{prevents self-escalation}} |
 
-### 5.3 Enforcement rules
+### 5.4 Enforcement rules
 - Authorization runs after authentication and before any data access, in {{single policy layer}} — never scattered `if` checks in handlers.
 - Tenant/owner IDs come from the verified token/session, never from request bodies or query strings.
 - Return {{404 / 403}} for denied object access consistently (choose one to avoid existence leaks).
@@ -306,11 +307,11 @@ ASCII fallback: `request → create (secret manager) → distribute (least privi
 | Key / purpose | Algorithm (decided) | Managed by | Rotation | Access |
 | --- | --- | --- | --- | --- |
 | {{data at rest — database}} | {{provider default AES-256}} | {{cloud KMS}} | {{yearly, automatic}} | {{service role only}} |
-| {{field-level encryption for Restricted fields}} | {{envelope encryption}} | {{KMS}} | | |
+| {{field-level encryption for Sensitive and Secrets fields}} | {{envelope encryption}} | {{KMS}} | | |
 | {{artifact / release signing}} | {{e.g. Sigstore keyless / GPG}} | {{CI identity / maintainer}} | | |
 
 ### 7.3 Leak response
-1. Revoke/rotate the secret first (RB-03 in [OPERATIONS](OPERATIONS.md#15-runbooks-index)); removing it from git history is not enough.
+1. Revoke/rotate the secret first (RB-03 in [OPERATIONS](OPERATIONS.md#15-runbooks-index); Lite: the "Incident & secret rotation" item in [ARCHITECTURE §14.4](ARCHITECTURE.md#144-deploy--run)); removing it from git history is not enough.
 2. Review access logs for use of the secret between leak time and revocation.
 3. Record as a security incident per §13.
 
@@ -380,7 +381,7 @@ One row per ASVS chapter (names below follow ASVS 5.0 — verify against the off
 ### 9.2 OWASP API Security Top 10 (2023) — if the product exposes an API
 | Item | How addressed | Status |
 | --- | --- | --- |
-| API1 Broken Object Level Authorization | {{§5.3, TH-02, SEC-01}} | |
+| API1 Broken Object Level Authorization | {{§5.4, TH-02, SEC-01}} | |
 | API2 Broken Authentication | {{§4}} | |
 | API3 Broken Object Property Level Authorization | {{response DTOs, writable-field allow-lists, TH-04/TH-06}} | |
 | API4 Unrestricted Resource Consumption | {{rate limits, pagination caps, payload size, TH-05}} | |
@@ -396,6 +397,13 @@ One row per ASVS chapter (names below follow ASVS 5.0 — verify against the off
 | Category | How addressed | Status |
 | --- | --- | --- |
 | MASVS-STORAGE | {{no secrets in app storage; exclude sensitive files from OS backups}} | |
+| MASVS-CRYPTO | {{platform crypto APIs only; no hard-coded keys; key storage in Keychain / Keystore}} | |
+| MASVS-AUTH | {{server-side authorization; biometric as local convenience only; token lifetime}} | |
+| MASVS-NETWORK | {{TLS only; certificate pinning decision and rotation plan}} | |
+| MASVS-PLATFORM | {{deep-link/intent validation, WebView hardening, minimal permissions, clipboard/screenshot policy}} | |
+| MASVS-CODE | {{dependency/SDK review, signed builds, update enforcement}} | |
+| MASVS-RESILIENCE | {{root/jailbreak and tamper stance (decide: none / detect / enforce), obfuscation decision}} | |
+| MASVS-PRIVACY | {{data minimization, consent, SDK data flows, store privacy labels}} | |
 
 ### 9.4 OWASP Top 10 for LLM Applications (2025) — if AI features
 | Item | How addressed | Status |
@@ -464,7 +472,7 @@ The data list must match legal/PRIVACY_POLICY. If no personal data: `N/A — no 
 - **DPIA / privacy review trigger:** {{new PD category, new processor, profiling, children's data}} → [TBD: owner].
 
 ## 12. Logging, audit, and redaction
-<!-- guidance: Minimum content: every security-relevant event below has a row (or N/A); a never-log list covering every Restricted field from §1.1. -->
+<!-- guidance: Minimum content: every security-relevant event below has a row (or N/A); a never-log list covering every Sensitive and Secrets field and every Personal field that must be masked, from §1.1. -->
 - Security events logged: {{sign-in success/failure, permission denials, role changes, data exports, admin actions}}.
 - **Never log:** passwords, tokens, session IDs, full payment data, secrets, {{other PII fields}}. Mask: {{email → u***@example.com}}.
 - Audit log: {{append-only, retained {{period}}, access restricted}}.
@@ -479,8 +487,31 @@ The data list must match legal/PRIVACY_POLICY. If no personal data: `N/A — no 
 | Admin / support impersonation | admin ID, target, reason | {{audit log}} | | {{yes}} |
 
 ## 13. Incident response
+<!-- guidance: Tier: Lite = severity table + 13.1 first actions; Standard = all subsections; Enterprise = + annual tabletop with recorded outcome. Process, on-call and postmortem templates live in OPERATIONS (Lite: ARCHITECTURE §14.4). NEVER state a legal deadline as fact: every deadline cell is `[TBD: counsel]` unless legal/COMPLIANCE.md defines it (then cite its CR-xx). -->
 - Detection & alerting: [OPERATIONS](OPERATIONS.md#8-alerting-and-on-call) · Process & postmortems: [OPERATIONS](OPERATIONS.md#14-incident-management)
 - External reports: [SECURITY.md](../../SECURITY.md) · Breach notification obligations: {{see legal/COMPLIANCE.md or [TBD]}}
+
+**Severity classes** (defined by impact, not by cause):
+| Class | Definition | Response target | Who is engaged |
+| --- | --- | --- | --- |
+| SEV-1 | {{Sensitive/Secrets/bulk Personal data exposed, active exploitation, or malicious release}} | {{PROPOSAL: start ≤ 1 h}} | {{security owner, engineering lead, counsel}} |
+| SEV-2 | {{one tenant/user affected, exploitable weakness without known abuse}} | {{PROPOSAL: ≤ 1 business day}} | {{security owner, service owner}} |
+| SEV-3 | {{low-impact finding, hardening gap}} | {{next planning cycle}} | {{service owner}} |
+
+**Detection sources:** {{alerts per OPERATIONS §8 (auth-failure spikes, anomalous exports), SECURITY.md reports, SCA/secret-scanning alerts, vendor advisories, user support tickets, bug bounty}}.
+
+**Containment and evidence:** {{disable feature flag / revoke credentials / isolate workload / block IP range}}; preserve logs, snapshots and affected artifacts **before** destructive remediation; keep a timestamped action log; restrict evidence access to the incident team.
+
+**Notification clocks:**
+| Obligation | Applies when | Deadline | Who notifies | Source |
+| --- | --- | --- | --- | --- |
+| {{regulator breach notice}} | {{personal data breach with risk}} | [TBD: counsel] | {{owner}} | {{COMPLIANCE CR-xx or [TBD]}} |
+| {{affected users / customers}} | {{SEV-1 with user impact; contract terms}} | [TBD: counsel] | {{owner}} | {{MSA / DPA / [TBD]}} |
+| {{app store / platform / card network}} | {{if applicable}} | [TBD: counsel] | {{owner}} | |
+
+**Communications:** internal {{incident channel, single incident commander}} · customers {{template, approver: counsel/owner}} · public {{status page, SECURITY.md advisory}}. Only the approved spokesperson speaks externally.
+
+**Exercises and learning:** {{tabletop cadence (Enterprise: yearly)}}; every SEV-1/2 gets a blameless postmortem ([OPERATIONS](OPERATIONS.md#14-incident-management)) with action items tracked to R-xx or issues.
 
 ### 13.1 Security playbooks
 <!-- guidance: One row per likely security incident type. Each links a runbook RB-xx in OPERATIONS (create it there if missing). -->
@@ -514,12 +545,62 @@ Tools are examples — pick by stack and mark PROPOSAL until configured. -->
 | Threat model review | this doc | review meeting | {{each milestone / major change}} | — | — |
 | Penetration test | {{production-like env}} | {{external firm [TBD]}} | {{before GA, yearly}} (Enterprise) | Critical/high findings | — |
 
+## 16. Vulnerability management
+<!-- guidance: Tier: Lite = 3 lines (intake, one SLA, exception rule); Standard/Enterprise = full table. Remediation SLAs are PROPOSAL until the team agrees; the same SLA numbers MUST appear in TRD §3 (security NFR). Minimum content: every intake source, a triage owner, an SLA per severity, an exception rule with expiry, and the regression-test rule. -->
+- **Intake:** {{root SECURITY.md reports, SCA/Dependabot, SAST/DAST, secret scanning, pen-test findings, vendor advisories}}. **Triage owner:** {{role}}; triage within {{PROPOSAL: 3 business days}} using CVSS plus exploitability and exposure in this product.
+- **Security-regression rule:** every fixed High/Critical vulnerability gets a test (SEC-xx in TESTING) that fails without the fix.
+
+| Severity | Remediation SLA | Verified by | Escalation if missed |
+| --- | --- | --- | --- |
+| Critical | {{PROPOSAL: n days}} | {{re-scan + SEC-xx}} | {{security owner}} |
+| High | {{PROPOSAL: n days}} | | |
+| Medium | {{PROPOSAL: n days}} | | |
+| Low | {{next planned release}} | | |
+| Exception | Needs a written reason, compensating control, approver and **expiry date**; tracked in §14 (R-xx). | | |
+
+## 17. Access governance
+<!-- guidance: Tier: Lite = one paragraph; Standard = table; Enterprise = table + recorded periodic review evidence. Cover people AND workloads. Never list credentials, only roles and systems. -->
+| Area | Rule / control | Owner | Review cadence |
+| --- | --- | --- | --- |
+| Production and admin access | {{least privilege, named accounts, no shared logins, just-in-time where available}} | {{owner}} | {{quarterly}} |
+| Workload and cloud IAM | {{one identity per service, scoped roles, no wildcard policies, short-lived credentials}} | | |
+| Admin consoles (cloud, DB, CI, support tools) | {{MFA required, phishing-resistant for admins where possible}} | | |
+| Code host, package registry, domain registrar, app-store accounts | {{MFA, ≥ 2 owners, branch protection, recovery contacts documented}} | | |
+| Joiner / mover / leaver | {{grant by role, remove access on role change, revoke all on exit within PROPOSAL: 1 business day}} | | |
+| Break-glass | {{sealed emergency account, alert on use, post-use review, credential rotated after}} | | |
+| Periodic access review | {{list of who can reach production data and secrets; remove unused}} | | {{quarterly}} |
+
+## 18. Third-party and vendor risk
+<!-- guidance: One row per third party / sub-processor / SDK from ARCHITECTURE (integrations) and TRD §5; no third party may be missing. Evidence = what the vendor provides (SOC 2 / ISO 27001 report, pen-test summary, DPA) or `[TBD]`; never claim a vendor is certified without the document. Lite: one row per third party, evidence column optional. -->
+| Third party | Purpose | Data shared (classes from §1.1) | Auth method / secret name | Security evidence | Exit plan |
+| --- | --- | --- | --- | --- | --- |
+| {{payment / auth / email / analytics / hosting / AI provider}} | {{purpose}} | {{Personal (PII)}} | {{OAuth / API key NAME}} | {{SOC 2 report on file / [TBD]}} | {{replacement, data export/deletion}} |
+
+## 19. Platform hardening baseline
+<!-- guidance: Tier: Lite = backups + DNS/email only; Standard/Enterprise = all rows. Use baselines that fit the stack (e.g. CIS Benchmarks for hosts/containers/cloud accounts, provider security defaults) and mark each PROPOSAL until configured. Link OPERATIONS for backups (Lite: ARCHITECTURE §14.4). -->
+| Area | Baseline | Status |
+| --- | --- | --- |
+| Configuration baseline | {{CIS benchmark or provider baseline for hosts / containers / cloud account / platform}}; drift checked by {{IaC scan}} | |
+| Network segmentation | {{public edge only for web/API; data stores private; egress allow-list for workloads where feasible}} | |
+| Backup security | {{encrypted, access separated from production credentials, immutable or offline copy, restore tested per [OPERATIONS](OPERATIONS.md#9-backup-and-disaster-recovery)}} | |
+| Email and DNS | {{SPF, DKIM, DMARC policy; CAA records; registrar lock; remove dangling DNS records to prevent subdomain takeover}} | |
+| Endpoint / client distribution (mobile, desktop, CLI) | {{code signing and key custody, notarization, update integrity check, no unsigned auto-update}} | |
+
+## 20. Control mapping (Enterprise)
+<!-- guidance: Enterprise: one row per control family, mapped to a requirement in legal/COMPLIANCE.md (CR-xx). Lite/Standard without COMPLIANCE.md: `N/A — reason`. Evidence = location (path/URL/system), never copied secrets. Status values: Planned / Implemented / Verified. NEVER write "compliant" or "certified"; this table shows traceability only. -->
+| Control (§) | Requirement source (COMPLIANCE CR-xx) | Owner | Evidence location | Status |
+| --- | --- | --- | --- | --- |
+| {{Access governance (§17)}} | {{CR-xx}} | {{owner}} | {{access-review records}} | {{Planned}} |
+| {{Logging and audit (§12)}} | {{CR-xx}} | | {{log retention config}} | |
+| {{Vulnerability management (§16)}} | {{CR-xx}} | | {{scanner reports}} | |
+
 ## Definition of done
 - [ ] Assets, trust boundaries, and STRIDE threats reflect the real architecture; each threat has a control or accepted risk.
 - [ ] AuthN decisions and a deny-by-default authorization matrix are agreed and match DATABASE access rules.
 - [ ] Secrets are listed by name only with storage and rotation; no values anywhere.
 - [ ] Supply chain, privacy, and logging-redaction controls are defined.
 - [ ] Security tests are linked in TESTING; residual risks have owners. Root SECURITY.md covers disclosure.
+- [ ] §4.2 auth checklist, §8 input/output rules, §12 redaction and §13 incident response (severity, notification clocks as `[TBD: counsel]` or cited) are complete; §16–§20 are filled or `N/A — reason` per tier.
 
 ### Completeness self-check
 <!-- guidance: Run every check before marking the doc "In review". Fix gaps; do not just tick. Keep this list in the generated doc (checked). -->
@@ -530,5 +611,8 @@ Tools are examples — pick by stack and mark PROPOSAL until configured. -->
 - [ ] Every secret the system needs is in §7 (one per third-party integration at minimum); no values anywhere.
 - [ ] §9 lists every OWASP Top 10 item; API Top 10 if API; LLM Top 10 if AI; MASVS if mobile; ASVS target level stated.
 - [ ] Every PII field in DATABASE appears in §11 with purpose and retention, matching PRIVACY_POLICY.
+- [ ] §4.2 has a decided answer for every control; §8 covers every input channel in §2; §12 never-log list covers every Sensitive and Secrets field.
+- [ ] §13 has severity classes, containment steps and a notification table with no invented deadlines.
+- [ ] §16 SLAs equal the TRD security NFR; every third party in ARCHITECTURE has a §18 row; §17 names owners and review cadence; §19 and §20 filled or `N/A — reason`.
 - [ ] Mermaid diagrams render and each has an ASCII fallback; ≤ 15 nodes each.
 - [ ] No `{{placeholders}}`, guidance comments, invented tools-as-configured, or "compliant/certified" claims remain.

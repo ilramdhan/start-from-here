@@ -31,7 +31,7 @@ Enterprise: add traceability report per release, performance baselines with budg
 
 | Risk | Why it matters | Covered by (layer / test IDs) |
 | --- | --- | --- |
-| {{cross-tenant data leak}} | {{Restricted data exposure}} | {{Integration — SEC-02}} |
+| {{cross-tenant data leak}} | {{Sensitive data exposure}} | {{Integration — SEC-02}} |
 
 ## 2. Strategy and layers
 <!-- guidance: Default to a pyramid (many fast unit tests, fewer integration, few end-to-end). Adjust per app type:

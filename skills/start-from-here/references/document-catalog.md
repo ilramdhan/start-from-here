@@ -71,7 +71,7 @@ In session mode the order above is grouped into work packages WP1–WP9, one per
 ## docs/technical/TRD.md
 - **Purpose:** Translate product requirements into technical requirements.
 - **Inputs:** NFR-Q*, ARC-01/03/04, PLT-*, AIM-*, DAT-05/09; PRD, APP_FLOW.
-- **Must contain:** F-xx → technical capability mapping; NFR-xx table (category, requirement with number, measurement method, priority); constraints (technical, budget, regulatory); integrations (provider, purpose, data exchanged, limits, failure behavior, credential owner); assumptions; open questions.
+- **Must contain:** F-xx → technical capability mapping; NFR-xx table (category, requirement with number, measurement method, priority) including measurable security/privacy NFRs (authN assurance, encryption, audit-log retention, vulnerability SLA = SECURITY_ARCHITECTURE §16, secret rotation, RPO/RTO); constraints (technical, budget, regulatory); integrations (provider, purpose, data exchanged, limits, failure behavior, credential owner); assumptions; open questions.
 - **Done when:** every NFR has a number and a measurement method or a `[TBD]`; every integration has a failure behavior.
 
 ## docs/technical/ARCHITECTURE.md
@@ -98,13 +98,13 @@ In session mode the order above is grouped into work packages WP1–WP9, one per
 ## docs/technical/API.md
 - **Purpose:** The contract for clients and integrators (HTTP, GraphQL, gRPC, CLI commands, library public API, or events).
 - **Inputs:** ARC-05..08, IDN-01/02/10; APP_FLOW, ARCHITECTURE, DATABASE.
-- **Must contain:** style and conventions (naming, pagination, filtering, dates, IDs); authentication and authorization per operation; operation table (OP-xx, method/path or RPC/command, purpose, roles, request, response, errors, linked F-xx); error model; rate limits; idempotency; versioning and deprecation; webhooks/events if any; link or plan for machine-readable spec (OpenAPI, proto, GraphQL schema).
+- **Must contain:** style and conventions (naming, pagination, filtering, dates, IDs); authentication and authorization per operation (token lifetime, object- and function-level checks, API keys); request/response security (CORS, size limits, schema validation and unknown fields, response allow-lists, error verbosity, idempotency keys); operation table (OP-xx, method/path or RPC/command, purpose, roles, request, response, errors, linked F-xx); error model; rate limits; idempotency; versioning and deprecation; webhooks/events if any (signature verification, replay window, idempotent processing); link or plan for machine-readable spec (OpenAPI, proto, GraphQL schema).
 - **Done when:** every operation used by APP_FLOW exists; every operation has an auth rule; error model is defined once and reused.
 
 ## docs/technical/SECURITY_ARCHITECTURE.md
 - **Purpose:** Threat model and security design (not the disclosure policy).
 - **Inputs:** IDN-*, PRV-*, CMP-*, AIM-05, DAT-07/11; ARCHITECTURE, DATABASE, API.
-- **Must contain:** assets and data classification; trust boundaries (TB-x) diagram; STRIDE table (TH-xx threat, component, trust boundary TB-x, mitigation, status, R-xx); authentication design; authorization matrix (role × resource × action) matching DATABASE and API; tenant isolation; secrets management (names only, storage, rotation, owner); input/output handling; dependency and supply-chain policy; logging and redaction; privacy engineering (minimization, retention, data subject rights); AI-specific threats if AI; residual risks.
+- **Must contain:** assets and data classification; trust boundaries (TB-x) diagram; STRIDE table (TH-xx threat, component, trust boundary TB-x, mitigation, status, R-xx); authentication design; authorization matrix (role × resource × action) matching DATABASE and API; tenant isolation; secrets management (names only, storage, rotation, owner); input/output handling; dependency and supply-chain policy; logging and redaction; privacy engineering (minimization, retention, data subject rights); incident response (severity classes, containment, notification clocks as `[TBD: counsel]` unless COMPLIANCE defines them, communications); AI-specific threats if AI; residual risks; security testing plan; vulnerability management (SLAs, exceptions); access governance; third-party/vendor risk (one row per ARCHITECTURE third party); platform hardening baseline; control mapping to COMPLIANCE CR-xx (Enterprise). Data classes are DATABASE §2's, verbatim.
 - **Done when:** every role from PRD appears in the matrix; each STRIDE category considered (or N/A with reason); no secret values.
 
 ## docs/technical/TESTING.md

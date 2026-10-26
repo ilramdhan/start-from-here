@@ -339,7 +339,7 @@ In chat-only mode, ask the user to paste HANDOVER.md (if they have one), STATE.m
 > Machine- and human-readable progress file. Any AI agent can resume from it. Do not store secrets here.
 
 ## Session
-- skill_version: 1.0.0
+- skill_version: <metadata.version from SKILL.md frontmatter>
 - project: {{project_name}}
 - mode: new | brownfield | update
 - output_mode: filesystem | chat-only
