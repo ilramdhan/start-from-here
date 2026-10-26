@@ -115,7 +115,7 @@
     "architecture": "Diagram C4 context dan container, tabel stack, alur data.",
     "database": "Entitas, ERD, skema, aturan akses, migrasi, dan retensi.",
     "api": "Konvensi kontrak, endpoint, RPC atau CLI, error, dan versioning.",
-    "security": "Threat model STRIDE, matriks autentikasi/otorisasi, secret, dan privasi.",
+    "security": "Threat model STRIDE yang diperdalam dengan katalog ancaman tahap desain, matriks autentikasi/otorisasi, secret, dan privasi.",
     "testing": "Strategi pengujian dan matriks penerimaan yang terhubung ke fitur dan NFR.",
     "operations": "Environment, CI/CD, deploy dan rollback, SLO, backup, dan insiden.",
     "impl_plan": "Milestone dan task berurutan, masing-masing dengan definition of done.",

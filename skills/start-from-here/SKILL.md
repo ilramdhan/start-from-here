@@ -242,7 +242,7 @@ For each document:
    - APP_FLOW: every screen/command/endpoint has loading, empty, error, and success states; ≥1 Mermaid flowchart.
    - ARCHITECTURE: C4 context + container diagrams; ≥1 sequence diagram per Must journey plus the auth flow and one failure path; a deployment view.
    - DATABASE: every noun from F-xx/US-xx is an entity or explicitly rejected; supporting entities (identity, roles, audit, files, settings, …) considered; full column table per entity (type, null, default, constraints); PK strategy; every FK indexed; indexes justified by key queries; tenant isolation, retention and PII class per entity; Mermaid `erDiagram` with attributes.
-   - SECURITY_ARCHITECTURE: STRIDE per trust boundary; role × resource × action matrix.
+   - SECURITY_ARCHITECTURE: STRIDE per trust boundary; each threat names attacker → boundary → asset (no checklist filler); threats that hinge on an open choice get status `Needs decision` + Q-xx; role × resource × action matrix.
    - TESTING: every acceptance criterion maps to ≥1 test row.
    - IMPLEMENTATION_PLAN: phases with entry/exit criteria; every Must F-xx maps to ≥1 task; Mermaid gantt or dependency flowchart plus an ASCII fallback.
    - AI_GUIDELINES: DOs and DON'Ts tables by category, and the AI task loop.
@@ -302,7 +302,8 @@ docs/technical/IMPLEMENTATION_PLAN.md, with files to create and how each accepta
 criterion will be verified. Do not write code until I approve the plan.
 ```
 
-5. State clearly: "Documentation is complete. I will not start implementation in this workflow." **STOP.**
+5. Recommend (SHOULD; this skill never runs it): once code exists, run a code-level security review against SECURITY_ARCHITECTURE — e.g. an open-source audit skill such as cloudflare/security-audit-skill — and feed confirmed findings back into §14 and TESTING.
+6. State clearly: "Documentation is complete. I will not start implementation in this workflow." **STOP.**
 
 ## STATE.md format
 
@@ -386,3 +387,4 @@ Ask about and record these; read `references/legal-compliance-primer.md` for det
 - Read `references/architecture-guide.md` before TRD, ARCHITECTURE, ADRs, and API.
 - Read `references/data-modeling-guide.md` before DATABASE (and re-check it after API).
 - Read `references/governance-guide.md` before SECURITY_ARCHITECTURE, TESTING, OPERATIONS, CODE_STYLE, GIT_WORKFLOW, AI_GUIDELINES, and AGENTS.md.
+- Read `references/security-threat-catalog.md` before SECURITY_ARCHITECTURE §3: its procedure and core classes always, and only the domain sections whose triggers match the design.

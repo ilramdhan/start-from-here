@@ -310,6 +310,7 @@ When any answer, decision, or document changes:
 2. Update STATE.md: `phase: 7-handoff`, `next_step: implementation in a separate session`.
 3. Present readiness checklist, open questions, first implementation prompt (see SKILL.md).
 4. Mention how to come back: "Say `update <doc>` when something changes, `audit docs` before major milestones, and `resume` in a new session."
+4a. Recommend (SHOULD, not run by this skill): once code exists, run a code-level security review against SECURITY_ARCHITECTURE (e.g. an open-source audit skill such as cloudflare/security-audit-skill) and feed confirmed findings back into SECURITY_ARCHITECTURE §14 and TESTING.
 5. **STOP.** Do not begin implementation even if asked in the same breath; say implementation should start as a new task using the first implementation prompt, and that the user may of course ask their agent to do that next.
 
 ---

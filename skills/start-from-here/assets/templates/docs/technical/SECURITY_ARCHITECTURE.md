@@ -108,8 +108,12 @@ ASCII fallback (keep in sync with the diagram; use when Mermaid cannot render):
 (Spoofing, Tampering, Repudiation, Information disclosure, Denial of service, Elevation of privilege).
 Each pair (TB-x, category) gets ≥1 TH-xx row OR one row stating `N/A — reason` (e.g. "TB-4 Repudiation: N/A — no human actor at this boundary; covered by TB-7").
 Each threat names attacker, action, and asset ("An anonymous attacker replays a captured webhook to credit an account twice").
-Each row has ≥1 control, a status (Planned / Implemented / Accepted risk), a test ID (SEC-xx in TESTING) or "N/A — reason",
+Each row has ≥1 control, a status (Planned / Implemented / Accepted risk / Needs decision), a test ID (SEC-xx in TESTING) or "N/A — reason",
 and an R-xx if the residual risk is not Low. Rate likelihood and impact with §3.1. Sort rows by TB, then STRIDE order.
+`Needs decision` = the threat exists only under an open design choice: leave L/I/Risk as `—` and link the Q-xx that resolves it.
+Depth: follow references/security-threat-catalog.md — frame each TB as lower-trust principal → boundary → asset, select only the
+catalog domains whose triggers match this design, turn applicable prompts into TH-xx rows, skip the rest silently, and fill the
+coverage line below the table. A checklist gap with no attacker, boundary, and asset is a hardening note, not a threat.
 Lite: 5–8 highest-risk threats total, but every STRIDE letter appears at least once across the system. -->
 | ID | TB | Component | STRIDE | Threat (attacker → action → asset) | L | I | Risk | Control(s) | Status | Test | Risk ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -124,6 +128,8 @@ Lite: 5–8 highest-risk threats total, but every STRIDE letter appears at least
 | TH-09 | TB-4 | {{db}} | I | {{Cross-tenant read through a query missing the tenant filter}} | | | | {{tenant-scoped repository layer + RLS; isolation tests}} | | | |
 | TH-10 | TB-6 | {{CI/CD}} | T | {{Compromised dependency or CI action injects code into the release}} | | | | {{pinned deps and action SHAs, SBOM, signed artifacts, provenance}} | | | |
 | TH-nn | TB-4 | {{db}} | R | N/A — {{reason}} | — | — | — | — | — | — | — |
+
+Catalog domains considered: {{e.g. D1 web/identity, D4 supply chain, D7 availability, D8 data isolation}} · skipped: {{e.g. D9 (no native client), D10 (no native code)}}
 
 ### 3.1 Risk rating
 | Likelihood ↓ / Impact → | Low | Medium | High |

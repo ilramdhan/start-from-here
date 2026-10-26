@@ -115,7 +115,7 @@
     "architecture": "C4 context and container diagrams, stack table, data flow.",
     "database": "Entities, ERD, schema, access rules, migrations and retention.",
     "api": "Contract conventions, endpoints, RPCs or CLI, errors and versioning.",
-    "security": "STRIDE threat model, authentication/authorization matrix, secrets and privacy.",
+    "security": "STRIDE threat model deepened by a design-time threat catalog, authentication/authorization matrix, secrets and privacy.",
     "testing": "Test strategy and an acceptance matrix linked to features and NFRs.",
     "operations": "Environments, CI/CD, deploy and rollback, SLOs, backup and incidents.",
     "impl_plan": "Milestones and ordered tasks, each with a definition of done.",

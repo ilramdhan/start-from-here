@@ -226,6 +226,7 @@ Verification commands come from CODE_STYLE/TESTING; until verified write "Not co
 - **Entry criteria:** G3 passed (can run in parallel with M4).
 - **Deliverables:** threat mitigations complete, dependency audit, accessibility fixes, performance results vs NFR-xx, dashboards and alerts for SLO-xx, error-handling review, backup/restore test (if data).
 - **Exit criteria / DoD:** SEC-xx, PERF-xx, A11Y-xx results recorded; deviations have R-xx with an owner.
+- **Code security review:** {{run a code-level security review of the implemented system against SECURITY_ARCHITECTURE (e.g. an open-source audit skill or external reviewer); confirmed findings become TH-xx/R-xx updates and SEC-xx tests}}.
 - **Verification:** `{{security_scan_or_Not configured}}` · `{{perf_test_or_Not configured}}` · `{{a11y_check_or_Not configured}}` + manual screen-reader pass.
 - **Risks:** late performance findings — mitigated by PERF smoke tests from M2.
 

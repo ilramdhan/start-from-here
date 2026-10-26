@@ -96,6 +96,8 @@ For **each TB × each STRIDE letter**, ask the prompt question. Write ≥1 TH-xx
 | D Denial of service | Availability | Can someone exhaust resources or block others? | expensive queries, unbounded uploads, missing pagination, queue floods, AI token abuse |
 | E Elevation of privilege | Authorization | Can someone gain rights they should not have? | role change via API, missing function-level checks, path traversal, injection to code execution, agent with over-broad tools |
 
+Then deepen with `references/security-threat-catalog.md` (if available): frame each TB as lower-trust principal → boundary → asset; select catalog domains only by features and boundaries that exist in ARCHITECTURE, API, DATABASE and DISCOVERY (never by language or library name); for each applicable prompt write a TH-xx row, skip the rest silently; use status `Needs decision` + Q-xx when a threat hinges on an open choice; record considered and skipped domains (with reasons) in the coverage line under the §3 table. Generic checklist gaps without an attacker, boundary and asset become hardening notes, not threats.
+
 Write each threat as **attacker → action → asset**: "An authenticated member changes the note ID in `PATCH /notes/{id}` to edit another tenant's note." Vague threats ("hackers attack the API") are not acceptable.
 
 Also derive: one **abuse case** per Must feature that moves money, data, or permissions (Standard optional, Enterprise required); **AI threats** (§3.3 of the template, mapped to the OWASP LLM Top 10) when the product uses models.

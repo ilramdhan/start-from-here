@@ -231,7 +231,7 @@ criterion will be verified. Do not write code until I approve the plan.
 
 **Is the legal text ready to publish?** No. Legal docs are drafts for review by qualified counsel. The skill never claims your project "is compliant". `LICENSE` uses the full official text.
 
-**Where does the threat model go?** `docs/technical/SECURITY_ARCHITECTURE.md`. Root `SECURITY.md` is GitHub's vulnerability disclosure policy.
+**Where does the threat model go?** `docs/technical/SECURITY_ARCHITECTURE.md`. Root `SECURITY.md` is GitHub's vulnerability disclosure policy. The STRIDE table is deepened with a design-time threat catalog: only the domains that match your design (identity, AI/agents, cloud, messaging, data isolation, mobile, and others) are used, each threat names an attacker, a boundary, and an asset, and threats that depend on an open decision are marked `Needs decision`. After code exists, the handoff recommends a code-level security review against this document.
 
 **Will it leak my secrets?** It never writes secrets into files, only variable names like `DATABASE_URL`. If you paste a secret, it will tell you to rotate it.
 

@@ -115,7 +115,7 @@
     "architecture": "Diagramas C4 de contexto y de contenedores, tabla del stack y flujo de datos.",
     "database": "Entidades, ERD, esquema, reglas de acceso, migraciones y retención.",
     "api": "Convenciones del contrato, endpoints, RPC o CLI, errores y versionado.",
-    "security": "Modelo de amenazas STRIDE, matriz de autenticación/autorización, secretos y privacidad.",
+    "security": "Modelo de amenazas STRIDE reforzado con un catálogo de amenazas para la fase de diseño, matriz de autenticación/autorización, secretos y privacidad.",
     "testing": "Estrategia de pruebas y una matriz de aceptación vinculada a las funcionalidades y los NFR.",
     "operations": "Entornos, CI/CD, despliegue y reversión, SLO, copias de seguridad e incidentes.",
     "impl_plan": "Hitos y tareas ordenadas, cada una con una definición de terminado.",

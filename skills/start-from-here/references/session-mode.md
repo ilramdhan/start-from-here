@@ -62,7 +62,7 @@ Load ONLY these. Never load all references. "§" = template section numbers. Alw
 | WP2 | DISCOVERY §2 brief, §3.3 scope, §11.1–11.3 seeds | `references/product-guide.md` §0, §1, §2, §4, §5, §12, §13, §17 | PRD, APP_FLOW, DESIGN_SYSTEM |
 | WP3 | DISCOVERY §3.4–3.5, §6 decisions; PRD §7.1 feature summary, §8 NFR summary | `references/architecture-guide.md` §1, §2, §4, §6, §10 (≤32k: §2 + §10 only) | TRD, ARCHITECTURE, decisions/README + 0001 + adr-template |
 | WP4 | DISCOVERY §11.4 entity seeds; PRD §4 personas/roles, §7 features (+ §7.4 lifecycles); ARCHITECTURE §4 stack table, §5 boundaries, §7 interfaces | `references/data-modeling-guide.md` §1–§6, §13 (≤32k: §1–§5 + §13 only); `references/architecture-guide.md` §8 (API) | DATABASE, API |
-| WP5 | PRD §4 roles, §7.1, AC lists; TRD §3 NFRs; ARCHITECTURE §3.2 containers, §5; DATABASE §2 classification, §8 access rules; API §3 catalog | `references/governance-guide.md` §3, §4, §6, §9 | SECURITY_ARCHITECTURE, TESTING |
+| WP5 | PRD §4 roles, §7.1, AC lists; TRD §3 NFRs; ARCHITECTURE §3.2 containers, §5; DATABASE §2 classification, §8 access rules; API §3 catalog | `references/governance-guide.md` §3, §4, §6, §9; `references/security-threat-catalog.md` §1–§4 + only the domain sections whose triggers match | SECURITY_ARCHITECTURE, TESTING |
 | WP6 | TRD §3 NFRs; ARCHITECTURE §4, §11 deployment; TESTING §8 CI gates; PRD §7.1, §11 release plan; HANDOVER §4 registry | `references/governance-guide.md` §5, §7; `references/product-guide.md` §14 | OPERATIONS, IMPLEMENTATION_PLAN |
 | WP7 | ARCHITECTURE §4, §9 project structure; TESTING §9 commands; DISCOVERY §3.8 team | `references/governance-guide.md` §8, §9 | CODE_STYLE, GIT_WORKFLOW, AI_GUIDELINES |
 | WP8 | DISCOVERY §3.6, §3.8, §8; DATABASE §2, §12 (for privacy); STATE documents table | `references/legal-compliance-primer.md` (triggered regimes only); `references/governance-guide.md` §8 | legal templates as needed, root/community templates, AGENTS.md, docs/README.md |
@@ -93,6 +93,7 @@ Approximate token sizes (bytes ÷ 4; real tokenizers vary ±25%, non-English tex
 | `references/writing-conventions.md` | 2.5k | `references/consistency-audit.md` | 1.8k |
 | `references/product-guide.md` | 7.8k (lean set ≈ 3.5k) | `references/architecture-guide.md` | 7.1k (lean set ≈ 2.7k) |
 | `references/data-modeling-guide.md` | 12.8k (§1–§5 + §13 ≈ 5.2k) | `references/governance-guide.md` | 6.1k (per WP ≈ 1–2.5k) |
+| `references/security-threat-catalog.md` | 9.6k (§1–§4 ≈ 3.6k; each domain section ≈ 0.4–0.7k) | | |
 
 ### 4.2 Templates
 
