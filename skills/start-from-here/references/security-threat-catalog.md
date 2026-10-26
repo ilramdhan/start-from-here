@@ -68,7 +68,7 @@ Each class lists design questions, typical controls, the usual STRIDE letters, a
 - Ask: are object identifiers guessable, and does that matter given the ownership check?
 - Ask: which fields can each role write (mass assignment) and read (over-fetching)?
 - Controls: deny by default; identity and tenant taken only from the authenticated context; object-level check on every access; per-item checks in bulk paths; writable/readable field allow-lists per role; one shared authorization layer used by every path.
-- Lands in: §5 matrix and §5.3 enforcement rules; API §2.6; TESTING denial tests. OWASP A01; API1, API3, API5.
+- Lands in: §5.2 permission matrix and §5.4 enforcement rules; API §2.6; TESTING denial tests. OWASP A01; API1, API3, API5.
 
 ### 3.3 Resource and file handling — T, I, E, D
 
@@ -121,7 +121,7 @@ Each class lists design questions, typical controls, the usual STRIDE letters, a
 - Ask: can a token, API key, plugin, OAuth grant or agent gain broader scope after delegation, refresh, caching or role change?
 - Ask: do undelete, restore, rollback and cancellation re-apply current ownership and permissions?
 - Controls: each component validates what it relies on; capability narrowing on delegation; scope fixed at issuance; restores re-authorized against current policy.
-- Lands in: §2 TB table (state the guarantee each side relies on); §5.3.
+- Lands in: §2 TB table (state the guarantee each side relies on); §5.4.
 
 ## 4. Obvious-things design checklist
 
