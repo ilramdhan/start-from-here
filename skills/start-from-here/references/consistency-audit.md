@@ -21,6 +21,7 @@ ID cross-references done by the script (definition rules: `writing-conventions.m
 | AC-xx.y of a Must feature with no row in TESTING | Warning |
 | NFR-xx (TRD, Lite: ARCHITECTURE) referenced in neither TESTING nor OPERATIONS | Warning |
 | `[TBD-BLOCKING: …]` without a Q-xx | Error |
+| SECURITY_ARCHITECTURE §3: a TB × STRIDE pair with no row (Lite: a letter with no row anywhere); Planned/Implemented threat without a SEC-xx or `N/A` Test; High/Critical Accepted-risk row without R-xx; `Needs decision` without Q-xx; Status outside the allowed set | Warning |
 
 Features marked withdrawn, Won't, or out of scope are not required downstream. The script does not check names, priorities, or numbers; C, D, and G below still need you. Never report that the script ran if it did not.
 

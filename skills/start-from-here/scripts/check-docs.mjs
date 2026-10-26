@@ -22,6 +22,12 @@
 //      same ID defined twice in one doc / ADR number reused -> error
 //      PRD feature / AC / NFR not traced downstream      -> warning (TESTING, IMPLEMENTATION_PLAN, OPERATIONS)
 //  13. [TBD-BLOCKING: …] marker without a Q-xx           -> error (blocking count reported with [TBD])
+//  14. SECURITY_ARCHITECTURE §3 threat table (skipped if the doc is absent):
+//      TB x STRIDE coverage (Lite: every letter at least once overall) -> warning
+//      Planned/Implemented threat without a SEC-xx / "N/A" Test       -> warning
+//      High/Critical risk with status Accepted risk but no R-xx       -> warning
+//      Status "Needs decision" without a Q-xx                         -> warning
+//      Status outside Planned / Implemented / Accepted risk / Needs decision -> warning
 // Exit code: 0 = no errors, 1 = errors found, 2 = usage problem.
 
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -724,8 +730,115 @@ function checkLink(absFile, r, ln, raw) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// 14. SECURITY_ARCHITECTURE §3 threat table. Tolerant of column order (columns found by header name);
+// ignores code fences and HTML comments; cells still holding a {{placeholder}} are never judged.
+// SEC-xx defined-ness is already an error in check 12, so it is not repeated here.
+// ---------------------------------------------------------------------------
+function checkThreatTable(docs) {
+  const doc = docs.find((d) => d.r === 'docs/technical/SECURITY_ARCHITECTURE.md');
+  if (!doc) return;
+  const { r, lines, inCode } = doc;
+  const text = [];
+  let inComment = false;
+  for (let i = 0; i < lines.length; i++) {
+    if (inCode[i]) { text.push(''); continue; }
+    let s = lines[i];
+    let res = '';
+    while (s.length) {
+      if (inComment) {
+        const e = s.indexOf('-->');
+        if (e < 0) { s = ''; break; }
+        s = s.slice(e + 3); inComment = false;
+      } else {
+        const b = s.indexOf('<!--');
+        if (b < 0) { res += s; break; }
+        res += s.slice(0, b); s = s.slice(b + 4); inComment = true;
+      }
+    }
+    text.push(res);
+  }
+  const ph = (c) => /\{\{/.test(c);
+  const norm = (c) => c.replace(/[*_`]/g, '').trim();
+  const hdrTier = lines.slice(0, 15).join('\n').match(/Tier:?\**:?\s*\**\s*(Lite|Standard|Enterprise)\b/i);
+  const isLite = (hdrTier ? hdrTier[1] : tier ?? '').toLowerCase() === 'lite';
+
+  // §2 trust boundary IDs: first column of any table row that starts with TB-n (table rows only, not diagrams).
+  const tbs = [];
+  const rowsOut = [];
+  let hdr = null;
+  let col = {};
+  for (let i = 0; i < text.length; i++) {
+    const line = text[i];
+    if (!/^\s*\|/.test(line)) { hdr = null; continue; }
+    const cells = cellsOf(line);
+    if (/^[\s:|-]+$/.test(line)) continue;
+    const names = cells.map((c) => norm(c).toLowerCase());
+    if (names.includes('stride') && names.some((n) => n.startsWith('threat'))) {
+      hdr = names;
+      const find = (re) => names.findIndex((n) => re.test(n));
+      col = { id: find(/^id$/), tb: find(/^tb$/), stride: find(/^stride$/), threat: find(/^threat/), risk: find(/^risk$/),
+        status: find(/^status$/), test: find(/^test/), riskId: find(/^risk id$/) };
+      continue;
+    }
+    if (hdr) { rowsOut.push({ cells, ln: i + 1 }); continue; }
+    const m = norm(cells[0] ?? '').match(/^TB-(\d{1,2})$/);
+    if (m) { const id = `TB-${m[1]}`; if (!tbs.includes(id)) tbs.push(id); }
+  }
+  if (!rowsOut.length || col.stride < 0) return;
+  const at = (row, k) => (col[k] >= 0 ? (row.cells[col[k]] ?? '') : '');
+
+  const LETTERS = ['S', 'T', 'R', 'I', 'D', 'E'];
+  const seen = new Map(); // TB -> Set(letters)
+  const all = new Set();
+  for (const row of rowsOut) {
+    const tb = (norm(at(row, 'tb')).match(/TB-\d{1,2}/) ?? [])[0];
+    const letters = norm(at(row, 'stride')).toUpperCase().match(/[STRIDE]/g) ?? [];
+    for (const l of letters) { all.add(l); if (tb) { if (!seen.has(tb)) seen.set(tb, new Set()); seen.get(tb).add(l); } }
+  }
+  const firstLn = rowsOut[0].ln;
+  if (isLite) {
+    for (const l of LETTERS) if (!all.has(l)) add('warning', 'threats', r, firstLn, `Lite tier: STRIDE letter ${l} appears in no §3 row (every letter needs ≥1 row across the system)`);
+  } else {
+    for (const tb of tbs) {
+      const miss = LETTERS.filter((l) => !seen.get(tb)?.has(l));
+      if (miss.length) add('warning', 'threats', r, firstLn, `${tb} has no §3 row for STRIDE ${miss.join(', ')} (add a threat row or "N/A — reason")`);
+    }
+  }
+
+  const STATUSES = ['planned', 'implemented', 'accepted risk', 'needs decision'];
+  for (const row of rowsOut) {
+    const id = norm(at(row, 'id'));
+    const label = /^TH-\d/.test(id) ? id : `row at line ${row.ln}`;
+    const threat = at(row, 'threat');
+    const isNA = /^(?:\*\*)?N\/A/i.test(threat.trim());
+    const statusRaw = at(row, 'status');
+    const status = norm(statusRaw).toLowerCase();
+    if (col.status >= 0 && !ph(statusRaw) && status && status !== '—' && status !== '-' && !STATUSES.includes(status)) {
+      add('warning', 'threats', r, row.ln, `${label}: invalid Status "${norm(statusRaw)}" (use Planned, Implemented, Accepted risk or Needs decision)`);
+    }
+    if (isNA) continue;
+    const testCell = at(row, 'test');
+    if ((status === 'planned' || status === 'implemented') && col.test >= 0 && !ph(testCell)
+        && !/SEC-\d{2,3}/.test(testCell) && !/^(?:\*\*)?N\/A/i.test(testCell.trim())) {
+      add('warning', 'threats', r, row.ln, `${label}: ${norm(statusRaw)} threat has no Test (SEC-xx from TESTING, or "N/A — reason")`);
+    }
+    const riskCell = at(row, 'risk');
+    if (status === 'accepted risk' && /^(high|critical)\b/i.test(norm(riskCell)) && col.riskId >= 0
+        && !ph(at(row, 'riskId')) && !/\bR-\d{2,3}/.test(at(row, 'riskId'))) {
+      add('warning', 'threats', r, row.ln, `${label}: ${norm(riskCell)} risk with status Accepted risk needs an R-xx in Risk ID (§14)`);
+    }
+    if (status === 'needs decision' && !/\bQ-\d{2,3}/.test(row.cells.join(' '))) {
+      add('warning', 'threats', r, row.ln, `${label}: status Needs decision must reference a Q-xx`);
+    }
+  }
+}
+
 // 12. ID cross-references (runs after every file is read; constants above are initialized by now).
 checkIds(mdDocs);
+
+// 14. Threat table checks.
+checkThreatTable(mdDocs);
 
 // ---------------------------------------------------------------------------
 // Report
@@ -753,7 +866,7 @@ function printReport() {
 const LABEL = {
   presence: 'Expected files', placeholder: 'Leftover placeholders', guidance: 'Leftover guidance comments',
   link: 'Links', header: 'Status headers', secret: 'Possible secrets', legal: 'Legal notices', comment: 'HTML comments',
-  sections: 'Missing template sections', diagrams: 'Diagrams', ids: 'ID cross-references', tbd: 'Blocking TBD markers',
+  sections: 'Missing template sections', diagrams: 'Diagrams', ids: 'ID cross-references', threats: 'Threat model (SECURITY_ARCHITECTURE §3)', tbd: 'Blocking TBD markers',
 };
 const fmt = (f) => `  - ${f.file}${f.line ? `:${f.line}` : ''} — ${f.message}`;
 
