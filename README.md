@@ -137,7 +137,7 @@ README.md · CHANGELOG.md · CONTRIBUTING.md · CODE_OF_CONDUCT.md · SECURITY.m
 .github/CODEOWNERS · PULL_REQUEST_TEMPLATE.md · ISSUE_TEMPLATE/{bug_report.yml, feature_request.yml, config.yml}
 ```
 
-> The threat model lives in `docs/technical/SECURITY_ARCHITECTURE.md`. Root `SECURITY.md` is reserved for GitHub's vulnerability-disclosure policy.
+> The threat model lives in `docs/technical/SECURITY_ARCHITECTURE.md`. Root `SECURITY.md` is reserved for GitHub's vulnerability-disclosure policy. The threat model is built per trust boundary with a design-time threat catalog (only the domains your design actually has are loaded) and also covers incident response, vulnerability management, access governance, vendor risk and a hardening baseline. Once code exists, the handoff recommends a code-level review such as [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill).
 
 Full catalog with inputs and done-criteria: [`skills/start-from-here/references/document-catalog.md`](skills/start-from-here/references/document-catalog.md).
 
@@ -256,7 +256,7 @@ docs/technical/IMPLEMENTATION_PLAN.md, with files to create and how each accepta
 criterion will be verified. Do not write code until I approve the plan.
 ```
 
-Work through `IMPLEMENTATION_PLAN.md` one task at a time. When a decision changes, come back and say `update <doc>`, and the skill updates every downstream doc. Run `npx start-from-here@latest check .` at any time to find missing files, leftover placeholders, broken links, and IDs that are referenced but never defined (or defined twice).
+Work through `IMPLEMENTATION_PLAN.md` one task at a time. When a decision changes, come back and say `update <doc>`, and the skill updates every downstream doc. Run `npx start-from-here@latest check .` at any time to find missing files, leftover placeholders, broken links, IDs that are referenced but never defined (or defined twice), and gaps in the threat model (STRIDE coverage, threats without tests).
 
 ## Repository layout
 
