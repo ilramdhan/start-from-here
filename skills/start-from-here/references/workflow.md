@@ -16,7 +16,7 @@ Translate gate wording into the user's conversation language. Keep file names an
    - Can you read files in the user's project? Can you write files? Can you run commands?
    - If unsure, try a harmless read of the project root listing. If that fails, assume chat-only.
    - Record `output_mode: filesystem` or `output_mode: chat-only`.
-   - Estimate the context budget (model/tool, stated context size, chat-only UI, tier). Propose session mode when `session-mode.md` §1 applies; record `Mode: single | session` in STATE.md Flags.
+   - Estimate the context budget (model/tool, stated context size, chat-only UI). Note the session-mode signals from `session-mode.md` §1; the run mode is recommended at the Phase 1 gate once tier and doc count are known, and recorded as `Mode: single | session` in STATE.md Flags.
 2. Determine project mode, in this precedence:
    1. `docs/.start-from-here/STATE.md` exists → **resume** (see "Resume procedure").
    2. The user asked to audit or update docs → **update** (go to Phase 6 or the change-propagation rule).
@@ -54,7 +54,8 @@ Translate gate wording into the user's conversation language. Keep file names an
 2. **STOP** and wait.
 3. From the answers, set: `language_conversation`, `language_docs`, `experience`, and compute a tier score (see `tiering-and-doc-matrix.md`).
 4. Build the document list for the tier with conditional docs resolved where already known (e.g. "no UI yet known" → keep DESIGN_SYSTEM as "Conditional — pending").
-5. Present the calibration summary.
+5. Choose the recommended run mode (`session-mode.md` §1): **session** when the tier is Enterprise, the doc list has more than ~20 documents, the context is ≤ 64k / the model is local or small, the UI is chat-only, or the user asked; otherwise **single**.
+6. Present the calibration summary.
 
 **Gate wording**
 
@@ -63,10 +64,11 @@ Translate gate wording into the user's conversation language. Keep file names an
 > - Explanation style: {{beginner/intermediate/expert}}
 > - Proposed tier: **{{tier}}** — {{one-line reason}}
 > - Documents I plan to write: {{list grouped Product / Technical / Engineering / Legal / Repo}}
+> - Run mode: **{{session | single}}** — {{one-line reason, e.g. "Enterprise, 34 docs: one work package per fresh session keeps later docs as complete as the first"}}
 >
-> Reply "ok" to confirm, or change anything (e.g. "use Standard", "skip GIT_WORKFLOW", "add COOKIE_POLICY", "add DATA_PROCESSING_AGREEMENT"). **STOP.**
+> Reply "ok" to confirm, or change anything (e.g. "use Standard", "skip GIT_WORKFLOW", "add COOKIE_POLICY", "add DATA_PROCESSING_AGREEMENT", "single mode"). **STOP.**
 
-**Exit:** user confirmed tier and doc list. STATE.md updated (`phase: 1-calibrate` → `2-discover`).
+**Exit:** user confirmed tier, doc list and run mode. STATE.md updated (`phase: 1-calibrate` → `2-discover`, `Mode` in Flags).
 
 ---
 
@@ -166,7 +168,7 @@ Translate gate wording into the user's conversation language. Keep file names an
 >
 > Reply "approve" to start writing documents, or tell me what to change. Nothing else is written until you approve. **STOP.**
 
-**Exit:** user approved. DISCOVERY.md status → `Approved`. STATE.md `phase: 5-generate`.
+**Exit:** user approved. DISCOVERY.md status → `Approved`. Create `docs/.start-from-here/DIGEST.md` from DISCOVERY (template `assets/templates/docs/.start-from-here/DIGEST.md`; procedure `session-mode.md` §5.1). STATE.md `phase: 5-generate`.
 
 ---
 
@@ -178,13 +180,17 @@ Translate gate wording into the user's conversation language. Keep file names an
 
 1. Check the catalog entry (`document-catalog.md`) for inputs and done-criteria.
 2. In brownfield mode, if the file exists, prepare a merge proposal instead of writing (see `existing-project-mode.md`).
-3. Load the template from `assets/templates/<path>` if available.
-4. Fill from DISCOVERY.md and upstream docs. Never introduce a new feature, role, entity, or NFR silently; if you need one, add it as a PROPOSAL and a Q-xx.
+3. Load the template from `assets/templates/<path>` if available, plus DIGEST.md, the doc's guide section, and ONLY the upstream sections the template's guidance names as inputs (never whole upstream docs or all earlier docs). If read + write for this doc exceeds ~40% of your remaining context, checkpoint first (`session-mode.md` §4.4).
+4. Fill from DIGEST, DISCOVERY.md and those upstream sections. Never introduce a new feature, role, entity, or NFR silently; if you need one, add it as a PROPOSAL and a Q-xx.
 5. Apply tier depth. Keep every H2 section of the template; a section that does not apply becomes one line `N/A — reason`. Depth changes by tier; coverage never does.
 6. Remove all `<!-- guidance` comments and `{{placeholders}}`.
 7. Set header: `Status: Draft`, today's date, tier, related links.
 8. Write the file (filesystem) or output the fenced block (chat-only).
-9. Update STATE.md documents table.
+9. Update STATE.md documents table and patch DIGEST.md (new IDs, names, decisions, the doc's "where to read upstream" row).
+
+Optional: if your environment can start sub-agents (separate worker contexts) that write files, steps 3–8 for one document MAY run in a fresh sub-agent; you keep steps 1, 9, verification and every gate. Brief, order and parallelism rules: `session-mode.md` §7.
+
+**Checkpoint at every batch gate:** before showing the gate, refresh DIGEST.md and STATE.md so the run can be resumed in a fresh chat from this gate with nothing lost. Chat-only: print DIGEST and STATE as fenced blocks with the gate. If you notice context pressure (near the limit, earlier turns compacted, IDs no longer recalled), finish the current doc, update DIGEST and STATE, write HANDOVER.md, print the resume prompt, and stop instead of continuing.
 
 **Batch review gate wording**
 
@@ -310,14 +316,15 @@ When any answer, decision, or document changes:
 2. Update STATE.md: `phase: 7-handoff`, `next_step: implementation in a separate session`.
 3. Present readiness checklist, open questions, first implementation prompt (see SKILL.md).
 4. Mention how to come back: "Say `update <doc>` when something changes, `audit docs` before major milestones, and `resume` in a new session."
+4a. Recommend (SHOULD, not run by this skill): once code exists, run a code-level security review against SECURITY_ARCHITECTURE (e.g. an open-source audit skill such as cloudflare/security-audit-skill) and feed confirmed findings back into SECURITY_ARCHITECTURE §14 and TESTING.
 5. **STOP.** Do not begin implementation even if asked in the same breath; say implementation should start as a new task using the first implementation prompt, and that the user may of course ask their agent to do that next.
 
 ---
 
 ## Resume procedure
 
-0. If `docs/.start-from-here/HANDOVER.md` exists (session mode), read it FIRST: it carries the ID registry, quality notes, the current WP and its lean reading list. Then follow `session-mode.md` §5.2 — load only that WP's reading list instead of step 2 below.
-1. Read `docs/.start-from-here/STATE.md`. If it is missing but `docs/DISCOVERY.md` exists, rebuild STATE.md from DISCOVERY.md and the doc headers, then show it to the user.
+0. If `docs/.start-from-here/HANDOVER.md` exists, read it FIRST: it carries the quality notes, the current WP and its lean reading list. Then read `DIGEST.md` (names, ID registry, decisions) and follow `session-mode.md` §5.4 — load only that WP's reading list instead of step 2 below.
+1. Read `docs/.start-from-here/STATE.md`, and `DIGEST.md` if present (in single mode it replaces re-reading docs for names and IDs; if it is missing after Phase 4, rebuild it from DISCOVERY and the docs' ID lines). If it is missing but `docs/DISCOVERY.md` exists, rebuild STATE.md from DISCOVERY.md and the doc headers, then show it to the user.
 2. Read `docs/DISCOVERY.md` and the headers (first 5 lines) of every doc in the documents table.
 3. Check drift: docs on disk not in STATE, or STATE entries whose file is missing. Fix the table.
 4. Re-apply calibration (language, experience, tier) from STATE.md without asking again.
@@ -325,9 +332,9 @@ When any answer, decision, or document changes:
 6. Ask: "Continue with {{next_step}}?" **STOP.**
 7. Continue from the recorded phase. If mid-round in Phase 2, re-ask only unanswered questions of that round.
 
-In chat-only mode, ask the user to paste HANDOVER.md (if they have one), STATE.md and DISCOVERY.md (and any doc to be changed). In session mode, ask only for HANDOVER.md, STATE.md and the upstream sections listed in HANDOVER §7.
+In chat-only mode, ask the user to paste HANDOVER.md (if they have one), DIGEST.md, STATE.md and DISCOVERY.md (and any doc to be changed). In session mode, ask only for HANDOVER.md, DIGEST.md, STATE.md and the upstream sections listed in HANDOVER §7.
 
-**Session mode handover.** At the end of every session-mode session, on `next session` / `handover`, and whenever you sense you are near your context limit: update STATE.md (`current_wp`, documents table, `next_step`), overwrite `docs/.start-from-here/HANDOVER.md` from `assets/templates/docs/.start-from-here/HANDOVER.md`, print the next-session prompt, and stop. Chat-only: print HANDOVER and STATE as fenced blocks for the user to save. Full procedure: `session-mode.md`.
+**Handover.** At the end of every session-mode session, on `next session` / `handover`, and whenever you sense you are near your context limit (in any mode): update STATE.md (`current_wp`, documents table, `next_step`) and DIGEST.md, overwrite `docs/.start-from-here/HANDOVER.md` from `assets/templates/docs/.start-from-here/HANDOVER.md`, print the next-session prompt, and stop. Chat-only: print HANDOVER, DIGEST and STATE as fenced blocks for the user to save. Full procedure: `session-mode.md`.
 
 ---
 

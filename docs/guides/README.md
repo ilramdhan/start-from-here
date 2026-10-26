@@ -65,7 +65,7 @@ Support levels:
 | Continue | Native skill (⚠️ partial / unverified) | `npx skills add … -a continue` | natural language | [continue.md](continue.md) |
 | Ollama, LM Studio, Open WebUI, Le Chat, DeepSeek, Grok, Perplexity, Qwen, Llama | Prompt-only (Open WebUI: native skill import) | Paste `dist/start-from-here.prompt.md` | "start" | [local-and-other-llms.md](local-and-other-llms.md) |
 
-> **Small context window?** Local LLMs (8–32k), small/flash models, and chat apps that truncate history work best in **session mode**: say `session mode` and the skill splits the work into short work packages across fresh sessions, connected by `docs/.start-from-here/HANDOVER.md`. See [Small context windows & session mode](../USAGE.md#small-context-windows--session-mode).
+> **Small context window?** Local LLMs (8–32k), small/flash models, and chat apps that truncate history work best in **session mode**: say `session mode` and the skill splits the work into short work packages across fresh sessions, connected by `docs/.start-from-here/DIGEST.md` and `HANDOVER.md`. Session mode is also the default recommendation for Enterprise runs and runs with more than ~20 docs. See [Small context windows & session mode](../USAGE.md#small-context-windows--session-mode).
 
 ## Which method should I use?
 
