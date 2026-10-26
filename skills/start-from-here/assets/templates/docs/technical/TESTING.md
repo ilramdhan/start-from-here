@@ -115,9 +115,9 @@ Rules: (1) every Must AC-xx.y has ≥1 row; (2) each Must feature has ≥1 failu
 | --- | --- | --- | --- | --- | --- |
 | PERF-01 | NFR-01 | {{load test / benchmark / Lighthouse / startup timing}} | {{target}} | {{staging}} | Not run |
 | A11Y-01 | NFR-06 | {{automated scan (e.g. axe) + manual keyboard & screen-reader pass}} | WCAG 2.2 AA, 0 critical issues | {{env}} | Not run |
-| SEC-SAST | NFR-04 | Static analysis | 0 high/critical unresolved | CI | Not run |
-| SEC-SCA | NFR-04 | Dependency vulnerability scan | 0 known critical without accepted exception | CI | Not run |
-| SEC-DAST | NFR-04 | Dynamic scan against staging | 0 high unresolved | Staging | Not run |
+| SEC-SAST | NFR-16 | Static analysis | 0 high/critical unresolved | CI | Not run |
+| SEC-SCA | NFR-16 | Dependency vulnerability scan | 0 known critical without accepted exception | CI | Not run |
+| SEC-DAST | NFR-16 | Dynamic scan against staging | 0 high unresolved | Staging | Not run |
 | DR-01 | NFR-09 | Backup restore drill | Meets RPO/RTO | {{env}} | Not run |
 | COMPAT-01 | NFR-11 | {{browser/OS/runtime matrix}} | {{targets}} | CI | Not run |
 

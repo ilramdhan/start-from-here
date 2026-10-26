@@ -409,7 +409,7 @@ One row per ASVS chapter (names below follow ASVS 5.0 — verify against the off
 | Item | How addressed | Status |
 | --- | --- | --- |
 | LLM01 Prompt Injection | {{§3.3, §8}} | |
-| LLM02 Sensitive Information Disclosure | {{no Restricted data in prompts; per-tenant retrieval}} | |
+| LLM02 Sensitive Information Disclosure | {{no Secrets or Sensitive data in prompts; per-tenant retrieval}} | |
 | LLM03 Supply Chain | {{approved model/providers list; model and dataset provenance}} | |
 | LLM04 Data and Model Poisoning | {{curated sources for RAG/fine-tuning}} | |
 | LLM05 Improper Output Handling | {{encode/validate model output}} | |
