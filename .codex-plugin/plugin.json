@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "start-from-here",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Interviews you, then writes approved pre-code project docs (PRD, TRD, architecture, stack, security, tests, legal, AGENTS.md) before any code is written.",
   "extensions": {
     "com.openai": {
