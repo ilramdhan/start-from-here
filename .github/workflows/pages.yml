@@ -11,6 +11,7 @@ on:
       - 'scripts/check-i18n.mjs'
       - 'scripts/check-links.mjs'
       - '.github/workflows/pages.yml'
+      - '.release-please-manifest.json' # every release bumps it, so build.json shows the new version
   workflow_dispatch:
 
 permissions:
