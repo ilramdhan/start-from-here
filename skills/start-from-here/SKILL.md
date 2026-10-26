@@ -33,9 +33,9 @@ The user may say any of these at any time. Map loose wording to the closest comm
 | User says | You do |
 |---|---|
 | `start` / "I have an idea" | Begin at Phase 0. |
-| `resume` / "continue" | If `docs/.start-from-here/HANDOVER.md` exists, read it first; then read `docs/.start-from-here/STATE.md` and continue from the recorded phase/WP and next step. |
+| `resume` / "continue" | Read `docs/.start-from-here/HANDOVER.md` (if it exists), then `DIGEST.md` and `STATE.md` in the same folder, and continue from the recorded phase/WP and next step. |
 | `session mode` / `single mode` | Switch to phase-by-phase sessions (see Session mode) or back to one session; record `Mode` in STATE.md. |
-| `next session` / `handover` | Write HANDOVER.md + STATE.md now, print the next-session prompt, and stop. |
+| `next session` / `handover` | Update DIGEST.md + STATE.md, write HANDOVER.md now, print the next-session prompt, and stop. |
 | `status` | Show phase, tier, docs table (Draft/Approved), open questions. |
 | `use your recommendations` / "you decide" | Accept every recommended default in the current round, record each as `> **ASSUMPTION:**` in DISCOVERY.md, continue. |
 | `skip to generation` | Warn which required domains are unanswered, fill them with labeled assumptions, go to Phase 4 gate. |
@@ -56,11 +56,21 @@ Detect at Phase 0 and record in STATE.md.
   - End every message with a delivery ledger: `Delivered: N of M · Next: <paths> · Remaining: <paths>`, where M is the count of `Required`/`Optional (on)` rows in STATE.md. Never say "all documents delivered" while Remaining is non-empty. Do not repeat a delivered doc unless asked; do not skip ahead in the Phase 5 order.
 - **Command capability** — if you can run commands, you MAY run `node scripts/check-docs.mjs <projectDir>` (from the skill folder) in Phase 6. The skill MUST work without it. Never need a shell before Phase 6: inspect the folder with file read/list tools. If a tool call is denied, continue without it in the same reply (switch to chat-only delivery if writes are denied). Never end a turn empty.
 
-## Session mode (small context windows)
+## Context budget (all modes)
 
-Use when the model cannot hold SKILL.md + references + templates + upstream docs in one run. Full procedure, lean reading lists and token budgets: `references/session-mode.md`.
+Long runs (Enterprise writes 30–40 docs) degrade when the context fills: names drift, decisions are forgotten, later docs get shallow. These rules apply in every mode.
 
-**Propose it in Phase 0/1** (one line with the reason; the user may decline) when: the user says `session mode`; the model is local/small or the context is ≤ 64k tokens; the UI is chat-only; the tier is Enterprise and the context is < 200k; or you notice you are running low. Otherwise use single-session mode with the completeness protocol. Record `Mode: single | session` and `Current WP` in STATE.md Flags.
+1. **Project digest.** At Phase 4, create `docs/.start-from-here/DIGEST.md` (template `assets/templates/docs/.start-from-here/DIGEST.md`; process file, no status header, ≤ ~150 lines). Without the template, write these sections: product summary + tier/flags; glossary of canonical names (product, roles, entities, screens); ID registry, one line per ID (P-, F- with title and priority, J-, NFR- with its number, OP-, TB-, TH- titles, ADR-, M-, D-, Q-, R-); ≤10 key decisions; one stack line; "doc → key sections other docs depend on". Patch it after every drafted or approved document; stay under the cap by compressing older detail, never by dropping an ID.
+2. **Lean reads.** Before writing each document, read DIGEST + that doc's template + its guide section + ONLY the upstream sections the template's guidance names as inputs. MUST NOT re-read whole upstream docs or all earlier docs "for context"; take names and IDs from DIGEST.
+3. **Checkpoints.** At every review-batch **STOP**, refresh DIGEST and STATE so a fresh chat can `resume` from that gate with nothing lost. Chat-only: print DIGEST in a fenced block with STATE at each batch gate.
+4. **Context pressure.** If you notice you are near your limit, earlier turns were summarized/compacted, or you cannot recall an ID without re-reading: finish the current document, update DIGEST and STATE, write HANDOVER.md, give the user the resume prompt, and stop. Never keep generating degraded docs.
+5. **Sub-agents (optional, capability-gated).** If your environment can start sub-agents (separate worker contexts) that write files, you MAY delegate each Phase 5 document to a fresh sub-agent briefed with: doc path, template path, guide section, DIGEST, the exact upstream sections, hard rules 1–9, the completeness protocol, and "return ≤10 lines: coverage line, new IDs, new TBDs, PROPOSALs". You keep STATE/DIGEST, review gates, consistency and the self-check of every returned doc; never delegate Phases 1–4 or Phase 6 judgments. Run them sequentially in dependency order (parallel only for docs that do not depend on each other, e.g. legal docs, `.github/*`). Without sub-agents nothing changes. Details: `references/session-mode.md` §7.
+
+## Session mode (large runs, small context windows)
+
+Phase-by-phase work across fresh sessions. Full procedure, lean reading lists and token budgets: `references/session-mode.md`.
+
+**Recommend it by default in Phase 0/1** (one line with the reason; the user may decline at the Phase 1 STOP) when: the tier is Enterprise; the approved doc list has more than ~20 documents; the context is ≤ 64k tokens or the model is local/small; the UI is chat-only; or the user says `session mode`. Otherwise (Lite/Standard on a large context) use single-session mode with the context-budget rules and the completeness protocol. Record `Mode: single | session` and `Current WP` in STATE.md Flags.
 
 **Work packages — one per fresh session:**
 
@@ -76,11 +86,11 @@ Lite merges to 5 sessions (WP1 · WP2+3 · WP4+5 · WP6–8 · WP9). Context ≤
 
 **Each session:**
 
-1. Read `docs/.start-from-here/HANDOVER.md` and STATE.md first, then ONLY the WP's lean reading list (named sections of upstream docs, the WP's guide sections, its templates). Never load all references.
-2. Generate one document at a time with the full completeness protocol; reuse IDs from the HANDOVER ID registry exactly.
+1. Read `docs/.start-from-here/HANDOVER.md`, DIGEST.md and STATE.md first, then ONLY the WP's lean reading list (named sections of upstream docs, the WP's guide sections, its templates). Never load all references.
+2. Generate one document at a time with the full completeness protocol; reuse IDs from the DIGEST ID registry exactly and patch DIGEST after each doc.
 3. Present the batch and **STOP** for review.
-4. At the end (and whenever you are near your limit) update STATE.md and overwrite `docs/.start-from-here/HANDOVER.md` (template `assets/templates/docs/.start-from-here/HANDOVER.md`, ≤ ~150 lines): WP done, files + status, ≤15 key decisions, ID registry snapshot, open TBDs, quality notes, next WP + lean reading list, and a copy-paste next-session prompt, e.g. `Use the start-from-here skill. Resume session mode: read docs/.start-from-here/HANDOVER.md and STATE.md, then do WP4.`
-5. Chat-only: print HANDOVER and STATE as fenced blocks; tell the user to save them and paste/attach them into a new chat with the next-session prompt.
+4. At the end (and whenever you are near your limit) update STATE.md and DIGEST.md and overwrite `docs/.start-from-here/HANDOVER.md` (template `assets/templates/docs/.start-from-here/HANDOVER.md`, ≤ ~100 lines): WP done, files + status, open TBDs, quality notes, next WP + lean reading list, and a copy-paste next-session prompt, e.g. `Use the start-from-here skill. Resume session mode: read docs/.start-from-here/HANDOVER.md, DIGEST.md and STATE.md, then do WP4.` IDs and decisions live only in DIGEST (HANDOVER links to it, no copy).
+5. Chat-only: print HANDOVER, DIGEST and STATE as fenced blocks; tell the user to save them and paste/attach them into a new chat with the next-session prompt.
 
 Session mode never lowers the bar: same templates, minimums, gates, and audit.
 
@@ -130,9 +140,9 @@ The threat model lives in `docs/technical/SECURITY_ARCHITECTURE.md`. Root `SECUR
 ## Phase 0 — Orient
 
 1. Detect the output mode (filesystem or chat-only) and whether you can run commands.
-   Also estimate the context budget and propose session mode if it applies (see Session mode).
+   Also estimate the context budget and note whether session mode will be recommended (see Session mode; the tier and doc count are confirmed in Phase 1).
 2. Detect the project mode:
-   - **Resume** — `docs/.start-from-here/STATE.md` exists. Read `HANDOVER.md` next to it first if present (session mode), then STATE.md, summarize where things stand in ≤8 lines, and propose the next step.
+   - **Resume** — `docs/.start-from-here/STATE.md` exists. Read `HANDOVER.md` next to it first if present (session mode), then `DIGEST.md` (if present) and STATE.md, summarize where things stand in ≤8 lines, and propose the next step.
    - **Existing project (brownfield)** — the folder has source code, manifests (`package.json`, `go.mod`, `pyproject.toml`, `Cargo.toml`, `pom.xml`, `*.csproj`, `pubspec.yaml`, etc.), CI config, or docs. Read `references/existing-project-mode.md`. Inspect before asking. Record facts as "as-is" and plans as "to-be". Never overwrite.
    - **Update/audit** — the user asks to audit or change existing docs. Jump to Phase 6 or the change-propagation rule.
    - **New project** — empty or no folder. Continue normally.
@@ -165,7 +175,7 @@ Then propose a tier using these signals:
 
 Rule: any Enterprise data/compliance signal → propose Enterprise unless the user objects. Read `references/tiering-and-doc-matrix.md` for scoring.
 
-**STOP** — Show: chosen language(s), experience mode, proposed tier with a one-line reason, and the document list for that tier. Ask the user to confirm or adjust (they may toggle individual docs). Record in STATE.md.
+**STOP** — Show: chosen language(s), experience mode, proposed tier with a one-line reason, the document list for that tier, and the run mode (session mode recommended by default for Enterprise, > ~20 docs, context ≤ 64k or chat-only; otherwise single). Ask the user to confirm or adjust (they may toggle individual docs or decline session mode). Record in STATE.md.
 
 ## Phase 2 — Discover
 
@@ -213,7 +223,7 @@ Run when the stack, architecture, hosting, or license is undecided, or when the 
 2. Show the user a brief summary (≤25 lines): problem, users, MVP features (F-xx list), out of scope, stack, data/compliance triggers, tier, docs to generate, open questions.
 3. Ask: "Approve this brief to start generating documents? You can still change things later."
 
-**STOP** — do not generate any other document until the user approves. Mark DISCOVERY.md status `Approved` once approved.
+**STOP** — do not generate any other document until the user approves. Mark DISCOVERY.md status `Approved` once approved, then create `docs/.start-from-here/DIGEST.md` from it (see Context budget).
 
 ## Phase 5 — Generate
 
@@ -224,13 +234,13 @@ Generate in this dependency order, skipping docs not in the approved list:
 For each document:
 
 1. If a template exists at `assets/templates/<path>`, open and read it **before writing that document** (every time; do not write from memory of the doc type), then use its structure and keep its section numbers and headings (other docs link to them by anchor); a dropped section leaves a gap or a one-line `N/A — reason`. Otherwise use the conventions below. In testing, models that skipped reading templates produced docs missing 60–90% of required sections, acceptance criteria, ERD attributes and sequence diagrams.
-2. Fill from DISCOVERY.md and upstream docs only. Reuse IDs (F-xx, NFR-xx, P-xx) exactly.
+2. Fill from DIGEST, DISCOVERY.md and the upstream sections the template names as inputs only (Context budget rule 2). Reuse IDs (F-xx, NFR-xx, P-xx) exactly.
 3. Replace every `{{placeholder}}` (including repo placeholders such as `{{github_owner}}`, `{{repo_name}}`, `{{default_branch}}` — ask if unknown). Remove every `<!-- guidance … -->` comment. Unknowns become `[TBD: …]`.
    - If a linked doc is not generated (e.g. ACCESSIBILITY.md, `docs/legal/*`), remove the link or mark it `N/A — reason`. In `docs/README.md`, list it as a row with status `N/A` and the reason.
    - Test statuses start as `Not run`. Commands are written as the command or `Not configured`.
 4. Apply tier depth: Lite = shortest viable content per section (keep every H2; write `N/A — reason` for sections that do not apply); Enterprise = full depth. Depth changes, coverage does not.
 5. Set the status header to `Draft`.
-6. Update STATE.md after each document.
+6. Update STATE.md and patch DIGEST.md (new IDs, names, decisions, key sections) after each document.
 
 **Completeness protocol (MUST — this is what prevents shallow docs):**
 
@@ -258,7 +268,7 @@ Review batching (then **STOP** for each batch):
 | Standard | (1) Product · (2) TRD + ARCHITECTURE + ADRs · (3) DATABASE + API + SECURITY_ARCHITECTURE · (4) TESTING + OPERATIONS + IMPLEMENTATION_PLAN · (5) Engineering · (6) Legal + repo/community + AGENTS.md |
 | Enterprise | One document per review, except: all ADRs together, legal docs together, and small community/.github files together |
 
-At each batch: list the files, give a 3–5 line summary per doc, list new `[TBD]` and PROPOSAL items, and ask "Approve, or tell me what to change." On approval, set status `Approved`. On change, edit and re-show only the diff.
+At each batch: refresh DIGEST and STATE (checkpoint), list the files, give a 3–5 line summary per doc, list new `[TBD]` and PROPOSAL items, and ask "Approve, or tell me what to change." On approval, set status `Approved`. On change, edit and re-show only the diff.
 
 **Change-propagation rule:** when an answer or decision changes, update DISCOVERY.md first, then every downstream doc that uses it. Examples: feature added/removed → PRD, APP_FLOW, TRD, API, DATABASE, TESTING, IMPLEMENTATION_PLAN; stack change → ARCHITECTURE, ADR (new ADR superseding the old), CODE_STYLE, TESTING, OPERATIONS, AGENTS.md, README; role change → PRD, SECURITY_ARCHITECTURE, DATABASE, API, TESTING; personal data change → DATABASE, SECURITY_ARCHITECTURE, PRIVACY_POLICY, COMPLIANCE; NFR change → TRD, ARCHITECTURE, OPERATIONS, TESTING. Re-set changed approved docs to `In review`. See `references/workflow.md` for the full map.
 
@@ -382,9 +392,10 @@ Ask about and record these; read `references/legal-compliance-primer.md` for det
 - Read `references/legal-compliance-primer.md` when any personal data, payments, health, children, AI, public UI, or licensing question appears.
 - Read `references/experience-modes.md` in Phase 1 and whenever the user seems confused.
 - Read `references/existing-project-mode.md` in Phase 0 when the folder already contains a project.
-- Read `references/session-mode.md` in Phase 0/1 when session mode is proposed or active, and at the start of every session-mode session.
+- Read `references/session-mode.md` in Phase 0/1 when session mode is recommended or active, at the start of every session-mode session, and before delegating documents to sub-agents.
 - Read `references/product-guide.md` before PRD, APP_FLOW, DESIGN_SYSTEM, and IMPLEMENTATION_PLAN.
 - Read `references/architecture-guide.md` before TRD, ARCHITECTURE, ADRs, and API.
 - Read `references/data-modeling-guide.md` before DATABASE (and re-check it after API).
 - Read `references/governance-guide.md` before SECURITY_ARCHITECTURE, TESTING, OPERATIONS, CODE_STYLE, GIT_WORKFLOW, AI_GUIDELINES, and AGENTS.md.
 - Read `references/security-threat-catalog.md` before SECURITY_ARCHITECTURE §3: its procedure and core classes always, and only the domain sections whose triggers match the design.
+- Read `references/security-standards-checklists.md` while writing SECURITY_ARCHITECTURE, only the sections the template's guidance names for conditions that apply (API, mobile, AI, tier).

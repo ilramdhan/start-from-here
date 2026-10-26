@@ -77,9 +77,9 @@ Say these at any time. Loose wording works too ("continue", "you decide").
 | Command | Effect |
 |---|---|
 | `start` | Begin at Phase 0. |
-| `resume` | Read `docs/.start-from-here/HANDOVER.md` (if it exists) and `STATE.md`, then continue where you left off. |
+| `resume` | Read `docs/.start-from-here/HANDOVER.md` (if it exists), `DIGEST.md` and `STATE.md`, then continue where you left off. |
 | `session mode` / `single mode` | Split the work into short fresh sessions (one work package each), or go back to one long session. See [Small context windows & session mode](#small-context-windows--session-mode). |
-| `next session` / `handover` | Write `HANDOVER.md` + `STATE.md` now, print the prompt for the next session, and stop. |
+| `next session` / `handover` | Update `DIGEST.md` + `STATE.md`, write `HANDOVER.md` now, print the prompt for the next session, and stop. |
 | `status` | Show phase, tier, docs table (Draft / Approved), open questions. |
 | `use your recommendations` | Accept every recommended default in the current round. Each one is recorded as an ASSUMPTION in `DISCOVERY.md`. |
 | `skip to generation` | Warns which domains are unanswered, fills them with labeled assumptions, and goes to the brief approval gate. |
@@ -141,15 +141,15 @@ Run it in a repo that already has code. The skill inspects manifests, CI and doc
 
 ## Resuming
 
-Progress is saved in `docs/.start-from-here/STATE.md` after every phase, round and document. In a new session (any tool, any model), say `resume`. In session mode, `docs/.start-from-here/HANDOVER.md` is read first. In chat-only tools, save the `STATE.md` block yourself and attach it together with `docs/DISCOVERY.md` when you resume.
+Progress is saved in `docs/.start-from-here/STATE.md` after every phase, round and document. From the approved brief on, the skill also keeps `docs/.start-from-here/DIGEST.md`: a compact project digest (≤ ~150 lines) with the product summary, canonical names, every ID (personas, features, NFRs with their numbers, operations, trust boundaries, threats, ADRs, milestones, decisions, questions) and which sections of each doc later docs depend on. It is refreshed at every review gate, so you can stop at any gate and continue in a fresh session without losing anything. In a new session (any tool, any model), say `resume`. `HANDOVER.md` (if present) is read first, then `DIGEST.md` and `STATE.md`. In chat-only tools, save the `STATE.md` and `DIGEST.md` blocks yourself and attach them together with `docs/DISCOVERY.md` when you resume.
 
 ## Small context windows & session mode
 
-**The problem.** A full run loads `SKILL.md` (~7.6k tokens), several references (2–13k each), a template per doc (1–10k), every upstream doc, and then writes long docs. Models with small context windows — local LLMs at 8–32k, "flash"/"mini" models, chat UIs that truncate history — cannot hold all of that.
+**The problem.** A full run loads `SKILL.md` (~10k tokens), several references (2–13k each), a template per doc (1–10k), every upstream doc, and then writes long docs. Models with small context windows — local LLMs at 8–32k, "flash"/"mini" models, chat UIs that truncate history — cannot hold all of that. Large runs hit the same wall on big models: an Enterprise run writes 30–40 documents, and quality drops as one context fills, long before it is full.
 
 **Symptoms:** docs that get shorter and shallower toward the end; sections or tables missing (e.g. DATABASE without a column table or ERD); IDs that drift (F-03 becomes a different feature, roles renamed); the model "forgets" decisions from the interview; the session dies mid-document.
 
-**The solution: session mode.** The skill splits the work into work packages (WP), one per **fresh** session, connected by a handover file `docs/.start-from-here/HANDOVER.md`:
+**The solution: session mode.** The skill splits the work into work packages (WP), one per **fresh** session, connected by the project digest `docs/.start-from-here/DIGEST.md` (names and IDs) and a handover file `docs/.start-from-here/HANDOVER.md` (what happened, what to load next):
 
 | WP | Produces | WP | Produces |
 |---|---|---|---|
@@ -161,31 +161,32 @@ Progress is saved in `docs/.start-from-here/STATE.md` after every phase, round a
 
 Lite merges these into ~5 sessions; with ≤16k context the skill goes one document per session. Each session loads only a lean reading list (specific sections of upstream docs, the matching guide sections, and the WP's templates), so the model has room to write complete docs. The quality bar does not change.
 
-The skill proposes session mode automatically when you say `session mode`, use a local/small model or a context ≤ 64k, use a chat-only UI, pick Enterprise on a model with < 200k context, or when it notices it is running low. You can say `single mode` to decline.
+Session mode is the **default recommendation** when the tier is Enterprise, the approved list has more than ~20 documents, the context is ≤ 64k (local/small model), the UI is chat-only, or you say `session mode`. The skill shows the recommended mode at the calibration gate; say `single mode` to decline. Lite and Standard on a large-context model run in one session by default. If the skill notices it is running low in single mode, it finishes the current document, saves DIGEST, STATE and HANDOVER, and gives you a resume prompt instead of writing degraded docs.
 
 **Step by step — agentic tools** (files are written for you):
 
 1. Say `start` (or `session mode` if you already know your context is small). Finish WP1 and approve the brief.
-2. At the end of each session the skill writes `HANDOVER.md` + `STATE.md` and prints a prompt. Say `next session` any time to force this.
-3. Open a **new** session (clear the chat / new conversation) and paste the prompt, e.g. `Use the start-from-here skill. Resume session mode: read docs/.start-from-here/HANDOVER.md and STATE.md, then do WP4.`
+2. At the end of each session the skill updates `DIGEST.md` + `STATE.md`, writes `HANDOVER.md` and prints a prompt. Say `next session` any time to force this.
+3. Open a **new** session (clear the chat / new conversation) and paste the prompt, e.g. `Use the start-from-here skill. Resume session mode: read docs/.start-from-here/HANDOVER.md, DIGEST.md and STATE.md, then do WP4.`
 4. Repeat until WP9 (audit + handoff).
 
 **Step by step — chat-only** (ChatGPT, Gemini, Claude chat, local web UIs):
 
 1. Save every document block the skill prints to its path.
-2. At the end of the session the skill prints `HANDOVER.md` and `STATE.md` as fenced blocks. Save both.
-3. Open a new chat with the skill loaded, paste (or attach) HANDOVER, STATE, the next-session prompt, and the upstream sections HANDOVER §7 lists.
+2. At the end of the session the skill prints `HANDOVER.md`, `DIGEST.md` and `STATE.md` as fenced blocks. Save all three.
+3. Open a new chat with the skill loaded, paste (or attach) HANDOVER, DIGEST, STATE, the next-session prompt, and the upstream sections HANDOVER §7 lists.
 
-**Example HANDOVER excerpt:**
+**Example DIGEST and HANDOVER excerpts:**
 
 ```markdown
-## 4. ID registry snapshot (copy exactly; never renumber)
+# DIGEST.md
+## 3. ID registry (one line per ID; never renumber; new IDs continue the sequence)
 - **Personas:** P-01 Clinic admin · P-02 Patient
-- **Roles (authZ):** owner, staff, patient
 - **Features:** F-01 Book appointment (Must) · F-02 Reminders (Must) · F-03 Invoices (Should)
-- **NFRs:** NFR-01 p95 API < 300 ms @ 50 rps · NFR-02 99.5% monthly availability
+- **NFRs (with numbers):** NFR-01 p95 API < 300 ms @ 50 rps · NFR-02 99.5% monthly availability
 - **ADRs:** ADR-0001 Record decisions · ADR-0002 Use PostgreSQL
 
+# HANDOVER.md
 ## 6. Quality notes for the next session
 - watch out: DATABASE must include audit_logs because NFR-05 requires an admin audit trail
 
@@ -198,7 +199,7 @@ The skill proposes session mode automatically when you say `session mode`, use a
 - If you can switch models between sessions, use your largest model for WP3–WP5 (architecture, data, security); small models are fine for WP7–WP8.
 - Keep each session to its WP. Starting the next WP in the same chat defeats the purpose.
 - Run `npx start-from-here@latest check .` after WP9 to catch mechanical gaps.
-- Full procedure (budgets per file, lean reading lists): [`references/session-mode.md`](../skills/start-from-here/references/session-mode.md).
+- Full procedure (budgets per file and per document, lean reading lists, sub-agent briefs): [`references/session-mode.md`](../skills/start-from-here/references/session-mode.md).
 
 ## After handoff: building with any coding agent
 
@@ -234,6 +235,8 @@ criterion will be verified. Do not write code until I approve the plan.
 **Where does the threat model go?** `docs/technical/SECURITY_ARCHITECTURE.md`. Root `SECURITY.md` is GitHub's vulnerability disclosure policy. The STRIDE table is deepened with a design-time threat catalog: only the domains that match your design (identity, AI/agents, cloud, messaging, data isolation, mobile, and others) are used, each threat names an attacker, a boundary, and an asset, and threats that depend on an open decision are marked `Needs decision`. After code exists, the handoff recommends a code-level security review against this document.
 
 **Will it leak my secrets?** It never writes secrets into files, only variable names like `DATABASE_URL`. If you paste a secret, it will tell you to rotate it.
+
+**Will quality drop on a big Enterprise run?** It is designed not to. Four things keep the 30th document as complete as the first: (1) a **project digest** (`docs/.start-from-here/DIGEST.md`, ≤ ~150 lines) holds every canonical name and ID, and before each document the skill reads only the digest, that doc's template and guide section, and the specific upstream sections the template lists as inputs, never all earlier docs; (2) **checkpoints** at every review gate refresh the digest and `STATE.md`, so you can continue in a fresh chat at any gate, and if the model notices it is running low it stops cleanly with a resume prompt instead of writing shallow docs; (3) **session mode** is recommended by default for Enterprise or more than ~20 docs, so each work package runs in a fresh context; (4) if your tool can start **sub-agents** (separate worker contexts), the skill may write each document in a fresh sub-agent while the main session keeps the digest, the review gates and the audit. Without sub-agents the normal sequential flow is used.
 
 **Does it work offline / with local models?** Yes, as a pasted prompt. See [local-and-other-llms.md](guides/local-and-other-llms.md). Bigger models follow the gates more reliably.
 

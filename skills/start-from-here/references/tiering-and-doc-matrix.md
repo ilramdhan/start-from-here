@@ -118,7 +118,7 @@ In Lite, links that templates point at skipped docs (e.g. PRD → `TRD.md#…`, 
 
 ## Session mode by tier
 
-With small context windows (see `session-mode.md`), the doc set is generated in work packages, one per fresh session: Lite ≈ 5 sessions (WP1 · WP2+3 · WP4+5 · WP6–8 · WP9), Standard 9, Enterprise 9–14 (split WP3/WP5/WP8 below 64k context). The doc set and depth per tier do not change.
+Session mode (see `session-mode.md`) generates the doc set in work packages, one per fresh session: Lite ≈ 5 sessions (WP1 · WP2+3 · WP4+5 · WP6–8 · WP9), Standard 9, Enterprise 9–14 (split WP3/WP5/WP8 below 64k context). It is the default recommendation for **Enterprise**, for any approved list of more than ~20 documents, for contexts ≤ 64k and for chat-only UIs; Lite and Standard on a large context default to single mode. The user may decline at the Phase 1 gate. In every mode the run keeps `docs/.start-from-here/DIGEST.md` (names + ID registry) and checkpoints at each batch gate. The doc set and depth per tier do not change.
 
 ## Changing tier later
 

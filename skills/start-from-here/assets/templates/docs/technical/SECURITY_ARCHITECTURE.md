@@ -7,12 +7,8 @@
 <!-- guidance: Ground every threat and control in the actual architecture, data, and integrations. Do not claim a
 control exists unless it is decided; mark planned controls as PROPOSAL and status "Planned". NEVER write secret values — names only
 (e.g. `PAYMENT_API_KEY`). Use OWASP references for structure (Top 10 for web apps, API Security Top 10 for APIs,
-Top 10 for LLM Applications for AI features, MASVS for mobile, ASVS levels for verification depth). For a local CLI or library,
-focus on input handling, supply chain, file/system access, and credential storage; many web-specific sections become N/A.
-For a client-only / local-first mobile or desktop app: replace the sample diagram and seed threats (no gateway, tenants, IDOR);
-focus on on-device storage and OS backups (MASVS-STORAGE), third-party SDKs that send data (analytics/crash), app-store
-and signing-key account security (MFA), supply chain, and logging of user-entered content. Auth/role sections become
-"N/A — no accounts" with one line. Remove links to SECURITY.md/OPERATIONS/API if those docs are not generated.
+Top 10 for LLM Applications for AI features, MASVS for mobile, ASVS levels for verification depth). For a local CLI or library, or a client-only / local-first
+mobile or desktop app, read references/security-standards-checklists.md §13 first (which sections become N/A and what to focus on). Remove links to SECURITY.md/OPERATIONS/API if those docs are not generated.
 Procedure (step by step): references/governance-guide.md §3 "Threat modeling procedure" and §4 "Authorization matrix". -->
 
 <!-- guidance: Inputs you MUST read before writing: ARCHITECTURE (containers, integrations), DATABASE (entities, PII flags,
@@ -28,13 +24,10 @@ Enterprise: ASVS Level 2 (Level 3 for high-assurance), formal DFD per trust boun
 ## 1. Assets
 <!-- guidance: Minimum content: one row for (a) every data class in DATABASE §2 that holds Personal (PII), Sensitive or Secrets data,
 (b) credentials and session tokens, (c) secrets and signing keys, (d) admin/privileged interfaces, (e) source code and CI/CD pipeline,
-(f) availability of the primary journey. CIA = which property matters most (Confidentiality, Integrity, Availability). -->
+(f) availability of the primary journey. CIA = which property matters most (Confidentiality, Integrity, Availability). More example rows: references/security-standards-checklists.md §13. -->
 | Asset | Classification | CIA priority | Why it matters (impact if compromised) | Stored / processed in | Owner |
 | --- | --- | --- | --- | --- | --- |
 | {{e.g. user accounts & credentials}} | {{Secrets}} | {{C, I}} | {{account takeover, data exposure}} | {{auth provider, users table}} | {{owner}} |
-| {{e.g. customer content}} | {{Personal (PII)}} | {{C}} | {{privacy breach, contractual liability}} | {{db, object storage}} | |
-| {{e.g. signing keys, CI tokens}} | {{Secrets}} | {{I}} | {{malicious release to all users}} | {{secret manager, CI}} | |
-| {{e.g. primary journey J-01}} | {{—}} | {{A}} | {{revenue / trust loss}} | {{all containers}} | |
 
 ### 1.1 Data classification and handling
 <!-- guidance: Use the class names from DATABASE §2 verbatim (Public, Internal, Personal (PII), Sensitive / special category, Secrets); never invent or rename classes here. One row per class actually used. -->
@@ -52,56 +45,25 @@ every data store, and every third-party integration; each crossing numbered TB-1
 A trust boundary exists wherever data crosses between different privilege levels, owners, networks, or processes
 (internet → edge, edge → app, app → data store, app → third party, third party → app (webhooks), CI → production, admin → app, AI model ↔ app).
 Keep ≤ 15 nodes per diagram; split by zone if larger. Enterprise: one DFD per boundary. -->
+<!-- guidance: For a server-backed product, load references/security-standards-checklists.md §10 for a full sample DFD (zones, webhooks, worker, CI, admin) with its ASCII fallback. -->
 ```mermaid
 flowchart LR
     subgraph untrusted["Untrusted zone"]
       user(["P-01 {{user role}}"])
-      attacker(["Anonymous / attacker"])
-      thirdparty["{{webhook senders / third-party APIs}}"]
-    end
-    subgraph edge["Edge zone"]
-      gw["{{CDN / WAF / load balancer / API gateway}}"]
     end
     subgraph trusted["Trusted zone"]
       app["{{application service}}"]
-      worker["{{background worker}}"]
       db[("{{primary data store}}")]
-      secrets[["{{secret manager}}"]]
     end
-    subgraph ops["Operations zone"]
-      ci["{{CI/CD pipeline}}"]
-      admin(["{{admin / operator}}"])
-    end
-    user -->|"TB-1 HTTPS + session token"| gw
-    attacker -.->|"TB-1 untrusted input"| gw
-    gw -->|"TB-2 mTLS / private network"| app
-    thirdparty -->|"TB-3 signed webhook"| app
-    app -->|"TB-4 least-privilege DB role"| db
-    app -->|"reads at runtime"| secrets
-    app -->|"enqueues jobs"| worker
-    worker -->|"TB-5 outbound HTTPS, allow-list"| thirdparty
-    ci -->|"TB-6 signed artifact, OIDC deploy role"| app
-    admin -->|"TB-7 SSO + MFA"| app
+    user -->|"TB-1 {{protocol + credential}}"| app
+    app -->|"TB-2 {{least-privilege role}}"| db
 ```
 
-ASCII fallback (keep in sync with the diagram; use when Mermaid cannot render):
-
-```text
- UNTRUSTED                 | EDGE        | TRUSTED                          | OPS
- [P-01 user]--TB-1 HTTPS-->| [gateway]   |                                  |
- [attacker]--TB-1-------->|   |--TB-2-->| [app] --TB-4--> (db)             |
- [3rd party]--TB-3 signed------------->|   |  \--> [[secrets]]            |
-                           |             |   \--> [worker]--TB-5--> 3rd pty |
-                           |             |  <--TB-6 signed artifact-------- | [CI]
-                           |             |  <--TB-7 SSO+MFA--------------- | [admin]
-```
+ASCII fallback (keep in sync with the diagram): `{{[P-01 user] --TB-1--> [app] --TB-2--> (db)}}`
 
 | TB | From → To | Data classes crossing | Protocol | Authentication | Authorization | Key controls |
 | --- | --- | --- | --- | --- | --- | --- |
 | TB-1 | {{Client → edge}} | {{Personal (PII), Secrets}} | {{HTTPS (TLS 1.2+)}} | {{session cookie / bearer token}} | {{per §5}} | {{WAF, rate limits, input validation}} |
-| TB-2 | {{Edge → app}} | | | | | |
-| TB-3 | {{Third party → app (webhook)}} | | | {{HMAC signature + timestamp}} | {{fixed sender}} | {{replay window, idempotency key}} |
-| TB-4 | {{App → data store}} | | | {{DB credentials from secret manager}} | {{least-privilege role, RLS}} | {{parameterized queries}} |
 
 ## 3. Threat model (STRIDE)
 <!-- guidance: Coverage rule (MANDATORY): for EVERY trust boundary TB-x, consider all six STRIDE categories
@@ -114,19 +76,12 @@ and an R-xx if the residual risk is not Low. Rate likelihood and impact with §3
 Depth: follow references/security-threat-catalog.md — frame each TB as lower-trust principal → boundary → asset, select only the
 catalog domains whose triggers match this design, turn applicable prompts into TH-xx rows, skip the rest silently, and fill the
 coverage line below the table. A checklist gap with no attacker, boundary, and asset is a hardening note, not a threat.
-Lite: 5–8 highest-risk threats total, but every STRIDE letter appears at least once across the system. -->
+Lite: 5–8 highest-risk threats total, but every STRIDE letter appears at least once across the system.
+Seed rows for the sample design (TH-01…TH-10: credential stuffing, IDOR, repudiation, over-fetching, DoS, mass assignment, forged/replayed webhooks, cross-tenant read, CI compromise): references/security-standards-checklists.md §11. -->
 | ID | TB | Component | STRIDE | Threat (attacker → action → asset) | L | I | Risk | Control(s) | Status | Test | Risk ID |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | TH-01 | TB-1 | {{sign-in}} | S | {{Attacker uses leaked credentials (credential stuffing) to take over accounts}} | {{M}} | {{H}} | {{High}} | {{rate limiting per IP+account, MFA, breached-password check, generic errors}} | {{Planned}} | {{SEC-01}} | {{R-xx}} |
 | TH-02 | TB-1 | {{API}} | T | {{Authenticated user modifies another user's record by changing the ID (IDOR / BOLA)}} | | | | {{server-side ownership check on every access; opaque IDs}} | | | |
-| TH-03 | TB-1 | {{app}} | R | {{User denies performing a destructive action}} | | | | {{append-only audit log with actor, time, request ID}} | | | |
-| TH-04 | TB-1 | {{API responses}} | I | {{Over-fetching exposes fields the caller may not see}} | | | | {{response allow-lists / DTOs per role}} | | | |
-| TH-05 | TB-1 | {{search endpoint}} | D | {{Bot floods an expensive endpoint}} | | | | {{rate limits, pagination caps, timeouts, cost limits}} | | | |
-| TH-06 | TB-1 | {{profile update}} | E | {{User escalates role via mass assignment of `role` field}} | | | | {{allow-listed writable fields, role changes only via admin OP}} | | | |
-| TH-07 | TB-3 | {{webhook handler}} | S | {{Attacker forges a webhook from the payment provider}} | | | | {{HMAC signature verification, timestamp tolerance}} | | | |
-| TH-08 | TB-3 | {{webhook handler}} | T | {{Replayed webhook double-applies an event}} | | | | {{idempotency key store, replay window}} | | | |
-| TH-09 | TB-4 | {{db}} | I | {{Cross-tenant read through a query missing the tenant filter}} | | | | {{tenant-scoped repository layer + RLS; isolation tests}} | | | |
-| TH-10 | TB-6 | {{CI/CD}} | T | {{Compromised dependency or CI action injects code into the release}} | | | | {{pinned deps and action SHAs, SBOM, signed artifacts, provenance}} | | | |
 | TH-nn | TB-4 | {{db}} | R | N/A — {{reason}} | — | — | — | — | — | — | — |
 
 Catalog domains considered: {{e.g. D1 web/identity, D4 supply chain, D7 availability, D8 data isolation}} · skipped: {{e.g. D9 (no native client), D10 (no native code)}}
@@ -149,14 +104,10 @@ Catalog domains considered: {{e.g. D1 web/identity, D4 supply chain, D7 availabi
 | AB-01 | {{F-03}} | {{As a free user, I want to call the export API repeatedly to scrape all shared notes}} | {{TH-05}} | {{SEC-07}} |
 
 ### 3.3 AI / LLM-specific threats (if the product uses AI)
-<!-- guidance: Required when DISCOVERY AIM-* says the product calls a model, uses RAG, or lets a model call tools. Otherwise `N/A — no AI features`. Map each to OWASP Top 10 for LLM Applications (§9.4). -->
+<!-- guidance: Required when DISCOVERY AIM-* says the product calls a model, uses RAG, or lets a model call tools. Otherwise `N/A — no AI features`. Load references/security-standards-checklists.md §1 only if AI features exist; one row per seed threat there (5 rows), mapped to OWASP Top 10 for LLM Applications (§9.4). -->
 | ID | Threat | Example | Control(s) | Test |
 | --- | --- | --- | --- | --- |
 | TH-{{nn}} | Direct / indirect prompt injection | {{uploaded document tells the model to email all notes to an attacker}} | {{treat retrieved content as data; tool allow-list; human approval for side effects}} | {{SEC-xx}} |
-| TH-{{nn}} | Sensitive information disclosure | {{model reveals another tenant's data from shared context}} | {{per-tenant retrieval filters; no secrets in prompts; output filters}} | |
-| TH-{{nn}} | Improper output handling | {{model output rendered as HTML executes script}} | {{encode output; never pass model output to shell/SQL/eval}} | |
-| TH-{{nn}} | Excessive agency | {{agent deletes data via an over-scoped tool}} | {{least-privilege tool scopes; confirmation for destructive actions}} | |
-| TH-{{nn}} | Unbounded consumption | {{long prompts drive cost spikes}} | {{token and rate limits per user; budget alerts}} | |
 
 ## 4. Authentication
 <!-- guidance: Minimum content: every bullet answered (or N/A — reason); ≥1 sequence diagram for the primary sign-in flow
@@ -169,68 +120,28 @@ and one for session refresh/revocation (if sessions exist); service-to-service a
 - **Service-to-service:** {{workload identity / mTLS / scoped API keys}}
 
 ### 4.1 Authentication flows
-<!-- guidance: Draw the real flow for the chosen identity source. Example below: OIDC authorization code + PKCE with a server-side session.
-For API keys: issue → hash at rest → present → verify → rotate. For a CLI: device authorization flow + OS keychain storage. -->
+<!-- guidance: Draw the real flow for the chosen identity source: ≥1 sequence diagram for the primary sign-in flow and one for session refresh/revocation (if sessions exist), each with an ASCII fallback. Load references/security-standards-checklists.md §2 for worked examples (OIDC code + PKCE, rotating refresh tokens) only if the product has sign-in or sessions. API keys: issue → hash at rest → present → verify → rotate. CLI: device authorization flow + OS keychain storage. -->
 ```mermaid
 sequenceDiagram
     autonumber
     actor U as P-01 User
-    participant C as Client (browser / app)
-    participant A as App backend
-    participant I as Identity provider
-    U->>C: Click "Sign in"
-    C->>A: GET /auth/login
-    A->>A: Create state + nonce + PKCE verifier (stored server-side)
-    A-->>C: 302 redirect to IdP (code_challenge, state)
-    C->>I: Authorization request
-    I->>U: Authenticate (password / passkey + MFA)
-    I-->>C: 302 back with code + state
-    C->>A: GET /auth/callback?code&state
-    A->>A: Verify state; exchange code + verifier
-    A->>I: Token request (back channel)
-    I-->>A: ID token + access token
-    A->>A: Validate signature, issuer, audience, nonce, expiry
-    A-->>C: Set session cookie (HttpOnly, Secure, SameSite)
-```
-
-```mermaid
-sequenceDiagram
-    autonumber
     participant C as Client
     participant A as App backend
-    participant S as Session store
-    C->>A: Request with expired access token / session
-    A->>S: Look up refresh token (rotating, one-time use)
-    alt refresh token valid and unused
-        S-->>A: OK, mark used, issue new pair
-        A-->>C: New session (old one revoked)
-    else reused or revoked token
-        S-->>A: Reuse detected
-        A->>S: Revoke whole token family
-        A-->>C: 401, force re-authentication
-    end
+    participant I as Identity provider
+    U->>C: Sign in
+    C->>A: {{start sign-in}}
+    A->>I: {{authenticate with password or passkey + MFA}}
+    I-->>A: {{tokens or assertion}}
+    A-->>C: {{set session cookie HttpOnly Secure SameSite}}
 ```
 
-ASCII fallback:
-
-```text
-User -> Client -> App:/auth/login -> (state, nonce, PKCE) -> redirect -> IdP
-IdP: authenticate + MFA -> redirect(code,state) -> App:/auth/callback
-App: verify state -> exchange code+verifier -> validate ID token -> set secure session cookie
-Refresh: rotating refresh token; reuse => revoke family => 401 re-auth
-```
+ASCII fallback: `{{User -> Client -> App -> IdP (auth + MFA) -> App validates -> secure session}}`
 
 ### 4.2 Authentication control checklist
+<!-- guidance: If the product has sign-in, load references/security-standards-checklists.md §2 and keep one row per control in its checklist (8 rows: enumeration, rate limits, password policy, MFA/step-up, timeouts, revocation, cookie/CSRF, token validation), each with a decided answer. -->
 | Control | Decision | Status |
 | --- | --- | --- |
 | Generic error messages (no account enumeration on sign-in, sign-up, reset) | {{yes}} | {{Planned}} |
-| Rate limiting / progressive delay on sign-in, reset, MFA | {{limits}} | |
-| Password policy (length ≥ {{n}}, breached-password check, no composition rules — NIST SP 800-63B style) | {{policy or N/A}} | |
-| MFA enrolment and recovery codes; step-up auth for sensitive actions | {{which actions}} | |
-| Session idle timeout / absolute timeout | {{values}} | |
-| Revoke sessions on password change, role change, account disable | {{yes}} | |
-| Cookie flags `HttpOnly`, `Secure`, `SameSite={{Lax/Strict}}`; CSRF protection for cookie auth | {{yes}} | |
-| Token validation: signature, issuer, audience, expiry, algorithm allow-list | {{yes}} | |
 
 ## 5. Authorization
 <!-- guidance: Deny by default. Enforced server/core side on every request; the client only hides UI.
@@ -252,21 +163,17 @@ Model: RBAC (roles), ABAC (attributes like owner, tenant, plan, status), or ReBA
 | {{Owner / Super-admin}} | {{P-03}} | {{tenant creator / ops}} | {{tenant / platform}} | No |
 
 ### 5.2 Permission matrix
+<!-- guidance: More example rows (export, change role, billing): references/security-standards-checklists.md §13. -->
 | Resource | Action | {{Anonymous}} | {{Member}} | {{Admin}} | {{Owner / Super-admin}} | Operations (OP-xx) | Enforced at |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | {{item}} | create | ✗ | org | org | org | {{OP-01}} | {{service + DB policy}} |
 | {{item}} | read | ✗ | own / cond C-1 | org | org | {{OP-02}} | |
 | {{item}} | update | ✗ | own | org | org | {{OP-03}} | |
-| {{item}} | delete | ✗ | own | org | org | {{OP-04}} | |
-| {{item}} | export | ✗ | ✗ | org | org | {{OP-05}} | |
-| {{member}} | change role | ✗ | ✗ | cond C-2 | org | {{OP-10}} | |
-| {{billing}} | manage | ✗ | ✗ | ✗ | org | {{OP-20}} | |
 
 ### 5.3 Attribute and relationship conditions
 | ID | Condition | Example |
 | --- | --- | --- |
 | C-1 | {{Member may read an item if owner OR the item is shared with them}} | {{share table lookup}} |
-| C-2 | {{Admin may change roles except their own and except to Owner}} | {{prevents self-escalation}} |
 
 ### 5.4 Enforcement rules
 - Authorization runs after authentication and before any data access, in {{single policy layer}} — never scattered `if` checks in handlers.
@@ -292,29 +199,13 @@ encryption keys, webhook secrets, OAuth client secrets, CI deploy credentials). 
 - Public client config (e.g. publishable keys) is listed explicitly as public.
 
 ### 7.1 Secrets lifecycle
-```mermaid
-stateDiagram-v2
-    [*] --> Requested: owner requests (ticket)
-    Requested --> Created: generated in secret manager (never by hand in chat)
-    Created --> Distributed: granted to workload identity / CI env (least privilege)
-    Distributed --> InUse: read at runtime, never logged
-    InUse --> Rotated: scheduled rotation
-    Rotated --> InUse: dual-valid overlap window, then old revoked
-    InUse --> Compromised: leak detected
-    Compromised --> Revoked: revoke immediately (RB-03)
-    Revoked --> Created: issue replacement
-    InUse --> Retired: no longer needed
-    Retired --> [*]
-```
-
+<!-- guidance: Standard/Enterprise: draw the lifecycle as a Mermaid stateDiagram (sample in references/security-standards-checklists.md §12) adapted to the chosen secret manager. -->
 ASCII fallback: `request → create (secret manager) → distribute (least privilege) → use (never log) → rotate (overlap, revoke old) → retire`; on leak: `revoke now → replace → audit access → postmortem`.
 
 ### 7.2 Encryption and key management
 | Key / purpose | Algorithm (decided) | Managed by | Rotation | Access |
 | --- | --- | --- | --- | --- |
 | {{data at rest — database}} | {{provider default AES-256}} | {{cloud KMS}} | {{yearly, automatic}} | {{service role only}} |
-| {{field-level encryption for Sensitive and Secrets fields}} | {{envelope encryption}} | {{KMS}} | | |
-| {{artifact / release signing}} | {{e.g. Sigstore keyless / GPG}} | {{CI identity / maintainer}} | | |
 
 ### 7.3 Leak response
 1. Revoke/rotate the secret first (RB-03 in [OPERATIONS](OPERATIONS.md#15-runbooks-index); Lite: the "Incident & secret rotation" item in [ARCHITECTURE §14.4](ARCHITECTURE.md#144-deploy--run)); removing it from git history is not enough.
@@ -360,70 +251,28 @@ re-label rows from the official 2021 list. -->
 <!-- guidance: Use the OWASP API Security Top 10 for API products and MASVS for mobile apps. Don't claim "compliant"; say "addressed by". -->
 
 ### 9.1 OWASP ASVS control checklist
-<!-- guidance: Choose the target level: L1 = baseline for all apps (testable from outside), L2 = most apps handling personal or business data
-(recommended for Standard with accounts), L3 = high-value/high-assurance (payments at scale, health, critical infrastructure).
-One row per ASVS chapter (names below follow ASVS 5.0 — verify against the official release you target). A chapter that does not apply
-(e.g. WebRTC) is `N/A — reason`. "Key requirements" lists the 2–4 requirements most relevant to this product, by ASVS ID once verified. -->
+<!-- guidance: Choose the target level: L1 = baseline for all apps (testable from outside), L2 = most apps handling personal or business data (recommended for Standard with accounts), L3 = high-value/high-assurance. Load references/security-standards-checklists.md §3 only if the tier is Standard or Enterprise (Lite states the target level only); one row per ASVS chapter there (names follow ASVS 5.0 — verify against the official release), non-applicable chapters `N/A — reason`. -->
 | ASVS chapter | Applies? | Level target | Key requirements for this product | Where addressed | Status |
 | --- | --- | --- | --- | --- | --- |
 | Encoding and Sanitization | {{Yes}} | {{L1}} | {{output encoding per context; no dynamic SQL}} | §8 | {{Planned}} |
-| Validation and Business Logic | | | {{schema validation; business limits (e.g. max shares/day)}} | §8, §3.2 | |
-| Web Frontend Security | | | {{CSP, cookie flags, clickjacking}} | §8.1, §4.2 | |
-| API and Web Service | | | {{auth on every OP, content-type checks}} | §5, API | |
-| File Handling | | | {{type/size checks, storage outside web root}} | §8 | |
-| Authentication | | | {{§4.2 checklist}} | §4 | |
-| Session Management | | | {{rotation, revocation, timeouts}} | §4 | |
-| Authorization | | | {{deny by default, object-level checks}} | §5 | |
-| Self-contained Tokens | | | {{JWT validation, algorithm allow-list}} | §4.2 | |
-| OAuth and OIDC | | | {{PKCE, state, nonce, redirect URI allow-list}} | §4.1 | |
-| Cryptography | | | {{approved algorithms, key management}} | §7.2 | |
-| Secure Communication | | | {{TLS everywhere incl. internal}} | §2 | |
-| Configuration | | | {{no debug in prod, secrets out of config}} | §7, OPERATIONS §2 | |
-| Data Protection | | | {{classification, minimization, retention}} | §1.1, §11 | |
-| Secure Coding and Architecture | | | {{dependency policy, safe deserialization}} | §10, CODE_STYLE | |
-| Security Logging and Error Handling | | | {{security events, no sensitive data in logs/errors}} | §12 | |
-| WebRTC | {{N/A — no real-time media}} | — | — | — | — |
 
 ### 9.2 OWASP API Security Top 10 (2023) — if the product exposes an API
+<!-- guidance: Load references/security-standards-checklists.md §4 only if the product exposes an API; one row per item there (API1–API10). Otherwise `N/A — no API`. -->
 | Item | How addressed | Status |
 | --- | --- | --- |
 | API1 Broken Object Level Authorization | {{§5.4, TH-02, SEC-01}} | |
-| API2 Broken Authentication | {{§4}} | |
-| API3 Broken Object Property Level Authorization | {{response DTOs, writable-field allow-lists, TH-04/TH-06}} | |
-| API4 Unrestricted Resource Consumption | {{rate limits, pagination caps, payload size, TH-05}} | |
-| API5 Broken Function Level Authorization | {{admin OPs gated in §5}} | |
-| API6 Unrestricted Access to Sensitive Business Flows | {{abuse cases §3.2, bot controls}} | |
-| API7 Server Side Request Forgery | {{§8 SSRF rule}} | |
-| API8 Security Misconfiguration | {{CORS, headers, error verbosity}} | |
-| API9 Improper Inventory Management | {{API.md is the inventory; versioning and deprecation}} | |
-| API10 Unsafe Consumption of APIs | {{validate third-party responses, timeouts, TB-5}} | |
 
 ### 9.3 OWASP Mobile (MASVS) — if mobile app
-<!-- guidance: One row per category: STORAGE, CRYPTO, AUTH, NETWORK, PLATFORM, CODE, RESILIENCE, PRIVACY. Otherwise `N/A — no mobile app`. -->
+<!-- guidance: Load references/security-standards-checklists.md §5 only if the product has a mobile app; one row per category there (STORAGE, CRYPTO, AUTH, NETWORK, PLATFORM, CODE, RESILIENCE, PRIVACY). Otherwise `N/A — no mobile app`. -->
 | Category | How addressed | Status |
 | --- | --- | --- |
 | MASVS-STORAGE | {{no secrets in app storage; exclude sensitive files from OS backups}} | |
-| MASVS-CRYPTO | {{platform crypto APIs only; no hard-coded keys; key storage in Keychain / Keystore}} | |
-| MASVS-AUTH | {{server-side authorization; biometric as local convenience only; token lifetime}} | |
-| MASVS-NETWORK | {{TLS only; certificate pinning decision and rotation plan}} | |
-| MASVS-PLATFORM | {{deep-link/intent validation, WebView hardening, minimal permissions, clipboard/screenshot policy}} | |
-| MASVS-CODE | {{dependency/SDK review, signed builds, update enforcement}} | |
-| MASVS-RESILIENCE | {{root/jailbreak and tamper stance (decide: none / detect / enforce), obfuscation decision}} | |
-| MASVS-PRIVACY | {{data minimization, consent, SDK data flows, store privacy labels}} | |
 
 ### 9.4 OWASP Top 10 for LLM Applications (2025) — if AI features
+<!-- guidance: Load references/security-standards-checklists.md §6 only if the product has AI features; one row per item there (LLM01–LLM10). Otherwise `N/A — no AI features`. -->
 | Item | How addressed | Status |
 | --- | --- | --- |
 | LLM01 Prompt Injection | {{§3.3, §8}} | |
-| LLM02 Sensitive Information Disclosure | {{no Secrets or Sensitive data in prompts; per-tenant retrieval}} | |
-| LLM03 Supply Chain | {{approved model/providers list; model and dataset provenance}} | |
-| LLM04 Data and Model Poisoning | {{curated sources for RAG/fine-tuning}} | |
-| LLM05 Improper Output Handling | {{encode/validate model output}} | |
-| LLM06 Excessive Agency | {{least-privilege tools, human approval}} | |
-| LLM07 System Prompt Leakage | {{no secrets or authZ logic in system prompts}} | |
-| LLM08 Vector and Embedding Weaknesses | {{tenant-partitioned indexes, access checks at retrieval}} | |
-| LLM09 Misinformation | {{citations, confidence UI, human review for high-stakes output}} | |
-| LLM10 Unbounded Consumption | {{token/rate/budget limits}} | |
 
 ## 10. Supply chain security
 <!-- guidance: Minimum content: one row per control in the table, decided or PROPOSAL, with the CI stage that enforces it. Libraries/CLIs
@@ -435,29 +284,12 @@ L2 (signed provenance from a hosted build), L3 (hardened, isolated builds). -->
 - Build integrity: {{signed artifacts/commits, provenance (e.g. SLSA level target), npm/PyPI trusted publishing}}.
 - CI hardening: least-privilege tokens, pinned actions, protected branches.
 
+<!-- guidance: Load references/security-standards-checklists.md §7 for the full control list (Standard/Enterprise, or anything published to a registry); one row per control there. -->
 | Control | Decision | Enforced in | Status |
 | --- | --- | --- | --- |
 | Lockfiles committed; frozen installs in CI | {{e.g. `npm ci`, `uv sync --frozen`, `go mod verify`}} | CI install step | {{Planned}} |
-| Pin CI actions/plugins to commit SHA; container base images to digest | {{yes}} | CI config review | |
-| New dependency review (license, maintenance, advisories, typo-squatting) | {{CODE_STYLE §10}} | PR review + dependency-review check | |
-| SCA vulnerability scan; fail on {{critical/high}} without exception | {{tool e.g. OSV-Scanner, Dependabot alerts, Trivy, Snyk}} | PR + nightly | |
-| SBOM per release | {{CycloneDX / SPDX}} | release job | |
-| Artifact signing | {{e.g. Sigstore cosign keyless / GPG / platform code signing for mobile/desktop}} | release job | |
-| Build provenance | {{SLSA Build L{{n}} target via hosted CI attestations}} | release job | |
-| Trusted publishing to registries (no long-lived tokens) | {{npm / PyPI / crates.io / container registry via OIDC}} | release job | |
-| Repository hygiene score | {{e.g. OpenSSF Scorecard}} | weekly | |
-| Branch protection + required reviews | [GIT_WORKFLOW](../engineering/GIT_WORKFLOW.md) | code host | |
 
-```mermaid
-flowchart LR
-    src["Source (protected branch, signed commits)"] -->|"pinned deps + lockfile"| build["Hosted CI build (isolated)"]
-    build -->|"SCA, SAST, secret scan"| gate{"Gates pass?"}
-    gate -->|no| stop["Block release"]
-    gate -->|yes| art["Artifact + SBOM"]
-    art -->|"sign + provenance attestation"| reg[("Registry")]
-    reg -->|"verify signature before deploy"| deploy["Deploy / publish"]
-```
-
+<!-- guidance: Standard/Enterprise: add the pipeline as a Mermaid flowchart (sample in references/security-standards-checklists.md §12). -->
 ASCII fallback: `signed source → pinned deps → isolated CI build → scans gate → artifact + SBOM → sign + provenance → registry → verify signature → deploy`.
 
 ## 11. Privacy engineering
@@ -478,7 +310,7 @@ The data list must match legal/PRIVACY_POLICY. If no personal data: `N/A — no 
 - **DPIA / privacy review trigger:** {{new PD category, new processor, profiling, children's data}} → [TBD: owner].
 
 ## 12. Logging, audit, and redaction
-<!-- guidance: Minimum content: every security-relevant event below has a row (or N/A); a never-log list covering every Sensitive and Secrets field and every Personal field that must be masked, from §1.1. -->
+<!-- guidance: Minimum content: every security-relevant event below has a row (or N/A); a never-log list covering every Sensitive and Secrets field and every Personal field that must be masked, from §1.1. Typical event rows (role change, export, secret access, impersonation): references/security-standards-checklists.md §13. -->
 - Security events logged: {{sign-in success/failure, permission denials, role changes, data exports, admin actions}}.
 - **Never log:** passwords, tokens, session IDs, full payment data, secrets, {{other PII fields}}. Mask: {{email → u***@example.com}}.
 - Audit log: {{append-only, retained {{period}}, access restricted}}.
@@ -487,10 +319,6 @@ The data list must match legal/PRIVACY_POLICY. If no personal data: `N/A — no 
 | --- | --- | --- | --- | --- |
 | Sign-in success / failure | actor ID, IP (truncated if required), user agent, result, request ID | {{audit log}} | {{period}} | {{failure spike → OPERATIONS §8}} |
 | Authorization denied | actor ID, resource type, action, request ID | {{audit log}} | | {{spike}} |
-| Role / permission change | actor, target, old → new role | {{audit log}} | | {{yes}} |
-| Data export / bulk read | actor, scope, row count | {{audit log}} | | |
-| Secret access / rotation | identity, secret name | {{secret manager audit}} | | |
-| Admin / support impersonation | admin ID, target, reason | {{audit log}} | | {{yes}} |
 
 ## 13. Incident response
 <!-- guidance: Tier: Lite = severity table + 13.1 first actions; Standard = all subsections; Enterprise = + annual tabletop with recorded outcome. Process, on-call and postmortem templates live in OPERATIONS (Lite: ARCHITECTURE §14.4). NEVER state a legal deadline as fact: every deadline cell is `[TBD: counsel]` unless legal/COMPLIANCE.md defines it (then cite its CR-xx). -->
@@ -512,21 +340,16 @@ The data list must match legal/PRIVACY_POLICY. If no personal data: `N/A — no 
 | Obligation | Applies when | Deadline | Who notifies | Source |
 | --- | --- | --- | --- | --- |
 | {{regulator breach notice}} | {{personal data breach with risk}} | [TBD: counsel] | {{owner}} | {{COMPLIANCE CR-xx or [TBD]}} |
-| {{affected users / customers}} | {{SEV-1 with user impact; contract terms}} | [TBD: counsel] | {{owner}} | {{MSA / DPA / [TBD]}} |
-| {{app store / platform / card network}} | {{if applicable}} | [TBD: counsel] | {{owner}} | |
 
 **Communications:** internal {{incident channel, single incident commander}} · customers {{template, approver: counsel/owner}} · public {{status page, SECURITY.md advisory}}. Only the approved spokesperson speaks externally.
 
 **Exercises and learning:** {{tabletop cadence (Enterprise: yearly)}}; every SEV-1/2 gets a blameless postmortem ([OPERATIONS](OPERATIONS.md#14-incident-management)) with action items tracked to R-xx or issues.
 
 ### 13.1 Security playbooks
-<!-- guidance: One row per likely security incident type. Each links a runbook RB-xx in OPERATIONS (create it there if missing). -->
+<!-- guidance: One row per likely security incident type. Each links a runbook RB-xx in OPERATIONS (create it there if missing). Typical scenarios (account takeover, cross-tenant exposure, compromised dependency): references/security-standards-checklists.md §13. -->
 | Scenario | First action (within minutes) | Runbook | Notify |
 | --- | --- | --- | --- |
 | Leaked secret | Revoke and rotate | RB-03 | {{security owner}} |
-| Account takeover reports | Force sign-out, lock account, review audit log | {{RB-xx}} | {{support, user}} |
-| Cross-tenant data exposure | Disable affected feature/flag, preserve logs | {{RB-xx}} | {{security owner, counsel}} |
-| Compromised dependency / release | Stop deploys, yank/deprecate, publish advisory | {{RB-xx}} | {{maintainers, users}} |
 
 ## 14. Residual risk register
 | ID | Risk | Why accepted / deferred | Owner | Review date |
@@ -536,20 +359,10 @@ The data list must match legal/PRIVACY_POLICY. If no personal data: `N/A — no 
 ## 15. Security testing plan
 <!-- guidance: Minimum content: every activity row has an applicability decision; each automated activity names where it runs
 and whether it blocks; every TH-xx with status Planned/Implemented has a test (SEC-xx) in TESTING or `N/A — reason`.
-Tools are examples — pick by stack and mark PROPOSAL until configured. -->
+Tools are examples — pick by stack and mark PROPOSAL until configured. Load references/security-standards-checklists.md §8 (Standard/Enterprise; Lite: 3 rows) and keep one row per activity there. -->
 | Activity | Scope | Example tools (pick per stack) | Cadence | Blocks release? | Test IDs |
 | --- | --- | --- | --- | --- | --- |
 | Authorization matrix tests | every ✗ in §5 | integration test framework | every PR | Yes | {{SEC-01…}} |
-| Tenant isolation tests | §6 paths | integration tests | every PR | Yes | {{SEC-02}} |
-| SAST | all source | {{CodeQL, Semgrep, gosec, Bandit, SpotBugs}} | every PR | High/critical | {{SEC-SAST}} |
-| SCA (dependencies) | lockfiles, images | {{OSV-Scanner, Dependabot, Trivy, Snyk}} | every PR + nightly | Critical | {{SEC-SCA}} |
-| Secret scanning | repo + history | {{gitleaks, trufflehog, platform push protection}} | pre-commit + PR | Yes | {{SEC-03}} |
-| IaC / container scanning | IaC, Dockerfiles | {{Checkov, tfsec/Trivy config, hadolint}} | PR touching infra | High | {{SEC-xx}} |
-| DAST | staging | {{OWASP ZAP baseline / API scan}} | nightly / pre-release | High | {{SEC-DAST}} |
-| Fuzzing (parsers, file import, protocol) | {{components}} | {{language-native fuzzers, e.g. Go fuzzing, cargo-fuzz, Atheris, Jazzer}} | {{nightly}} | No | {{SEC-xx}} |
-| AI red-team / prompt-injection evals | §3.3 | {{eval suite with injection corpus}} | PR touching prompts/tools | {{Yes}} | {{SEC-xx}} |
-| Threat model review | this doc | review meeting | {{each milestone / major change}} | — | — |
-| Penetration test | {{production-like env}} | {{external firm [TBD]}} | {{before GA, yearly}} (Enterprise) | Critical/high findings | — |
 
 ## 16. Vulnerability management
 <!-- guidance: Tier: Lite = 3 lines (intake, one SLA, exception rule); Standard/Enterprise = full table. Remediation SLAs are PROPOSAL until the team agrees; the same SLA numbers MUST appear in TRD §3 (security NFR). Minimum content: every intake source, a triage owner, an SLA per severity, an exception rule with expiry, and the regression-test rule. -->
@@ -565,16 +378,10 @@ Tools are examples — pick by stack and mark PROPOSAL until configured. -->
 | Exception | Needs a written reason, compensating control, approver and **expiry date**; tracked in §14 (R-xx). | | |
 
 ## 17. Access governance
-<!-- guidance: Tier: Lite = one paragraph; Standard = table; Enterprise = table + recorded periodic review evidence. Cover people AND workloads. Never list credentials, only roles and systems. -->
+<!-- guidance: Tier: Lite = one paragraph; Standard = table; Enterprise = table + recorded periodic review evidence. Cover people AND workloads. Never list credentials, only roles and systems. Standard/Enterprise: load references/security-standards-checklists.md §9 and keep one row per area there (7 rows). -->
 | Area | Rule / control | Owner | Review cadence |
 | --- | --- | --- | --- |
 | Production and admin access | {{least privilege, named accounts, no shared logins, just-in-time where available}} | {{owner}} | {{quarterly}} |
-| Workload and cloud IAM | {{one identity per service, scoped roles, no wildcard policies, short-lived credentials}} | | |
-| Admin consoles (cloud, DB, CI, support tools) | {{MFA required, phishing-resistant for admins where possible}} | | |
-| Code host, package registry, domain registrar, app-store accounts | {{MFA, ≥ 2 owners, branch protection, recovery contacts documented}} | | |
-| Joiner / mover / leaver | {{grant by role, remove access on role change, revoke all on exit within PROPOSAL: 1 business day}} | | |
-| Break-glass | {{sealed emergency account, alert on use, post-use review, credential rotated after}} | | |
-| Periodic access review | {{list of who can reach production data and secrets; remove unused}} | | {{quarterly}} |
 
 ## 18. Third-party and vendor risk
 <!-- guidance: One row per third party / sub-processor / SDK from ARCHITECTURE (integrations) and TRD §5; no third party may be missing. Evidence = what the vendor provides (SOC 2 / ISO 27001 report, pen-test summary, DPA) or `[TBD]`; never claim a vendor is certified without the document. Lite: one row per third party, evidence column optional. -->
@@ -583,22 +390,16 @@ Tools are examples — pick by stack and mark PROPOSAL until configured. -->
 | {{payment / auth / email / analytics / hosting / AI provider}} | {{purpose}} | {{Personal (PII)}} | {{OAuth / API key NAME}} | {{SOC 2 report on file / [TBD]}} | {{replacement, data export/deletion}} |
 
 ## 19. Platform hardening baseline
-<!-- guidance: Tier: Lite = backups + DNS/email only; Standard/Enterprise = all rows. Use baselines that fit the stack (e.g. CIS Benchmarks for hosts/containers/cloud accounts, provider security defaults) and mark each PROPOSAL until configured. Link OPERATIONS for backups (Lite: ARCHITECTURE §14.4). -->
+<!-- guidance: Tier: Lite = backups + DNS/email only; Standard/Enterprise = all rows. Use baselines that fit the stack (e.g. CIS Benchmarks for hosts/containers/cloud accounts, provider security defaults) and mark each PROPOSAL until configured. Link OPERATIONS for backups (Lite: ARCHITECTURE §14.4). Load references/security-standards-checklists.md §9 for the five rows (configuration, network, backup, email/DNS, client distribution); Lite keeps backups + DNS/email. -->
 | Area | Baseline | Status |
 | --- | --- | --- |
-| Configuration baseline | {{CIS benchmark or provider baseline for hosts / containers / cloud account / platform}}; drift checked by {{IaC scan}} | |
-| Network segmentation | {{public edge only for web/API; data stores private; egress allow-list for workloads where feasible}} | |
 | Backup security | {{encrypted, access separated from production credentials, immutable or offline copy, restore tested per [OPERATIONS](OPERATIONS.md#9-backup-and-disaster-recovery)}} | |
-| Email and DNS | {{SPF, DKIM, DMARC policy; CAA records; registrar lock; remove dangling DNS records to prevent subdomain takeover}} | |
-| Endpoint / client distribution (mobile, desktop, CLI) | {{code signing and key custody, notarization, update integrity check, no unsigned auto-update}} | |
 
 ## 20. Control mapping (Enterprise)
 <!-- guidance: Enterprise: one row per control family, mapped to a requirement in legal/COMPLIANCE.md (CR-xx). Lite/Standard without COMPLIANCE.md: `N/A — reason`. Evidence = location (path/URL/system), never copied secrets. Status values: Planned / Implemented / Verified. NEVER write "compliant" or "certified"; this table shows traceability only. -->
 | Control (§) | Requirement source (COMPLIANCE CR-xx) | Owner | Evidence location | Status |
 | --- | --- | --- | --- | --- |
 | {{Access governance (§17)}} | {{CR-xx}} | {{owner}} | {{access-review records}} | {{Planned}} |
-| {{Logging and audit (§12)}} | {{CR-xx}} | | {{log retention config}} | |
-| {{Vulnerability management (§16)}} | {{CR-xx}} | | {{scanner reports}} | |
 
 ## Definition of done
 - [ ] Assets, trust boundaries, and STRIDE threats reflect the real architecture; each threat has a control or accepted risk.

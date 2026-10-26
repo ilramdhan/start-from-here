@@ -32,7 +32,7 @@ Output mode is **chat-only**: documents come as `### path` headings with fenced 
 
 > ⚠️ Unverified: a minimum context size or model size for good results (no vendor publishes one; this is project guidance, checked 2026-10-25). Small local models may skip gates or lose track. Prefer the largest model you can run.
 
-**Context ≤ 64k (most local models)?** Use **session mode**: say `session mode` at the start (the skill also proposes it). The work is split into short work packages, one per fresh chat, connected by `docs/.start-from-here/HANDOVER.md`. See [Session mode for local models](#session-mode-for-local-models).
+**Context ≤ 64k (most local models)?** Use **session mode**: say `session mode` at the start (the skill also proposes it). The work is split into short work packages, one per fresh chat, connected by `docs/.start-from-here/DIGEST.md` (names and IDs) and `HANDOVER.md`. See [Session mode for local models](#session-mode-for-local-models).
 
 ## Install
 
@@ -108,16 +108,16 @@ Model: Users under 13 in the US would trigger COPPA. Recommended: target 13+ for
 
 ## Resuming in a new session
 
-Save every block the model gives you, especially `docs/.start-from-here/STATE.md` and `docs/DISCOVERY.md`. In a new chat (with the prompt loaded again), type `resume` and paste or attach those two files. In session mode, paste `docs/.start-from-here/HANDOVER.md` first and use the next-session prompt it contains.
+Save every block the model gives you, especially `docs/.start-from-here/STATE.md` and `docs/DISCOVERY.md`. In a new chat (with the prompt loaded again), type `resume` and paste or attach those two files. From the approved brief on, also save `docs/.start-from-here/DIGEST.md` (the compact project digest) and paste it with STATE. In session mode, paste `docs/.start-from-here/HANDOVER.md` first and use the next-session prompt it contains.
 
 ## Session mode for local models
 
-The full flattened prompt is far larger than an 8–32k context. In session mode each chat needs only `SKILL.md` (~7.6k tokens) plus a small, named set of sections:
+The full flattened prompt is far larger than an 8–32k context. In session mode each chat needs only `SKILL.md` (~10k tokens) plus a small, named set of sections:
 
 1. Load `SKILL.md` as the system prompt (Modelfile `SYSTEM`, preset, or first message) instead of the whole prompt bundle. With ≥ 64k context you can keep the full bundle.
 2. Say `session mode`, then `start`. WP1 runs the interview and ends with `docs/DISCOVERY.md` for you to approve.
-3. At the end of each session the model prints `HANDOVER.md` and `STATE.md` blocks plus a next-session prompt. Save them (say `next session` to force this early).
-4. Start a **new** chat (clear history), paste the next-session prompt, `HANDOVER.md`, `STATE.md`, and only the sections HANDOVER §7 lists — copy them from the docs you saved and from `dist/start-from-here.prompt.md` (search `=== FILE: references/… ===`).
+3. At the end of each session the model prints `HANDOVER.md`, `DIGEST.md` and `STATE.md` blocks plus a next-session prompt. Save them (say `next session` to force this early).
+4. Start a **new** chat (clear history), paste the next-session prompt, `HANDOVER.md`, `DIGEST.md`, `STATE.md`, and only the sections HANDOVER §7 lists — copy them from the docs you saved and from `dist/start-from-here.prompt.md` (search `=== FILE: references/… ===`).
 5. Repeat until WP9 (audit + handoff). With ≤ 16k context, expect one document per session.
 
 Tips: raise the context setting as high as your hardware allows (Ollama `num_ctx`, LM Studio context length); use your biggest model for WP3–WP5 (architecture, data, security). Details: [USAGE › Small context windows & session mode](../USAGE.md#small-context-windows--session-mode).
