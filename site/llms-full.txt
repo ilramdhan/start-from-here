@@ -21,14 +21,14 @@ Unknowns are written as [TBD: question - owner], ideas as PROPOSAL, guesses as A
 
 ## Generated documents
 
-PRD, app flow, design system, TRD, architecture with ADRs, database and ERD, API, security threat model, testing, operations, implementation plan, code style, git workflow, AGENTS.md, legal (terms of service, privacy, cookies, compliance, and conditional MSA, DPA and BAA drafts), and open-source files.
+PRD, app flow, design system, TRD, architecture with ADRs, database and ERD, API, security threat model (STRIDE per trust boundary, guided by a design-time threat catalog adapted from cloudflare/security-audit-skill), testing, operations, implementation plan, code style, git workflow, AGENTS.md, legal (terms of service, privacy, cookies, compliance, and conditional MSA, DPA and BAA drafts), and open-source files.
 
 ## Tiers and modes
 
 - Tiers: Lite, Standard, Enterprise (how much documentation is generated).
 - Modes: beginner, intermediate, expert (how much explanation is given).
 - Existing-project (brownfield) mode: inspects manifests, CI and existing docs first, records current facts as "as-is" and plans as "to-be", and proposes section-level merges instead of overwriting.
-- Session mode: for small context windows or local models; splits work into short packages connected by a handover file.
+- Session mode: splits work into short packages, one per fresh session, connected by a project digest (DIGEST.md: names, IDs, decisions) and a handover file. Recommended by default for Enterprise, more than ~20 documents, small or local models and chat-only tools. In every mode the digest and state are checkpointed at each review gate so later documents keep their quality.
 
 ## Install
 
